@@ -1,0 +1,5 @@
+package sandbox.ui;
+
+public enum FieldType {
+    TEXTBOX, CHECKBOX, RADIOBUTTON, SELECTBOXFK, TEXTAREA, HIDDEN, SELECTBOX, DATEPICKER
+}

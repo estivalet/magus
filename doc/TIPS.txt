@@ -1,0 +1,28 @@
+1. Align form labels top or left
+
+input {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    display:inline-block; 
+}
+
+label {
+    display:block;
+    float: left; /* or top */
+    padding-top: 5px;
+    width: 140px;
+}
+
+<div>
+    <label>Simple label</label>
+    <input type="text" />
+</div>
+<div>
+    <label>Label with more text</label>
+    <input type="text" />
+</div>
+<div>
+    <label>Short</label>
+    <input type="text" />
+</div>
+

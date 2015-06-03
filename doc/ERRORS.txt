@@ -1,0 +1,9 @@
+Freemarker InvalidReferenceException
+------------------------------------
+freemarker.core.InvalidReferenceException: Expression column.xyz is undefined
+
+It happens when the attribute is not defined and also if it is defined but the value is NULL!!!
+http://freemarker.org/docs/app_faq.html#faq_picky_about_missing_vars
+
+Should use ?? operator:
+http://freemarker.org/docs/dgui_template_exp.html#dgui_template_exp_missing_test

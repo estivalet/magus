@@ -1,0 +1,43 @@
+27-FEV-2015:
+
+- Removed MW_DATABASE, MW_SERVER, MW_PARAMETER tables. All info needed by Magus should be stores in magus.xml.
+
+30-JAN-2015:
+
+- Removed "search" in Action classes to use only "filter" method.
+
+23-JAN-2015:
+
+- Made a change to have only one servlet per application instead of having one servlet per class.
+- Fixed database connections in DomainMapper template.
+
+16-JAN-2015:
+
+- Fix templates for filtering in search screen.
+
+15-JAN-2015:
+
+- Fixed problem loading foreign key when creating create/update pages.
+- Setting variables to request scope instead of session scope.
+- Added toXML() in the domain class. 
+- Added Criteria for filtering grid records.
+
+09-JAN-2015
+
+- Solved problem with connection poll.
+- Added new database for Octupus Catalog Manager.
+
+12-DEC-2014
+
+- Test to hide columns in search page.
+
+11-DEC-2014
+
+- Masked input for text fields using jquery.maskedinput.js.
+
+10-DEC-2014
+
+- Added ckeditor with upload plugin configured to use fileman PHP file manager (installed in Apache).
+Still showing error message: "Error: Permission denied to access property 'CKEDITOR'" because ckeditor is running in Tomcat
+and fileman is running in Apache. Anyway the upload works and to place an image in the ckeditor is just a matter of getting
+the link and place in the image.

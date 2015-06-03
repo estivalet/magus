@@ -1,0 +1,59 @@
+1. To install Magus add the following to Tomcat's server.xml file. Change
+docBase and database url according to the local where you extracted Magus.
+
+<Context path="/Magus" 
+         docBase="/home/luisoft/java/apache-tomcat-7.0.5/webapps/magus30/WebContent" 
+         debug="5" 
+         reloadable="true" 
+         crossContext="true">
+	<Resource name="jdbc/MagusDB" 
+              auth="Container" 
+              type="javax.sql.DataSource" 
+              maxActive="100" 
+              maxIdle="30" 
+              maxWait="10000"
+              username="sa" 
+              password="" 
+              driverClassName="org.hsqldb.jdbcDriver"
+              --> For server mode <--
+              url="jdbc:hsqldb:hsql://localhost/magusdb"
+              --> For standalone mode <--
+              url="jdbc:hsqldb:file:/home/luisoft/java/apache-tomcat-7.0.5/webapps/magus30/WebContent/WEB-INF/magus/magusdb"/>
+</Context>
+
+2. Start HSQLDB database in server mode. 
+
+./startdb.sh
+
+P.S: For final deployment change to StandAlone mode.
+
+3. Start tomcat
+
+4. Run CreateMagusDatabase. This will create an HSQLDB with tables needed by
+Magus to generate applications. The database file is created in <magus>/WebContent/WEB-INF/magus/magusdb
+where <magus> is the place where Magus was extracted.
+
+(DEPRECATED) 5. Run CreateSampleDatabase to create the database for the demo application that
+Magus will generate. The database file is created in <magus>/WebContent/data/files/demoapp/WebContent/WEB-INF/demo/demodb.
+This database file will be copied to demo's application target folder.
+
+5. Install PostgresSQL
+
+Set new password for postgres user
+
+sudo passwd postgres
+
+su postgres
+
+psql
+
+alter role postgres encrypted password 'postgres';
+
+5.1 Run CreateSampleDatabase to create the database for the demo application that
+Magus will generate.
+
+5.2. Access database
+
+Open squirrel client
+
+create a new connection to jdbc:postgresql://localhost:5432/company
