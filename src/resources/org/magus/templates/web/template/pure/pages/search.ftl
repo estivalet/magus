@@ -8,18 +8,7 @@ function edit(formAction, command, action, id, pageNum) {
     document.getElementById("${pks.getCamelCaseName()}").value=id;
     document.myform.action = formAction;
     if(action == 'delete') {
-    /*
-        $.Zebra_Dialog('Confirm exclusion?', {
-                'type':     'question',
-                'title':    'Custom buttons',
-                'buttons':  ['Yes', 'No'],
-                'onClose':  function(caption) {
-                    if(caption == 'Yes') {
-                        document.myform.submit();
-                    }
-                }
-            });      */
-            alertify.alert('Ready!');  
+            alertify.alert('Confirm exclusion?');  
     } else {
            document.myform.submit();
     }
@@ -71,16 +60,16 @@ function filterSearchStatus() {
             </#if>
         </#list>            
 
-         var row = results.insertRow();
-         row.id = xml_id;
-         if(i % 2 != 0) {
-            row.className = "alt";
-         }
-         <#if (hasExportedKeys)>
-         row.onclick = function() {
-            callServer("${servlet}?command=${fks.getFkCamelCaseName(true)}Action&action=filter&${fks.getFkColumnCamelCase(false)}=" + this.id, filterDetailStatus);
-        };
-        </#if>
+             var row = results.insertRow();
+             row.id = xml_${pks.getCamelCaseName()};
+             if(i % 2 != 0) {
+                row.className = "alt";
+             }
+             <#if (hasExportedKeys)>
+             row.onclick = function() {
+                callServer("${servlet}?command=${fks.getFkCamelCaseName(true)}Action&action=filter&${fks.getFkColumnCamelCase(false)}=" + this.id, filterDetailStatus);
+            };
+            </#if>
                         
         <#list columns as column><#t>
             var cell${column_index} = row.insertCell(${column_index});
@@ -125,7 +114,7 @@ function filterDetailStatus() {
         </#list>            
 
             var row = results.insertRow();
-            row.id = xml_id;
+            row.id = xml_${pks.getCamelCaseName()};
                         
         <#list fkTableColumns as column><#t>
             var cell${column_index} = row.insertCell(${column_index});
@@ -140,9 +129,9 @@ function filterDetailStatus() {
             </#if>
             </#if>
         </#list>
-            var cell${columns?size} = row.insertCell(${columns?size});
-            cell${columns?size}.innerHTML = "<a href=\"#\" onclick=\"edit('${servlet}','${fks.getFkCamelCaseName(true)}Action','update','" + xml_${pkColumn} + "')\"><img src=\"css/pimpa_yes.gif\" alt=\"picture\" class=\"tabpimpa\" height=\"13\" width=\"13\"></a>";
-            cell${columns?size}.innerHTML += "&nbsp;<a href=\"#\" onclick=\"edit('${servlet}','${fks.getFkCamelCaseName(true)}Action','delete','" + xml_${pkColumn} + "')\"><img src=\"css/pimpa_no.gif\" alt=\"picture\" class=\"tabpimpa\" height=\"13\" width=\"13\"></a>";
+            var cell${fkTableColumns?size} = row.insertCell(${fkTableColumns?size});
+            cell${fkTableColumns?size}.innerHTML = "<a href=\"#\" onclick=\"edit('${servlet}','${fks.getFkCamelCaseName(true)}Action','update','" + xml_${pkColumn} + "')\"><img src=\"css/pimpa_yes.gif\" alt=\"picture\" class=\"tabpimpa\" height=\"13\" width=\"13\"></a>";
+            cell${fkTableColumns?size}.innerHTML += "&nbsp;<a href=\"#\" onclick=\"edit('${servlet}','${fks.getFkCamelCaseName(true)}Action','delete','" + xml_${pkColumn} + "')\"><img src=\"css/pimpa_no.gif\" alt=\"picture\" class=\"tabpimpa\" height=\"13\" width=\"13\"></a>";
             
         }
         
@@ -270,6 +259,37 @@ window.onload = function() {
             <div id="pagination" class="pagination pagination-left"></div>
             </div>
         </div>
+        
+        
+        <#if (hasExportedKeys)>
+        <#-- Details table -->
+        <div class="table-container">
+            <div class="table-header">
+                <div class="table-header-text">Details</div>
+            </div>
+            <div class="table">
+                <table>
+                    <thead>
+                        <tr>
+                            <#list fkTableColumns as column><#t>
+                                <#if (column.visible = 'Y')>
+                                    <#if (column.isColumnInForeignKey())>
+                            <th>${column.getForeignTableAlias()}</th>
+                                    <#else>
+                            <th>${column.getLabel()}</th>
+                                    </#if>
+                                </#if>
+                            </#list><#t>
+                            <th colspan="2">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultsDetail">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </#if>
+        
     </div>
 
 </div>
