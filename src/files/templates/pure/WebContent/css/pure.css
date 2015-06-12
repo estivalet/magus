@@ -303,10 +303,9 @@ footer {
 }
 
 .field .tip-right {
-    display:inline;
-    margin-left:10px
+    display: inline;
+    margin-left: 10px
 }
-
 
 .container {
     width: 1000px;
@@ -392,7 +391,6 @@ footer {
     border: 1px solid #8ed9f6;
 }
 
-
 .table-header {
     border-bottom: 1px solid #336699;
     background-color: #336699;
@@ -401,19 +399,19 @@ footer {
 }
 
 .table-header-text {
-padding:6px;font-size: 13px;font-weight:bold
+    padding: 6px;
+    font-size: 13px;
+    font-weight: bold
 }
 
-div.table
-{
+div.table {
     margin: 0;
     /*padding: 0 20px 10px 20px;*/
     clear: both;
     overflow: hidden;
 }
 
-table
-{
+table {
     margin: 0;
     padding: 0;
     width: 100%;
@@ -423,78 +421,69 @@ table
     font-size: 11px;
 }
 
-table th
-{
+table th {
     padding: 10px;
-    background: #eeeeee;
-    border-right: 1px solid #cdcdcd;
+    background: #ccc;
+    border-right: 1px solid #ddd;
     border-bottom: 1px solid #cdcdcd;
 }
 
-table th.last
-{
-    border-right: none; 
+table th.last {
+    border-right: none;
 }
 
-table th.left
-{
-    text-align: left;   
+table th.left {
+    text-align: left;
 }
 
-table th.right
-{
-    text-align: right;   
+table th.right {
+    text-align: right;
 }
 
-table th.center
-{
-    text-align: center;   
+table th.center {
+    text-align: center;
 }
 
-table th.selected
-{
+table th.selected {
     padding: 0;
     vertical-align: middle;
 }
 
-table th.selected input
-{
-    margin: 0;  
+table th.selected input {
+    margin: 0;
 }
 
-table td
-{
+tbody tr:nth-child(even) {
+    background-color: #eee;
+}
+
+table td {
     padding: 10px;
-    background: #ffffff;
+    /*background: #ffffff;*/
     border-right: 1px solid #cdcdcd;
     border-bottom: 1px solid #cdcdcd;
 }
 
-table td.last
-{
-    border-right: none; 
+table td.last {
+    border-right: none;
 }
 
-table tr.selected td
-{
+table tr.selected td {
     background: #FFFFCC;
 }
 
-table td.selected
-{
+table td.selected {
     padding: 0;
-/*  width: 3%;*/
+    /*  width: 3%;*/
     text-align: center;
     vertical-align: middle;
 }
 
-table td.selected input
-{
-    margin: 0;  
+table td.selected input {
+    margin: 0;
 }
 
-div.pagination
-{
+div.pagination {
     margin: 10px 0 0 0;
     padding: 0;
     /*height: 1%;*/
@@ -502,16 +491,14 @@ div.pagination
     overflow: hidden;
 }
 
-div.pagination div.results
-{
+div.pagination div.results {
     margin: 0;
     padding: 0;
     text-align: left;
     float: left
 }
 
-div.pagination div.results span 
-{
+div.pagination div.results span {
     margin: 0;
     padding: 6px 8px 6px 8px;
     /*height: 1%;*/
@@ -526,16 +513,14 @@ div.pagination div.results span
     font-weight: bold;
 }
 
-div.pagination ul.pager
-{
+div.pagination ul.pager {
     margin: 0;
     padding: 0;
     float: right;
     text-align: right;
 }
 
-div.pagination ul.pager li
-{
+div.pagination ul.pager li {
     margin: 0 0 0 4px;
     padding: 0;
     /*height: 1%;*/
@@ -550,14 +535,12 @@ div.pagination ul.pager li
     font-weight: bold;
 }
 
-div.pagination ul.pager li.separator
-{
-    padding: 6px;   
+div.pagination ul.pager li.separator {
+    padding: 6px;
 }
 
-div.pagination ul.pager li.current
-{
-    padding: 6px;   
+div.pagination ul.pager li.current {
+    padding: 6px;
     background: #b4b4b4 repeat-x;
     border-top: 1px solid #cccccc;
     border-left: 1px solid #bebebe;
@@ -566,14 +549,12 @@ div.pagination ul.pager li.current
     color: #515151;
 }
 
-div.pagination ul.pager li.disabled
-{
+div.pagination ul.pager li.disabled {
     padding: 6px;
     color: #B4B4B4;
 }
 
-div.pagination ul.pager li a 
-{
+div.pagination ul.pager li a {
     margin: 0;
     padding: 6px;
     /*height: 1%;*/
@@ -583,9 +564,7 @@ div.pagination ul.pager li a
     text-decoration: none;
 }
 
-div.pagination ul.pager li a:hover, 
-div.pagination ul.pager li a:active 
-{
+div.pagination ul.pager li a:hover,div.pagination ul.pager li a:active {
     margin: -1px;
     background: #b4b4b4 repeat-x;
     border-top: 1px solid #cccccc;
@@ -594,55 +573,63 @@ div.pagination ul.pager li a:active
     border-bottom: 1px solid #afafaf;
 }
 
-div.buttons
-{
-    
-    padding:5px;
-}
-div.buttons input
-{
-    -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
-    -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
-    box-shadow:inset 0px 1px 0px 0px #ffffff;
-    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
-    background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
-    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
-    background-color:#ededed;
-    -webkit-border-top-left-radius:0px;
-    -moz-border-radius-topleft:0px;
-    border-top-left-radius:0px;
-    -webkit-border-top-right-radius:0px;
-    -moz-border-radius-topright:0px;
-    border-top-right-radius:0px;
-    -webkit-border-bottom-right-radius:0px;
-    -moz-border-radius-bottomright:0px;
-    border-bottom-right-radius:0px;
-    -webkit-border-bottom-left-radius:0px;
-    -moz-border-radius-bottomleft:0px;
-    border-bottom-left-radius:0px;
-    text-indent:0px;
-    border:1px solid #dcdcdc;
-    display:inline-block;
-    color:#515151;
-    font-family:Arial;
-    font-size:12px;
-    font-weight:bold;
-    font-style:normal;
-    height:30px;
-    line-height:30px;
-    width:78px;
-    text-decoration:none;
-    text-align:center;
-    text-shadow:1px 1px 0px #ffffff;
-}
-div.buttons input:hover {
-    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.5, #dfdfdf), color-stop(1, #dddddd) );
-    background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
-    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#dddddd');
-    background-color:#dfdfdf;
-}    
-div.buttons input:active {
-    position:relative;
-    top:1px;
+div.buttons {
+    padding: 5px;
 }
 
+div.buttons input {
+    -moz-box-shadow: inset 0px 1px 0px 0px #ffffff;
+    -webkit-box-shadow: inset 0px 1px 0px 0px #ffffff;
+    box-shadow: inset 0px 1px 0px 0px #ffffff;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ededed
+        ), color-stop(1, #dfdfdf));
+    background: -moz-linear-gradient(center top, #ededed 5%, #dfdfdf 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed',
+        endColorstr='#dfdfdf');
+    background-color: #ededed;
+    -webkit-border-top-left-radius: 0px;
+    -moz-border-radius-topleft: 0px;
+    border-top-left-radius: 0px;
+    -webkit-border-top-right-radius: 0px;
+    -moz-border-radius-topright: 0px;
+    border-top-right-radius: 0px;
+    -webkit-border-bottom-right-radius: 0px;
+    -moz-border-radius-bottomright: 0px;
+    border-bottom-right-radius: 0px;
+    -webkit-border-bottom-left-radius: 0px;
+    -moz-border-radius-bottomleft: 0px;
+    border-bottom-left-radius: 0px;
+    text-indent: 0px;
+    border: 1px solid #dcdcdc;
+    display: inline-block;
+    color: #515151;
+    font-family: Arial;
+    font-size: 12px;
+    font-weight: bold;
+    font-style: normal;
+    height: 30px;
+    line-height: 30px;
+    width: 78px;
+    text-decoration: none;
+    text-align: center;
+    text-shadow: 1px 1px 0px #ffffff;
+}
+
+div.buttons input:hover {
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.5, #dfdfdf),
+        color-stop(1, #dddddd));
+    background: -moz-linear-gradient(center top, #dfdfdf 5%, #ededed 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf',
+        endColorstr='#dddddd');
+    background-color: #dfdfdf;
+}
+
+div.buttons input:active {
+    position: relative;
+    top: 1px;
+}
+
+.table-row-selected {
+    border-top: 2px solid red;
+    border-bottom: 2px solid red
+}

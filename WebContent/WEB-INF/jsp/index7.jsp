@@ -30,17 +30,16 @@
 		}
 	}
 
-    function init() {
-        document.getElementById("projectName").value = "Role-Based Access Control";
-        document.getElementById("projectShortName").value = "rbac";
-        document.getElementById("projectPath").value = "C:/apache-tomcat-7.0.53/webapps/rbac";
-        document.getElementById("dbURL").value = "jdbc:hsqldb:hsql://localhost/magusdb";
-        document.getElementById("dbUser").value = "sa";
-        document.getElementById("dbPass").value = "";
-    }
+	function init() {
+		document.getElementById("projectName").value = "Role-Based Access Control";
+		document.getElementById("projectShortName").value = "rbac";
+		document.getElementById("projectPath").value = "C:/apache-tomcat-7.0.53/webapps/rbac";
+		document.getElementById("dbURL").value = "jdbc:hsqldb:hsql://localhost/magusdb";
+		document.getElementById("dbUser").value = "sa";
+		document.getElementById("dbPass").value = "";
+	}
 
-    window.onload = init;
-    
+	window.onload = init;
 </script>
 
 </head>
@@ -55,7 +54,7 @@
                 <div class="clr"></div>
             </div>
 
-<!-- 
+            <!-- 
             <div id='cssmenu'>
                 <ul>
                     <li><a href='#'><span>Home</span></a></li>
@@ -67,19 +66,18 @@
                     <li><a href='#'><span>About</span></a></li>
                 </ul>
             </div>
- -->            
+ -->
         </div>
     </div>
 
     <div id="content">
-    
-    <div class="left-column">
-        <a href="3rd_party/Bootstrap-Form-Builder/index.html">Bootstrap Form Builder</a>
-    </div>
-    
+
+        <div class="left-column">
+            <a href="3rd_party/Bootstrap-Form-Builder/index.html">Bootstrap Form Builder</a>
+        </div>
+
         <div class="center-column">
-            Choose a project:
-            <select id="project" name="project" onchange="loadProject(this.value)">
+            Choose a project: <select id="project" name="project" onchange="loadProject(this.value)">
                 <option value="">Select...</option>
                 <c:forEach var="app" items="${apps}">
                     <option value="<c:out value='${app.id}'/>"><c:out value='${app.name}' /></option>
@@ -110,7 +108,7 @@
                                     name="projectDescription" class="text medium"></textarea></li>
                         </ol>
                     </form>
-                    <input type="button" value="Save" onclick="newProject()"/>
+                    <input type="button" value="Save" onclick="newProject()" />
                 </div>
 
 
@@ -127,7 +125,7 @@
                             <li><label for="dbPass"><strong>Password</strong></label> <input id="dbPass" name="dbPass" class="text medium" /></li>
                         </ol>
                     </form>
-                    <input type="button" value="Save" onclick="saveProject()"/>
+                    <input type="button" value="Save" onclick="saveProject()" />
                 </div>
 
 
@@ -214,7 +212,7 @@
                             </tr>
                             <tbody id="columnOptions"></tbody>
                         </table>
-                        <input type="button" value="Delete option" onclick="deleteOption()" /> <input type="button" value="Save options"
+                        <br /> <input type="button" value="Delete option" onclick="deleteOption()" /> <input type="button" value="Save options"
                             onclick="saveOptions()" /><br />
                     </fieldset>
                 </form>

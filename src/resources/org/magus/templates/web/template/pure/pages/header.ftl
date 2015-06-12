@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"%>
 <%@ page trimDirectiveWhitespaces="true" %>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
 <title>${appShortName}</title>
@@ -15,6 +16,7 @@
 <script type="text/javascript" src="js/datepickr.js"></script>
 <script type="text/javascript" src="js/alertify.min.js"></script>
 <script type="text/javascript" src="js/input-mask.js"></script>
+<script type="text/javascript" src="js/ckeditor/ckeditor.js"></script>
 
 <script>
 function submit(formAction, command, action, pageNum) {

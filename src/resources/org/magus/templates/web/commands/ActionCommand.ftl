@@ -200,7 +200,17 @@ public class ${clazzName} implements ICommand {
 	    }
         <#else>
         <#if (column.getJdbcDataType() == "String") >
-			model.set${column.getCamelCaseName(true)}(request.getParameter("${column.getCamelCaseName()}"));
+            <#-- Is a checkbox? -->
+            <#if column.customFieldType == 1>
+            String[] values = request.getParameterValues("${column.getCamelCaseName()}");
+            String tmp = "";
+            for(String value : values) {
+                tmp += value + ";";
+            }
+            model.set${column.getCamelCaseName(true)}(tmp);
+            <#else>
+            model.set${column.getCamelCaseName(true)}(request.getParameter("${column.getCamelCaseName()}"));
+            </#if>
 		<#elseif (column.getJdbcDataType() == "Integer") >
 			model.set${column.getCamelCaseName(true)}(Integer.parseInt(request.getParameter("${column.getCamelCaseName()}")));
 		</#if>

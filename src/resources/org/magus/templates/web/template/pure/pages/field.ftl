@@ -3,28 +3,36 @@
         <#assign size="${column.getInputSize()}">
         <label for="${id}"><strong>${column.getLabel()}<#if column.isRequired()>*</#if></strong></label> 
                 <#switch column.customFieldType>
-                    <#case 2>
+                    <#case 1><#-- CHECKBOX -->
+                        <#list column.options?keys as field>
+                <input id="${id}" name="${id}" type="checkbox" value="${column.options[field].value}" <c:if test="<#noparse>${fn:contains(</#noparse>${id}Value, '${column.options[field].value}')}">checked="checked"</c:if>/>${column.options[field].text}
+                        </#list>
+                    <#break>
+                    <#case 2><#-- RADIO BUTTON -->
                         <#list column.options?keys as field>
                 <input id="${id}" name="${id}" type="radio" value="${column.options[field].value}" <c:if test="<#noparse>${</#noparse>${id}Value == '${column.options[field].value}'}">checked="checked"</c:if>/>${column.options[field].text}</br>
                         </#list>
                     <#break>
-                    <#case 6>
+                    <#case 4><#-- TEXT AREA -->
+                <textarea cols="80" id="${id}" name="${id}" rows="10" maxlength="${size}"><#noparse>${</#noparse>${id}Value}</textarea>
+                    <#break>
+                    <#case 6><#-- SELECT BOX -->
                 <select id="${id}" name="${id}">
                         <#list column.options?keys as field>
                     <option value="${column.options[field].value}" <c:if test="<#noparse>${</#noparse>${id}Value == '${column.options[field].value}'}">selected="selected"</c:if>>${column.options[field].text}</option>
                         </#list>
                 </select>    
                     <#break>
-                    <#case 7>
+                    <#case 7><#-- DATE PICKER -->
                 <input id="${id}" name="${id}" type="text">
-                <script>datepickr('#${id}',{ dateFormat: 'd-m-Y'});</script>
+                <script>new datepickr('#${id}',{ dateFormat: 'd-m-Y'});</script>
                     <#break>
-                    <#case 8>
-                <textarea class="ckeditor" cols="80" id="${id}" name="${id}" rows="10"><#noparse>${</#noparse>${id}Value}</textarea>
+                    <#case 8><#-- RICH TEXT EDITOR -->
+                <textarea class="ckeditor" id="${id}" name="${id}"><#noparse>${</#noparse>${id}Value}</textarea>
                     <#break>
                     
                     <#default>
-                        <#-- If attribute is a foreign key then create a combo box with the values for selection -->
+                        <#-- SELECT BOX FK If attribute is a foreign key then create a combo box with the values for selection -->
                         <#if (column.isColumnInForeignKey())>
                             <#assign fkDisplay="${id}" + "_fk_display">
                 <select id="${id}" name="${id}">
@@ -33,11 +41,13 @@
                     </c:forEach>
                 </select>
                         <#else>
-                        <#-- Otherwise create a normal input. -->
+                        <#-- NORMAL INPUT Otherwise create a normal input. -->
                 <input type="text" id="${id}" name="${id}" maxlength="${size}" value="<#noparse>${</#noparse>${id}Value}"/>
                         </#if>
                 </#switch>
-                <small class="tip-right">tip</small>
+                <#if (column.comment != "")>
+                <small class="tip-right">${column.comment}</small>
+                </#if>
             </div>
             
             

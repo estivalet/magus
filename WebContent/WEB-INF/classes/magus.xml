@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+
+<!-- Instead of having data used in HSQLDB maybe I can use only XML files -->
+<magus version="0.1" releaseDate="03-Jan-2014">
+	<configuration>
+
+		<!--  Supported databases. -->	
+		<databases>
+			<database type="HSQLDB">
+				<connectionImpl>dbreveng.database.impl.hsqldb.HSQLDBDatabaseConnection</connectionImpl>
+				<driver>org.hsqldb.jdbcDriver</driver>
+			</database>
+			<database type="PostgreSQL">
+				<connectionImpl>dbreveng.database.impl.postgresql.PostgreSQLDatabaseConnection</connectionImpl>
+				<driver>org.postgresql.Driver</driver>
+			</database>
+		</databases>
+		
+		<!--  Supported web servers. -->	
+		<server>
+			<server>Apache Tomcat</server>
+		</server>
+	
+		<!-- General parameters. -->
+		<parameters>
+		
+			<parameter name="common.files.path">
+				<value>/src/files/common/</value>
+				<description>Magus common files to copy to a new application.</description>
+			</parameter>
+
+            <parameter name="template.files.path">
+                <value>/src/files/templates/</value>
+                <description>Template helper files like css, images, javascript.</description>
+            </parameter>
+			
+			<parameter name="template.path">
+                <value>/org/magus/templates/</value>
+                <description>Magus internal templates path.</description>
+			</parameter>
+
+			<parameter name="class.path">
+                <value>C:/apache-tomcat-7.0.53/lib/servlet-api.jar,WebContent/WEB-INF/lib/commons-fileupload-1.3.1.jar,WebContent/WEB-INF/lib/commons-io-2.4.jar</value>
+				<description>Default class path used by generated applications.</description>
+			</parameter>
+
+			<parameter name="jsp.path">
+				<value>/WebContent/WEB-INF/jsp/</value>
+				<description>Default path for jsp pages of generated application.</description>
+			</parameter>
+
+			<parameter name="folders.path">
+				<value>dist,lib,src/java,WebContent/WEB-INF/classes,WebContent/WEB-INF/lib,WebContent/WEB-INF/tld,WebContent/WEB-INF/jsp,WebContent/css,WebContent/js,WebContent/images</value>
+				<description>Default folders created for generated application.</description>
+			</parameter>
+
+			<parameter name="date.format">
+				<value>EEE, d MMM yyyy HH:mm:ss</value>
+				<description>Default date format.</description>
+			</parameter>
+
+			<parameter name="i18n.lang">
+				<value>en</value>
+				<description>Default language.</description>
+			</parameter>
+
+			<parameter name="i18n.country">
+				<value>US</value>
+				<description>Default country.</description>
+			</parameter>
+
+			<parameter name="pk.suffix">
+				<value>PK</value>
+				<description>Suffix to be appended in the class name for tables with two or more primary key columns.</description>
+			</parameter>
+
+			<parameter name="collection">
+				<value>List</value>
+				<description>Default colletion of objects.</description>
+			</parameter>
+
+			<parameter name="collection.interface">
+				<value>List&lt;?&gt;</value>
+				<description>Default collection interface.</description>
+			</parameter>
+
+			<parameter name="collection.implementation">
+				<value>ArrayList&lt;?&gt;</value>
+				<description>Default collection implementation.</description>
+			</parameter>
+
+			<parameter name="records.per.page">
+				<value>5</value>
+				<description>Number of records used for pagination.</description>
+			</parameter>
+			
+		</parameters>
+	</configuration>
+</magus>
+

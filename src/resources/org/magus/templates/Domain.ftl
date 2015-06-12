@@ -95,12 +95,12 @@ public class ${clazz} implements Serializable, Cloneable {
         <#list columnList as column><#t>
         <#if (column.isColumnInForeignKey())>
         <#assign fkDisplay="${column.getCamelCaseName()}" + "_fk_display">
-        xml += "<${column.getAlias()}>" + ${column.getForeignTableAlias()}.get${.vars[fkDisplay]}() + "</${column.getAlias()}>";
+        xml += "<${column.getAlias()}><![CDATA[" + ${column.getForeignTableAlias()}.get${.vars[fkDisplay]}() + "]]></${column.getAlias()}>";
         <#else>
         <#if (column.isColumnInPrimaryKey())>
-        xml += "<${column.getAlias()} pk=\"true\">" + ${column.getAlias()} + "</${column.getAlias()}>";
+        xml += "<${column.getAlias()} pk=\"true\"><![CDATA[" + ${column.getAlias()} + "]]></${column.getAlias()}>";
         <#else>
-        xml += "<${column.getAlias()}>" + ((${column.getAlias()} == null) ? "" : ${column.getAlias()}) + "</${column.getAlias()}>";
+        xml += "<${column.getAlias()}><![CDATA[" + ((${column.getAlias()} == null) ? "" : ${column.getAlias()}) + "]]></${column.getAlias()}>";
         </#if>
         </#if>
         </#list>

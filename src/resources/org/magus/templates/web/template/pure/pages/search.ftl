@@ -62,11 +62,12 @@ function filterSearchStatus() {
 
              var row = results.insertRow();
              row.id = xml_${pks.getCamelCaseName()};
-             if(i % 2 != 0) {
-                row.className = "alt";
-             }
              <#if (hasExportedKeys)>
              row.onclick = function() {
+                for(var j=0; j < document.getElementById("results").rows.length; j++) {
+                    document.getElementById("results").rows[j].className = "";
+                }
+                this.className = "table-row-selected";
                 callServer("${servlet}?command=${fks.getFkCamelCaseName(true)}Action&action=filter&${fks.getFkColumnCamelCase(false)}=" + this.id, filterDetailStatus);
             };
             </#if>
@@ -260,8 +261,8 @@ window.onload = function() {
             </div>
         </div>
         
-        
         <#if (hasExportedKeys)>
+        <br/>
         <#-- Details table -->
         <div class="table-container">
             <div class="table-header">
