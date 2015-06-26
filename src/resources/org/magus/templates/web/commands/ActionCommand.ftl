@@ -117,7 +117,6 @@ public class ${clazzName} implements ICommand {
         <#list columns as column><#t>
             <#-- filter cannot be null otherwise freemarker will throw an exception -->
         String ${column.getCamelCaseName()} = request.getParameter("${column.getCamelCaseName()}");
-        System.out.println("${column.getCamelCaseName()}--->" + ${column.getCamelCaseName()});
         if (${column.getCamelCaseName()} != null && !"".equals(${column.getCamelCaseName()}.trim())) {
             //${clazz.getAlias()}s = model.listBy${column.getCamelCaseName()?capitalize}(${column.getCamelCaseName()});
             Criteria like = new Like(new Column("${column.getName()}", ${column.getCamelCaseName()}), "%" + ${column.getCamelCaseName()} + "%");
@@ -154,8 +153,6 @@ public class ${clazzName} implements ICommand {
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             String xml = XMLUtil.marshal(marshaller, ${clazz.getAlias()}s, "${clazz.getAlias()}s");
 
-            System.out.println("**************");
-            System.out.println(xml);
             response.setContentType("text/xml");
             response.setHeader("Cache-Control", "no-store, no-cache");
             response.getWriter().write(xml);
@@ -172,8 +169,6 @@ public class ${clazzName} implements ICommand {
         xml += "</results>";
         
         
-        System.out.println("**************");
-        System.out.println(xml);
         response.setContentType("text/xml");
         response.setHeader("Cache-Control", "no-store, no-cache");
         response.getWriter().write(xml);
@@ -189,8 +184,9 @@ public class ${clazzName} implements ICommand {
 	 * @param model
 	 *            Model to be populate
 	 * @return Model populated
+	 * @throws Exception
 	 */
-	private ${clazz.getAlias(true)}Model populateDto(HttpServletRequest request,${clazz.getAlias(true)}Model model) {
+	private ${clazz.getAlias(true)}Model populateDto(HttpServletRequest request,${clazz.getAlias(true)}Model model) throws Exception {
         <#list columns as column><#t>
         if (request.getParameter("${column.getCamelCaseName()}") != null) {
         <#if (column.isColumnInForeignKey())>
@@ -213,6 +209,12 @@ public class ${clazzName} implements ICommand {
             </#if>
 		<#elseif (column.getJdbcDataType() == "Integer") >
 			model.set${column.getCamelCaseName(true)}(Integer.parseInt(request.getParameter("${column.getCamelCaseName()}")));
+        <#elseif (column.getJdbcDataType() == "java.sql.Date") >
+            String tmp = request.getParameter("${column.getCamelCaseName()}");
+            java.text.SimpleDateFormat format = new java.text.SimpleDateFormat("dd-MM-yyyy");
+            Date parsed = format.parse(tmp);
+            java.sql.Date date = new java.sql.Date(parsed.getTime());
+            model.set${column.getCamelCaseName(true)}(date);
 		</#if>
 		}
 		</#if>

@@ -144,8 +144,7 @@ public class Column extends NamedObject {
     public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append("    \n");
-        sb.append("     MappedColumn:" + this.name + (table.isColumnInPrimaryKey(this.name) ? " (PK)" : "")
-                + (table.isColumnInForeignKey(this.name) ? " (FK)" + " [" + table.getForeignKey(this.name) + "]" : ""));
+        sb.append("     MappedColumn:" + this.name + (table.isColumnInPrimaryKey(this.name) ? " (PK)" : "") + (table.isColumnInForeignKey(this.name) ? " (FK)" + " [" + table.getForeignKey(this.name) + "]" : ""));
         sb.append("    \n");
         sb.append("     Type  :" + this.typeName);
         sb.append("    \n");

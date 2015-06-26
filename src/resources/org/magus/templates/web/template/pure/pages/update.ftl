@@ -10,6 +10,10 @@
         </div>
         <div class="mainbody">
 
+            <div id="message" class="alert-box error" style="display:none">
+                <span id="messageText"></span>
+            </div>
+
             <form action="${servlet}" method="post" id="myform">
             <input type="hidden" id="command" name="command" value="${clazzName?capitalize}Action"/>
             <#list pks as pk><#t>

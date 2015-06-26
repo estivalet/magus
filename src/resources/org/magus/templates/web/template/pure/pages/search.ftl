@@ -8,9 +8,11 @@ function edit(formAction, command, action, id, pageNum) {
     document.getElementById("${pks.getCamelCaseName()}").value=id;
     document.myform.action = formAction;
     if(action == 'delete') {
-            alertify.alert('Confirm exclusion?');  
+        alertify.confirm('Confirm exclusion?', function () {
+            document.myform.submit();
+        });  
     } else {
-           document.myform.submit();
+       document.myform.submit();
     }
 }
 

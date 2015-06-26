@@ -10,6 +10,10 @@
         </div>
         <div class="mainbody">
     
+            <div id="message" class="alert-box error" style="display:none">
+                <span id="messageText"></span>
+            </div>
+    
             <form action="${servlet}" method="post" id="myform">
             <input type="hidden" id="command" name="command" value="${clazzName?cap_first}Action"/>
             <#list columns as column><#t>
@@ -26,7 +30,7 @@
 <script>
 <#list columns as column><#t>
     <#if (column.inputMask != "")>
-    new InputMask().Initialize(document.querySelectorAll("#${column.getCamelCaseName()}"), {mask: InputMaskDefaultMask.Phone, placeHolder: "Phone: ${column.inputMask}"});
+    new InputMask().Initialize(document.querySelectorAll("#${column.getCamelCaseName()}"), {mask: InputMaskDefaultMask.Phone, placeHolder: "${column.inputMask}"});
     </#if>
 </#list>
 </script>
