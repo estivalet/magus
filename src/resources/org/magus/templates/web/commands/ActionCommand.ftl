@@ -6,10 +6,12 @@
 
 package ${package}.server.${clazz.getAlias()}.commands;
 
+import java.io.*;
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import org.luisoft.commons.sql.criteria.Column;
 import org.luisoft.commons.sql.criteria.Criteria;
@@ -188,6 +190,24 @@ public class ${clazzName} implements ICommand {
 	 */
 	private ${clazz.getAlias(true)}Model populateDto(HttpServletRequest request,${clazz.getAlias(true)}Model model) throws Exception {
         <#list columns as column><#t>
+        <#if (column.getPSJavaMethod() == "Bytes")>
+        if (request.getPart("${column.getCamelCaseName()}") != null) {
+            Part filePart = request.getPart("${column.getCamelCaseName()}");
+            String fileName = getFileName(filePart);
+            InputStream input = filePart.getInputStream();
+            byte[] result = new byte[(int) filePart.getSize()];
+            int totalBytesRead = 0;
+            while (totalBytesRead < result.length) {
+                int bytesRemaining = result.length - totalBytesRead;
+                int bytesRead = input.read(result, totalBytesRead, bytesRemaining);
+                if (bytesRead > 0) {
+                    totalBytesRead = totalBytesRead + bytesRead;
+                }
+            }
+            input.close();
+            model.set${column.getCamelCaseName(true)}(result);
+        }
+        <#else>
         if (request.getParameter("${column.getCamelCaseName()}") != null) {
         <#if (column.isColumnInForeignKey())>
 			${column.getForeignTableAlias(true)}Model tmp = new ${column.getForeignTableAlias(true)}Model(Integer.parseInt(request
@@ -218,6 +238,7 @@ public class ${clazzName} implements ICommand {
 		</#if>
 		}
 		</#if>
+		</#if>
         </#list>
 		return model;
 	}
@@ -239,4 +260,18 @@ public class ${clazzName} implements ICommand {
         return null;
 	}
 	
+   /**
+     * Used only to get the file name to upload.
+     * @param part
+     * @return
+     */
+    private static String getFileName(Part part) {
+        for (String cd : part.getHeader("content-disposition").split(";")) {
+            if (cd.trim().startsWith("filename")) {
+                String fileName = cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
+                return fileName.substring(fileName.lastIndexOf('/') + 1).substring(fileName.lastIndexOf('\\') + 1); // MSIE fix.
+            }
+        }
+        return null;
+    }	
 }

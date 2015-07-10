@@ -13,6 +13,12 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+/**
+ * http://www.tutorialspoint.com/servlets/servlets-file-uploading.htm
+ * 
+ * @author 88758559000
+ * 
+ */
 public class UploadServlet extends HttpServlet {
 
     private boolean isMultipart;

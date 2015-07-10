@@ -146,6 +146,7 @@ public class ${clazzName}Mapper extends Mapper {
 	
 	
     <#list columns as column>
+    <#if (column.getPSJavaMethod() != "Bytes")>
 	/**
 	 * @param ${column.getCamelCaseName()}
 	 *            ${column.getCamelCaseName()} to search.
@@ -179,7 +180,7 @@ public class ${clazzName}Mapper extends Mapper {
 		}
 		return null;
 	}
-	
+	</#if>
 	</#list>	
 	
 	/**

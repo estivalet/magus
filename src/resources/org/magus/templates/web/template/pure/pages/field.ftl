@@ -24,13 +24,15 @@
                 </select>    
                     <#break>
                     <#case 7><#-- DATE PICKER -->
-                <input id="${id}" name="${id}" type="text">
+                <input id="${id}" name="${id}" type="text" value="<#noparse>${</#noparse>${id}Value}">
                 <script>new datepickr('#${id}',{ dateFormat: 'd-m-Y'});</script>
                     <#break>
                     <#case 8><#-- RICH TEXT EDITOR -->
                 <textarea class="ckeditor" id="${id}" name="${id}"><#noparse>${</#noparse>${id}Value}</textarea>
                     <#break>
-                    
+                    <#case 9><#-- FILE UPLOAD -->                    
+                <input type="file" id="${id}" name="${id}"/>
+                    <#break>
                     <#default>
                         <#-- SELECT BOX FK If attribute is a foreign key then create a combo box with the values for selection -->
                         <#if (column.isColumnInForeignKey())>

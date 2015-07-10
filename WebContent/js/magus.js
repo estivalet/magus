@@ -359,6 +359,7 @@ function addRow(tableID, columnName, label, columnType, displayOrder, comment,
 	createSelectOption(element2, "6", "SelectBox", columnType);
 	createSelectOption(element2, "7", "DatePicker", columnType);
 	createSelectOption(element2, "8", "RichTextEditor", columnType);
+	createSelectOption(element2, "9", "FileUpload", columnType);
 	cell4.appendChild(element2);
 
 	var cell5 = row.insertCell(4);

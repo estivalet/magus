@@ -12,6 +12,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,6 +29,7 @@ import ${package}.mapper.*;
  * @author ${user}
  */
 @SuppressWarnings("serial")
+@MultipartConfig
 public class ${clazzName}Servlet extends HttpServlet {
 
 	/** Data source to connect to Magus database (Tomcat's server.xml). */

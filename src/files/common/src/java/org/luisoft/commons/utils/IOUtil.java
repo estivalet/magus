@@ -20,7 +20,7 @@
 /*
  * Created on 03/08/2009 at 10:35:59 by 88758559000
  */
-package general.util;
+package org.luisoft.commons.utils;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;

@@ -37,7 +37,7 @@ public abstract class JdbcTypeMapper {
         case Types.BINARY:
         case Types.VARBINARY:
         case Types.LONGVARBINARY:
-            return "Byte[]";
+            return "byte[]";
         case Types.DATE:
             return "java.sql.Date";
         case Types.TIME:
@@ -83,7 +83,7 @@ public abstract class JdbcTypeMapper {
         case Types.BINARY:
         case Types.VARBINARY:
         case Types.LONGVARBINARY:
-            return "Byte[]";
+            return "Bytes";
         case Types.DATE: // java.sql.Date
             return "Date";
         case Types.TIME: // java.sql.Time

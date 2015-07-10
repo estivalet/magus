@@ -74,6 +74,7 @@ public class ${clazzName}Model extends ${clazzName} {
 	
 	
 	<#list columns as column>
+    <#if (column.getPSJavaMethod() != "Bytes")>
 	/**
 	 * @param ${column.getCamelCaseName()}
 	 *            ${column.getCamelCaseName(true)} to search for.
@@ -82,7 +83,7 @@ public class ${clazzName}Model extends ${clazzName} {
 	public ${clazzArray} listBy${column.getCamelCaseName(true)}(${column.getJdbcDataType()} ${column.getCamelCaseName()}) {
 		return mapper.fetchBy${column.getCamelCaseName(true)}(${column.getCamelCaseName()});
 	}
-	
+    </#if>	
 	</#list>
 	
 	/**

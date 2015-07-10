@@ -14,7 +14,7 @@
                 <span id="messageText"></span>
             </div>
     
-            <form action="${servlet}" method="post" id="myform">
+            <form action="${servlet}" method="post" id="myform" enctype="multipart/form-data">
             <input type="hidden" id="command" name="command" value="${clazzName?cap_first}Action"/>
             <#list columns as column><#t>
                 <#include "field.ftl">
