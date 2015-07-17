@@ -54,6 +54,27 @@ public class ${clazzName} implements ICommand {
 	public Object execute(HttpServletRequest request, HttpServletResponse response, IContext context) throws Exception {
 		this.action = request.getParameter("action");
 		${clazz.getAlias(true)}Model model;
+		
+		<#list columns as column><#t>
+        <#if (column.customFieldType == 9)>
+        if ("get${column.getCamelCaseName(true)}".equals(action)) {
+            model = new ${clazz.getAlias(true)}Model(Integer.parseInt(request.getParameter("${pks.getCamelCaseName()}")));
+            request.setAttribute("${clazz.getAlias()}", model);
+            byte[] data = model.get${column.getCamelCaseName(true)}();
+            if (data.length > 0) {
+                response.setContentType("image/png");
+                response.setContentLength(data.length);
+                OutputStream out = response.getOutputStream();
+                out.write(data);
+            }
+            this.dispatch = false;
+            
+            return null;
+        }
+        </#if>
+		</#list>
+		
+		
 		if("create".equals(action) || "update".equals(action)) {
 			<#list fks as fk><#t>
 			<#if (!fk.table.hasExportedKeys())>

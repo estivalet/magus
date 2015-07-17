@@ -76,6 +76,9 @@ function filterSearchStatus() {
                         
         <#list columns as column><#t>
             var cell${column_index} = row.insertCell(${column_index});
+            <#if (column.getCustomFieldType() == 9)>
+            cell${column_index}.innerHTML = "<img src='${servlet}?command=${clazz}Action&action=get${column.getCamelCaseName(true)}&id="+row.id+"' width='50' alt=''>";
+            <#else>
             <#if (column.isColumnInForeignKey())>
             cell${column_index}.innerHTML = xml_${column.getForeignTableAlias()};
             <#else>
@@ -84,6 +87,7 @@ function filterSearchStatus() {
             <#assign pkColumn="${column.getCamelCaseName()}">
             <#else>            
             cell${column_index}.innerHTML = xml_${column.getCamelCaseName()};
+            </#if>
             </#if>
             </#if>
         </#list>
