@@ -8,8 +8,10 @@ package ${package}.mapper;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-
+import javax.naming.InitialContext;
 import javax.sql.DataSource;
+
+import ${package}.server.${appClass}Servlet;
 
 public class Mapper {
 	private static DataSource ds;
@@ -22,7 +24,11 @@ public class Mapper {
 	
 	protected Integer totalRecords;
 
-	public Connection getConnection() throws SQLException {
+	public Connection getConnection() throws Exception {
+	    if (ds == null) {
+            DataSource ds = (DataSource) new InitialContext().lookup(${appClass}Servlet.DSN);
+            Mapper.setDataSource(ds);
+        }
 		return ds.getConnection();
 	}
 

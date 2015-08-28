@@ -98,7 +98,7 @@ public class Table extends NamedObject {
 
         sb.append(" FROM " + this.schema.getName() + "." + this.name + " " + this.name);
         for (ForeignKey fk : getFks().values()) {
-            sb.append("," + this.schema.getName() + "." + fk.getPkTableName() + " " + fk.getPkTableName());
+            sb.append("," + this.schema.getName() + "." + fk.getFkTableName() + " " + fk.getFkTableName());
         }
         sb.append(" WHERE 1=1 ");
         for (ForeignKey fk : getFks().values()) {
@@ -182,8 +182,7 @@ public class Table extends NamedObject {
         StringBuffer sb = new StringBuffer();
         int i = 0;
         for (Column c : columns) {
-            String s = ((prefix != null) ? prefix : "") + (camelCase ? c.getCamelCaseName(true) : c.getName()) + ((suffix) ? " " + c.getName() : "")
-                    + (mask ? " = ?" : "");
+            String s = ((prefix != null) ? prefix : "") + (camelCase ? c.getCamelCaseName(true) : c.getName()) + ((suffix) ? " " + c.getName() : "") + (mask ? " = ?" : "");
             sb.append((i++ > 0) ? ", " + s : s);
         }
         return sb.toString();
@@ -218,14 +217,8 @@ public class Table extends NamedObject {
         // The counter (i) was added to avoid printing a blank line after the
         // last column.
         for (Column c : this.columns.values()) {
-            fmt.format(
-                    "  *   MappedColumn: %-20s %-10s %-10s %5s %-10s%n",
-                    c.getName(),
-                    c.getTypeName(),
-                    c.nullableAsString(),
-                    c.getSize(),
-                    (this.isColumnInPrimaryKey(c.getName()) ? " (PK)" : "")
-                            + (this.isColumnInForeignKey(c.getName()) ? " (FK)" + " [" + this.getForeignKey(c.getName()) + "]" : ""));
+            fmt.format("  *   MappedColumn: %-20s %-10s %-10s %5s %-10s%n", c.getName(), c.getTypeName(), c.nullableAsString(), c.getSize(), (this.isColumnInPrimaryKey(c.getName()) ? " (PK)" : "")
+                    + (this.isColumnInForeignKey(c.getName()) ? " (FK)" + " [" + this.getForeignKey(c.getName()) + "]" : ""));
         }
 
         return sb.toString();

@@ -50,7 +50,7 @@
 			</parameter>
 
 			<parameter name="folders.path">
-				<value>dist,lib,src/java,WebContent/WEB-INF/classes,WebContent/WEB-INF/lib,WebContent/WEB-INF/tld,WebContent/WEB-INF/jsp,WebContent/css,WebContent/js,WebContent/images</value>
+				<value>dist,lib,src/main/java,src/test/java,WebContent/WEB-INF/classes,WebContent/WEB-INF/lib,WebContent/WEB-INF/tld,WebContent/WEB-INF/jsp,WebContent/css,WebContent/js,WebContent/images</value>
 				<description>Default folders created for generated application.</description>
 			</parameter>
 

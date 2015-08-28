@@ -23,6 +23,7 @@ import org.luisoft.magus.core.decorators.DomainDecorator;
 import org.luisoft.magus.core.decorators.DomainMapperDecorator;
 import org.luisoft.magus.core.decorators.DomainModelDecorator;
 import org.luisoft.magus.core.decorators.DomainPKDecorator;
+import org.luisoft.magus.core.decorators.DomainResourceDecorator;
 import org.luisoft.magus.core.decorators.DomainServletDecorator;
 import org.luisoft.magus.core.decorators.EclipseWebClasspathDecorator;
 import org.luisoft.magus.core.decorators.EclipseWebProjectDecorator;
@@ -144,6 +145,7 @@ public class GenerateCommand implements ICommand {
                 executeDecorator(new DomainPKDecorator(app, table, context));
             }
             executeDecorator(new DomainModelDecorator(app, table, context));
+            executeDecorator(new DomainResourceDecorator(app, table, context));
             executeDecorator(new DomainMapperDecorator(app, table, context));
             executeDecorator(new Index2PageDecorator(app, table, context));
             executeDecorator(new CreatePageDecorator(app, table, context));

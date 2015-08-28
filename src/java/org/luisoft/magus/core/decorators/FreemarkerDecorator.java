@@ -15,6 +15,7 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import general.util.DateUtils;
+import general.util.StringUtils;
 
 public abstract class FreemarkerDecorator implements IDecorator {
 
@@ -59,6 +60,7 @@ public abstract class FreemarkerDecorator implements IDecorator {
         model.put("date", now);
         model.put("user", app.getUser());
         model.put("appName", app.getName());
+        model.put("appClass", StringUtils.capitalize(app.getShortName()));
         model.put("copyright", app.getCopyright());
         model.put("license", app.getLicenseFile());
         model.put("package", app.getJavaPackage());

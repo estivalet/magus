@@ -5,12 +5,13 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
+import java.util.logging.Logger;
 
 import javax.sql.DataSource;
 
 /**
- * http://penguindreams.org/blog/running-beans-that-use-application-server-
- * datasources-locally/
+ * http://penguindreams.org/blog/running-beans-that-use-application-server- datasources-locally/
  * 
  * Example:
  * 
@@ -27,7 +28,7 @@ import javax.sql.DataSource;
  * rs = statement.executeQuery(sql);
  * 
  * while (rs.next()) {
- * 	System.out.println(rs.getString(2));
+ *     System.out.println(rs.getString(2));
  * }
  * 
  * rs.close();
@@ -42,47 +43,53 @@ import javax.sql.DataSource;
 @SuppressWarnings("serial")
 class LocalDataSource implements DataSource, Serializable {
 
-	private String connectionString;
-	private String username;
-	private String password;
+    private String connectionString;
+    private String username;
+    private String password;
 
-	LocalDataSource(String connectionString, String username, String password) {
-		this.connectionString = connectionString;
-		this.username = username;
-		this.password = password;
-	}
+    LocalDataSource(String connectionString, String username, String password) {
+        this.connectionString = connectionString;
+        this.username = username;
+        this.password = password;
+    }
 
-	public Connection getConnection() throws SQLException {
-		return DriverManager.getConnection(connectionString, username, password);
-	}
+    public Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(connectionString, username, password);
+    }
 
-	public Connection getConnection(String username, String password) throws SQLException {
-		return null;
-	}
+    public Connection getConnection(String username, String password) throws SQLException {
+        return null;
+    }
 
-	public PrintWriter getLogWriter() throws SQLException {
-		return null;
-	}
+    public PrintWriter getLogWriter() throws SQLException {
+        return null;
+    }
 
-	public int getLoginTimeout() throws SQLException {
-		return 0;
-	}
+    public int getLoginTimeout() throws SQLException {
+        return 0;
+    }
 
-	public void setLogWriter(PrintWriter out) throws SQLException {
-	}
+    public void setLogWriter(PrintWriter out) throws SQLException {
+    }
 
-	public void setLoginTimeout(int seconds) throws SQLException {
-	}
+    public void setLoginTimeout(int seconds) throws SQLException {
+    }
 
-	@Override
-	public boolean isWrapperFor(Class<?> iface) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public boolean isWrapperFor(Class<?> iface) throws SQLException {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
-	@Override
-	public <T> T unwrap(Class<T> iface) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public <T> T unwrap(Class<T> iface) throws SQLException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Logger getParentLogger() throws SQLFeatureNotSupportedException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

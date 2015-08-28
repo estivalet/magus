@@ -8,6 +8,8 @@ package ${package}.domain;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 <#list columnList as column><#t>
@@ -21,6 +23,7 @@ import org.luisoft.commons.xml.SqlDateAdapter;
 
 @SuppressWarnings("serial")
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ${clazz} implements Serializable, Cloneable {
     
     <#list columnList as column><#t>
@@ -28,6 +31,13 @@ public class ${clazz} implements Serializable, Cloneable {
     private ${column.getTypeName()} ${column.getAlias()}${column.getDefaultValue()};
     
     </#list>
+    
+    /**
+     * Empty constructor needed by JAXB to serialize to XML.
+     */
+    public ${clazz}() {
+    
+    }
 
     <#list columnList as column><#t>
     /**

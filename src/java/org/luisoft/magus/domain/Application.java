@@ -30,7 +30,9 @@ public class Application {
     private String template;
 
     @MappedColumn(name = "src_folder")
-    private String srcFolder = "/src/java/";
+    private String srcFolder = "/src/main/java/";
+
+    private String testFolder = "/src/test/java/";
 
     @MappedColumn(name = "java_package")
     private String javaPackage;
@@ -185,6 +187,21 @@ public class Application {
      */
     public void setLicenseFile(String licenseFile) {
         this.licenseFile = licenseFile;
+    }
+
+    /**
+     * @return the testFolder
+     */
+    public String getTestFolder() {
+        return testFolder;
+    }
+
+    /**
+     * @param testFolder
+     *            the testFolder to set
+     */
+    public void setTestFolder(String testFolder) {
+        this.testFolder = testFolder;
     }
 
     public void addTable(TableWrapper t) {

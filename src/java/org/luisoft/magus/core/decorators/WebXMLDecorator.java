@@ -49,6 +49,7 @@ public class WebXMLDecorator extends FreemarkerDecorator {
     protected void decorateIt() {
         model.put("appShortName", app.getShortName());
         model.put("clazzName", app.getJavaPackage() + ".server." + StringUtils.capitalize(app.getShortName()) + "Servlet");
+        model.put("restPackage", app.getJavaPackage() + ".resource");
     }
 
 }

@@ -34,4 +34,17 @@
 		<url-pattern>/${appShortName}</url-pattern>
 	</servlet-mapping>
 	
+  <servlet>
+        <servlet-name>Rest Servlet</servlet-name>
+        <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+        <init-param>
+            <param-name>jersey.config.server.provider.packages</param-name>
+            <param-value>${restPackage}</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Rest Servlet</servlet-name>
+        <url-pattern>/rest/*</url-pattern>
+    </servlet-mapping>	
 </web-app>

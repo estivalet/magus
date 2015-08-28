@@ -103,6 +103,67 @@ public class ${clazzName}Mapper extends Mapper {
 		return null;
 	}
 	
+    public ${clazzArray} fetch(${clazzName} domain) {
+        String sql = "${table.getSQLSelect()} WHERE 1=1 ";
+        ResultSet rs = null;
+        Connection con = null;
+        int contador = 1;
+        try {
+            <#list columns as column>
+            <#if (column.getPSJavaMethod() != "Bytes" && !column.isColumnInForeignKey())>
+            if(domain.get${column.getCamelCaseName(true)}() != null) {
+                sql += "AND ${column.getName()} LIKE ?"; 
+            }
+            </#if>
+            </#list>
+            
+            sql += " ORDER BY ${table.getOrderByColumn()}";
+            // For pagination purposes.
+            if (limit != null && limit.intValue() > 0) {
+                sql += " LIMIT " + limit;
+            }
+            if (offset != null && offset.intValue() > 0) {
+                sql += " OFFSET " + offset;
+            }
+            con = getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            <#list columns as column>
+            <#if (column.getPSJavaMethod() != "Bytes" && !column.isColumnInForeignKey())>
+            if(domain.get${column.getCamelCaseName(true)}() != null) {
+            <#if (column.getPSJavaMethod() = 'String')>
+                ps.set${column.getPSJavaMethod()}(contador++, "%" + domain.get${column.getCamelCaseName(true)}() + "%");
+            <#else>
+                ps.set${column.getPSJavaMethod()}(contador++, domain.get${column.getCamelCaseName(true)}());
+            </#if>
+            }
+            </#if>
+            </#list>
+            rs = ps.executeQuery();
+            ${clazzArray} result = fetchMultipleResults(rs);
+            
+            // For pagination.
+            sql = "${table.getSQLSelectCount()}";
+            Statement st = con.createStatement();
+            rs = st.executeQuery(sql);
+            rs.next();
+            this.totalRecords = rs.getInt(1);
+            
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.getStatement().close();
+                rs.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+	
+	
     /**
      * @param criteria
      * @return
