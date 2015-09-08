@@ -1,4 +1,4 @@
-<%@include file="/header.jsp" %>
+<%@include file="../header.jsp" %>
 
 <#include "scripts.ftl">
 
@@ -14,7 +14,7 @@
                 <span id="messageText"></span>
             </div>
 
-            <form action="${servlet}" method="post" id="myform">
+            <form action="" method="post" id="myform">
             <input type="hidden" id="command" name="command" value="${clazzName?capitalize}Action"/>
             <#list pks as pk><#t>
             <input type="hidden" id="${pk.getCamelCaseName()}" name="${pk.getCamelCaseName()}" value="<c:out value='<#noparse>${requestScope.</#noparse>${clazzName}.${pk.getCamelCaseName()}}'/>"/>

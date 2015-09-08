@@ -13,6 +13,7 @@ import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,6 +31,7 @@ import ${package}.mapper.*;
  */
 @SuppressWarnings("serial")
 @MultipartConfig
+@WebServlet(name = "${appShortName}", urlPatterns = "")
 public class ${clazzName}Servlet extends HttpServlet {
 
 	/** Data source to connect to Magus database (Tomcat's server.xml). */
@@ -90,6 +92,10 @@ public class ${clazzName}Servlet extends HttpServlet {
 		try {
 			// Identify requested command and execute it.
             String command = request.getParameter("command");
+            if (command == null) {
+                dispatch(request, response, "index.jsp");
+                return;
+            }
             String pkg = this.getClass().getPackage().getName() + "." + StringUtils.uncapitalize(command.replace("Action", "")) + ".commands.";
             String clazz = pkg + command + "Command";
 			

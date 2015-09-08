@@ -270,9 +270,14 @@ public class ${clazzName}Mapper extends Mapper {
             ps.set${column.getPSJavaMethod()}(paramCount++, domain.get${column.getCamelCaseName(true)}());
             </#if>
             </#list>
-			ps.execute();
-			return true;
+            int n = ps.executeUpdate();
+            super.message = "No rows create!";
+            if (n > 0) {
+                super.message = "Created successfully " + n + " row(s)!";
+            }
+            return true;
 		} catch (Exception e) {
+		    super.message = e.getMessage();
 			e.printStackTrace();
 		} finally {
 			try {
@@ -314,9 +319,14 @@ public class ${clazzName}Mapper extends Mapper {
             <#list pkColumns as column>
             ps.set${column.getPSJavaMethod()}(paramCount++, domain.get${column.getCamelCaseName(true)}());
             </#list>
-			ps.execute();
+            int n = ps.executeUpdate();
+            super.message = "No rows updated!";
+            if (n > 0) {
+                super.message = "Updated successfully " + n + " row(s)!";
+            }
 			return true;
 		} catch (Exception e) {
+		    super.message = e.getMessage();
 			e.printStackTrace();
 		} finally {
 			try {
@@ -352,9 +362,14 @@ public class ${clazzName}Mapper extends Mapper {
             <#list pkColumns as column>
             ps.set${column.getPSJavaMethod()}(paramCount++, domain.get${column.getCamelCaseName(true)}());
             </#list>
-			ps.execute();
+            int n = ps.executeUpdate();
+            super.message = "No rows deleted!";
+            if (n > 0) {
+                super.message = "Deleted successfully " + n + " row(s)!";
+            }
 			return true;
 		} catch (Exception e) {
+		    super.message = e.getMessage();
 			e.printStackTrace();
 		} finally {
 			try {

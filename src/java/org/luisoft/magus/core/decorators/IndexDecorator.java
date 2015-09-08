@@ -51,7 +51,7 @@ public class IndexDecorator extends FreemarkerDecorator {
     @Override
     public String getFullPath() {
         // TODO Review hard-coded string.
-        String path = app.getPath() + "/WebContent/";
+        String path = app.getPath() + "/WebContent/WEB-INF/jsp/";
 
         return path + "index.jsp";
     }

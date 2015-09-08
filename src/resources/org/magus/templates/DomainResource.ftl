@@ -108,9 +108,12 @@ public class ${clazz}Resource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response insertJ(String contents) {
         ${clazz} domain = new Gson().fromJson(contents, ${clazz}.class);
-        mapper.insert(domain);
-        URI uri = URI.create("/${path}/" + domain.getId());
-        return Response.created(uri).build();
+        if(mapper.insert(domain)) {
+            URI uri = URI.create("/${path}/" + domain.getId());
+            return Response.created(uri).entity(mapper.getMessage()).build();
+        } else {
+            return Response.status(200).entity(mapper.getMessage()).type(MediaType.APPLICATION_JSON).build();
+        }        
     }
     
 
@@ -139,7 +142,7 @@ public class ${clazz}Resource {
     public Response updateJ(String contents) {
         ${clazz} domain = new Gson().fromJson(contents, ${clazz}.class);
         mapper.update(domain);
-        return Response.ok().build();
+        return Response.status(200).entity(mapper.getMessage()).type(MediaType.APPLICATION_JSON).build();
     }    
 
     /**
@@ -166,8 +169,8 @@ public class ${clazz}Resource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deleteJ(String contents) {
         ${clazz} domain = new Gson().fromJson(contents, ${clazz}.class);
-        mapper.delete(domain);
-        return Response.ok().build();
+         mapper.delete(domain);
+         return Response.status(200).entity(mapper.getMessage()).type(MediaType.APPLICATION_JSON).build();
     }
     
       

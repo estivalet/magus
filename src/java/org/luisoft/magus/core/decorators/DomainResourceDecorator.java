@@ -43,7 +43,7 @@ public class DomainResourceDecorator extends TableDecorator {
 
         model.put("table", t);
         model.put("clazz", t.getAlias(true));
-        model.put("path", t.getAlias() + "s");
+        model.put("path", t.getAlias());
         model.put("pkColumns", t.getPrimaryKeyColumns());
         model.put("columns", columns);
         model.put("allColumns", allColumns);

@@ -1,4 +1,4 @@
-<%@include file="/header.jsp" %>
+<%@include file="../header.jsp" %>
 
 <script type="text/javascript">
 function edit(formAction, command, action, id, pageNum) {
@@ -38,7 +38,7 @@ function filterSearch(pageNum) {
     }
     var query = "&pageNum=" + pageNum;
     filterParams = getFilterParams();
-    callServer("${servlet}?command=${clazz}Action&action=filter" + query + filterParams, filterSearchStatus);
+    callServer("?command=${clazz}Action&action=filter" + query + filterParams, filterSearchStatus);
 }
 
 function filterSearchStatus() {
@@ -70,20 +70,20 @@ function filterSearchStatus() {
                     document.getElementById("results").rows[j].className = "";
                 }
                 this.className = "table-row-selected";
-                callServer("${servlet}?command=${fks.getFkCamelCaseName(true)}Action&action=filter&${fks.getFkColumnCamelCase(false)}=" + this.id, filterDetailStatus);
+                callServer("?command=${fks.getFkCamelCaseName(true)}Action&action=filter&${fks.getFkColumnCamelCase(false)}=" + this.id, filterDetailStatus);
             };
             </#if>
                         
         <#list columns as column><#t>
             var cell${column_index} = row.insertCell(${column_index});
             <#if (column.getCustomFieldType() == 9)>
-            cell${column_index}.innerHTML = "<img src='${servlet}?command=${clazz}Action&action=get${column.getCamelCaseName(true)}&id="+row.id+"' width='50' alt=''>";
+            cell${column_index}.innerHTML = "<img src='$?command=${clazz}Action&action=get${column.getCamelCaseName(true)}&id="+row.id+"' width='50' alt=''>";
             <#else>
             <#if (column.isColumnInForeignKey())>
             cell${column_index}.innerHTML = xml_${column.getForeignTableAlias()};
             <#else>
             <#if (column.isColumnInPrimaryKey())>
-            cell${column_index}.innerHTML = "<a href=\"#\" onclick=\"edit('${servlet}','${clazz}Action','update','" + xml_${column.getCamelCaseName()} + "')\">" + xml_${column.getCamelCaseName()} + "</a>";
+            cell${column_index}.innerHTML = "<a href=\"#\" onclick=\"edit('','${clazz}Action','update','" + xml_${column.getCamelCaseName()} + "')\">" + xml_${column.getCamelCaseName()} + "</a>";
             <#assign pkColumn="${column.getCamelCaseName()}">
             <#else>            
             cell${column_index}.innerHTML = xml_${column.getCamelCaseName()};
@@ -92,8 +92,8 @@ function filterSearchStatus() {
             </#if>
         </#list>
             var cell${columns?size} = row.insertCell(${columns?size});
-            cell${columns?size}.innerHTML = "<a href=\"#\" onclick=\"edit('${servlet}','${clazz}Action','update','" + xml_${pkColumn} + "')\"><img src=\"css/pimpa_yes.gif\" alt=\"picture\" class=\"tabpimpa\" height=\"13\" width=\"13\"></a>";
-            cell${columns?size}.innerHTML += "&nbsp;<a href=\"#\" onclick=\"edit('${servlet}','${clazz}Action','delete','" + xml_${pkColumn} + "')\"><img src=\"css/pimpa_no.gif\" alt=\"picture\" class=\"tabpimpa\" height=\"13\" width=\"13\"></a>";
+            cell${columns?size}.innerHTML = "<a href=\"#\" onclick=\"edit('','${clazz}Action','update','" + xml_${pkColumn} + "')\"><img src=\"css/pimpa_yes.gif\" alt=\"picture\" class=\"tabpimpa\" height=\"13\" width=\"13\"></a>";
+            cell${columns?size}.innerHTML += "&nbsp;<a href=\"#\" onclick=\"edit('','${clazz}Action','delete','" + xml_${pkColumn} + "')\"><img src=\"css/pimpa_no.gif\" alt=\"picture\" class=\"tabpimpa\" height=\"13\" width=\"13\"></a>";
             
         }
         
@@ -129,7 +129,7 @@ function filterDetailStatus() {
             cell${column_index}.innerHTML = xml_${column.getForeignTableAlias()};
             <#else>
             <#if (column.isColumnInPrimaryKey())>
-            cell${column_index}.innerHTML = "<a href=\"#\" onclick=\"edit('${servlet}','${fks.getFkCamelCaseName(true)}Action','update','" + xml_${column.getCamelCaseName()} + "')\">" + xml_${column.getCamelCaseName()} + "</a>";
+            cell${column_index}.innerHTML = "<a href=\"#\" onclick=\"edit('','${fks.getFkCamelCaseName(true)}Action','update','" + xml_${column.getCamelCaseName()} + "')\">" + xml_${column.getCamelCaseName()} + "</a>";
             <#assign pkColumn="${column.getCamelCaseName()}">
             <#else>            
             cell${column_index}.innerHTML = xml_${column.getCamelCaseName()};
@@ -137,8 +137,8 @@ function filterDetailStatus() {
             </#if>
         </#list>
             var cell${fkTableColumns?size} = row.insertCell(${fkTableColumns?size});
-            cell${fkTableColumns?size}.innerHTML = "<a href=\"#\" onclick=\"edit('${servlet}','${fks.getFkCamelCaseName(true)}Action','update','" + xml_${pkColumn} + "')\"><img src=\"css/pimpa_yes.gif\" alt=\"picture\" class=\"tabpimpa\" height=\"13\" width=\"13\"></a>";
-            cell${fkTableColumns?size}.innerHTML += "&nbsp;<a href=\"#\" onclick=\"edit('${servlet}','${fks.getFkCamelCaseName(true)}Action','delete','" + xml_${pkColumn} + "')\"><img src=\"css/pimpa_no.gif\" alt=\"picture\" class=\"tabpimpa\" height=\"13\" width=\"13\"></a>";
+            cell${fkTableColumns?size}.innerHTML = "<a href=\"#\" onclick=\"edit('','${fks.getFkCamelCaseName(true)}Action','update','" + xml_${pkColumn} + "')\"><img src=\"css/pimpa_yes.gif\" alt=\"picture\" class=\"tabpimpa\" height=\"13\" width=\"13\"></a>";
+            cell${fkTableColumns?size}.innerHTML += "&nbsp;<a href=\"#\" onclick=\"edit('','${fks.getFkCamelCaseName(true)}Action','delete','" + xml_${pkColumn} + "')\"><img src=\"css/pimpa_no.gif\" alt=\"picture\" class=\"tabpimpa\" height=\"13\" width=\"13\"></a>";
             
         }
         
@@ -209,7 +209,7 @@ function setUpPagination() {
 window.onload = function() {
     firstTime = document.getElementById("firstTime").value;
     if(firstTime == "Y") {
-        callServer("${servlet}?command=${clazz}Action&action=filter&pageNum=1", filterSearchStatus);
+        callServer("?command=${clazz}Action&action=filter&pageNum=1", filterSearchStatus);
     }
         
 }
@@ -234,7 +234,7 @@ window.onload = function() {
     <div class="container">
         <div class="table-container">
             <div class="table-header">
-                <div class="table-header-text">List of ${clazz}&nbsp;<a href="#" onclick="edit('${servlet}','${clazz}Action','create')"><img style="vertical-align:text-top" src="css/plus.png"/></a></div>
+                <div class="table-header-text">List of ${clazz}&nbsp;<a href="#" onclick="edit('','${clazz}Action','create')"><img style="vertical-align:text-top" src="css/plus.png"/></a></div>
             </div>
             
             <#-- Message area -->

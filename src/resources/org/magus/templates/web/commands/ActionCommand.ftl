@@ -73,8 +73,6 @@ public class ${clazzName} implements ICommand {
         }
         </#if>
 		</#list>
-		
-		
 		if("create".equals(action) || "update".equals(action)) {
 			<#list fks as fk><#t>
 			<#if (!fk.table.hasExportedKeys())>

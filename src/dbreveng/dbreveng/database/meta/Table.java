@@ -93,12 +93,18 @@ public class Table extends NamedObject {
         }
         sb.append(this.listColumnsAsCommaSeparated(this, this.getName() + "."));
         for (ForeignKey fk : getFks().values()) {
-            sb.append(", " + listColumnsAsCommaSeparated(fk.getPkTable(), fk.getPkTable().getName() + "."));
+            if (!fk.getFkTable().getName().equals(this.getName())) {
+                sb.append(", " + listColumnsAsCommaSeparated(fk.getFkTable(), fk.getFkTable().getName() + "."));
+            }
         }
-
         sb.append(" FROM " + this.schema.getName() + "." + this.name + " " + this.name);
         for (ForeignKey fk : getFks().values()) {
-            sb.append("," + this.schema.getName() + "." + fk.getFkTableName() + " " + fk.getFkTableName());
+            if (!fk.getFkTable().getName().equals(this.getName())) {
+                sb.append("," + this.schema.getName() + "." + fk.getFkTableName() + " " + fk.getFkTableName());
+            }
+            if (!fk.getPkTableName().equals(this.getName())) {
+                sb.append("," + this.schema.getName() + "." + fk.getPkTableName() + " " + fk.getPkTableName());
+            }
         }
         sb.append(" WHERE 1=1 ");
         for (ForeignKey fk : getFks().values()) {

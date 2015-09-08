@@ -40,7 +40,7 @@ function submit(formAction, command, action, pageNum) {
         <li class='active has-sub'><a href='#'><span>Products</span></a>
             <ul>
             <#list servlets as servlet><#t>
-                <li><a href="#" onclick="submit('${appShortName}','${servlet.name}Action','index','1')">${servlet.name}</a></li>
+                <li><a href="#" onclick="submit('','${servlet.name}Action','index','1')">${servlet.name}</a></li>
             </#list>
                 <li class='has-sub'><a href='#'><span>Product 1</span></a>
                     <ul>

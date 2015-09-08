@@ -24,6 +24,8 @@ public class Mapper {
 	
 	protected Integer totalRecords;
 
+    protected String message;
+    
 	public Connection getConnection() throws Exception {
 	    if (ds == null) {
             DataSource ds = (DataSource) new InitialContext().lookup(${appClass}Servlet.DSN);
@@ -80,5 +82,19 @@ public class Mapper {
 	public void setTotalRecords(Integer totalRecords) {
 		this.totalRecords = totalRecords;
 	}
-	
+
+   /**
+     * @return the message
+     */
+    public String getMessage() {
+        return message;
+    }
+
+    /**
+     * @param message
+     *            the message to set
+     */
+    public void setMessage(String message) {
+        this.message = message;
+    }	
 }

@@ -60,6 +60,7 @@ public abstract class FreemarkerDecorator implements IDecorator {
         model.put("date", now);
         model.put("user", app.getUser());
         model.put("appName", app.getName());
+        model.put("appShortName", app.getShortName());
         model.put("appClass", StringUtils.capitalize(app.getShortName()));
         model.put("copyright", app.getCopyright());
         model.put("license", app.getLicenseFile());
