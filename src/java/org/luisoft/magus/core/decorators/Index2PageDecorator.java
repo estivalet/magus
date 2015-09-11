@@ -1,8 +1,14 @@
 package org.luisoft.magus.core.decorators;
 
+import general.util.StringUtils;
+
+import org.luisoft.magus.core.ColumnWrapper;
 import org.luisoft.magus.core.IContext;
 import org.luisoft.magus.core.TableWrapper;
 import org.luisoft.magus.domain.Application;
+import org.luisoft.magus.mapper.ApplicationMapper;
+
+import dbreveng.database.meta.ForeignKey;
 
 /**
  * Create the main JSP page for the application.
@@ -38,8 +44,45 @@ public class Index2PageDecorator extends FreemarkerDecorator {
 
     @Override
     protected void decorateIt() {
-        String tbl = t.getAlias();
-        model.put("clazzName", tbl);
+        for (ColumnWrapper c : t.getColumnsWrapper()) {
+
+            // If a column is in a foreign key to other table then we need to
+            // add a special key in the template to build a combo box for
+            // listing foreign table column values.
+            if (c.isColumnInForeignKey()) {
+                // Load foreign table.
+                ApplicationMapper am = new ApplicationMapper();
+                am.setContext(context);
+                TableWrapper foreignTable = am.fetchApplicationTable(app.getId(), c.getForeignTable());
+
+                String key = c.getCamelCaseName() + "_fk_display";
+                String value = StringUtils.toCamelCase(foreignTable.getOrderByColumn());
+                model.put(key, value);
+
+            }
+        }
+
+        model.put("columns", t.getOrderedColumnsWrapper());
+        model.put("ncolumns", t.getOrderedColumnsWrapper(false));
+        model.put("clazzName", t.getAlias());
+        model.put("clazz", t.getAlias(true));
+        // + "s" to put in plural...
+        // TODO Warning! Getting only the first PK, need to check what to do if a table has more than one PK.
+        model.put("pks", t.getPrimaryKeyColumns().iterator().next());
+        model.put("maxInputSize", 80);
+
+        // TODO Warning getting only the first exported key.
+        model.put("hasExportedKeys", t.hasExportedKeys());
+        if (t.hasExportedKeys()) {
+            ForeignKey fk = (ForeignKey) t.getFks().values().iterator().next();
+            model.put("fks", fk);
+
+            ApplicationMapper am = new ApplicationMapper();
+            TableWrapper fktable = new TableWrapper(fk.getFkTable());
+            fktable = am.fetchApplicationTable(app.getId(), fktable);
+
+            model.put("fkTableColumns", fktable.getOrderedColumnsWrapper());
+        }
     }
 
 }

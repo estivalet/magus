@@ -53,17 +53,27 @@ public class TableWrapper {
         return this.columns.values();
     }
 
-    public List<ColumnWrapper> getOrderedColumnsWrapper() {
+    public List<ColumnWrapper> getOrderedColumnsWrapper(boolean includePk) {
         List<ColumnWrapper> list = new ArrayList<ColumnWrapper>();
 
         for (ColumnWrapper cw : this.columns.values()) {
-            list.add(cw);
+            if (cw.isColumnInPrimaryKey()) {
+                if (includePk) {
+                    list.add(cw);
+                }
+            } else {
+                list.add(cw);
+            }
         }
 
         Collections.sort(list);
 
         return list;
 
+    }
+
+    public List<ColumnWrapper> getOrderedColumnsWrapper() {
+        return getOrderedColumnsWrapper(true);
     }
 
     public String getAlias() {

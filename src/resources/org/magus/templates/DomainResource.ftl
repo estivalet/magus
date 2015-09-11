@@ -16,6 +16,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -52,6 +53,17 @@ public class ${clazz}Resource {
     @Produces(MediaType.APPLICATION_JSON)
     public String listAllJ() {
         return new Gson().toJson(listAll(null));
+    }
+    
+    @Path("/all/json")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String listAllJ(@QueryParam("pageNum") String pageNum) {
+        String page = new Gson().fromJson(pageNum, String.class);
+        String s = new Gson().toJson(listAll(Integer.parseInt(page)));
+        s = "{\"total\":\"" + mapper.getTotalRecords() + "\",\"page\":\"" + pageNum + "\",\"rows\":" + s + "}";
+        return s;
     }
     
     @Path("{id}")
