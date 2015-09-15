@@ -1,0 +1,5 @@
+package org.luisoft.magus.core;
+
+public enum FieldType {
+    TEXTBOX, CHECKBOX, RADIOBUTTON, SELECTBOXFK, TEXTAREA, HIDDEN, SELECTBOX, DATEPICKER, RICHTEXTEDITOR, PNG, PDF
+}

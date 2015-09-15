@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.luisoft.magus.core.ColumnWrapper;
 import org.luisoft.magus.core.FieldOption;
+import org.luisoft.magus.core.FieldType;
 import org.luisoft.magus.core.ICommand;
 import org.luisoft.magus.core.IContext;
 import org.luisoft.magus.core.MagusServlet;
@@ -23,7 +24,6 @@ import org.luisoft.magus.domain.Database;
 import org.luisoft.magus.domain.MagusConfig;
 import org.luisoft.magus.mapper.ApplicationMapper;
 
-import sandbox.ui.FieldType;
 import dbreveng.DBReader;
 import dbreveng.database.DatabaseConnection;
 import dbreveng.database.meta.Column;
