@@ -13,6 +13,7 @@ import javax.sql.DataSource;
 
 import org.luisoft.magus.domain.MagusConfig;
 import org.luisoft.magus.mapper.MagusConfigMapper;
+import org.luisoft.magus.mapper.Mapper;
 
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;

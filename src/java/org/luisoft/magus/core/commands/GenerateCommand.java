@@ -2,39 +2,21 @@ package org.luisoft.magus.core.commands;
 
 import freemarker.template.TemplateException;
 import general.util.IOUtil;
+import general.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.luisoft.magus.core.Decorator;
 import org.luisoft.magus.core.ICommand;
 import org.luisoft.magus.core.IContext;
-import org.luisoft.magus.core.IDecorator;
 import org.luisoft.magus.core.MagusServlet;
 import org.luisoft.magus.core.TableWrapper;
-import org.luisoft.magus.core.decorators.ActionCommandDecorator;
-import org.luisoft.magus.core.decorators.CreatePageDecorator;
-import org.luisoft.magus.core.decorators.DomainDecorator;
-import org.luisoft.magus.core.decorators.DomainMapperDecorator;
-import org.luisoft.magus.core.decorators.DomainModelDecorator;
-import org.luisoft.magus.core.decorators.DomainPKDecorator;
-import org.luisoft.magus.core.decorators.DomainResourceDecorator;
-import org.luisoft.magus.core.decorators.DomainServletDecorator;
-import org.luisoft.magus.core.decorators.EclipseWebClasspathDecorator;
-import org.luisoft.magus.core.decorators.EclipseWebProjectDecorator;
-import org.luisoft.magus.core.decorators.HeaderDecorator;
-import org.luisoft.magus.core.decorators.Index2PageDecorator;
-import org.luisoft.magus.core.decorators.IndexDecorator;
-import org.luisoft.magus.core.decorators.SearchPageDecorator;
-import org.luisoft.magus.core.decorators.SimpleDecorator;
-import org.luisoft.magus.core.decorators.TomcatServerXMLDecorator;
-import org.luisoft.magus.core.decorators.UpdatePageDecorator;
-import org.luisoft.magus.core.decorators.WebXMLDecorator;
 import org.luisoft.magus.domain.Application;
 import org.luisoft.magus.domain.MagusConfig;
 import org.luisoft.magus.mapper.ApplicationMapper;
@@ -43,8 +25,6 @@ public class GenerateCommand implements ICommand {
 
     private IContext context;
     private Application app = new Application();
-
-    private final static Logger LOGGER = Logger.getLogger(GenerateCommand.class.getName());
 
     /*
      * (non-Javadoc)
@@ -57,16 +37,6 @@ public class GenerateCommand implements ICommand {
 
         Long appId = Long.parseLong(request.getParameter("project"));
 
-        // Set application attributes.
-        app.setName(request.getParameter("name"));
-        app.setShortName(request.getParameter("shortName"));
-        app.setPath(request.getParameter("path"));
-        app.setTemplate(request.getParameter("template"));
-
-        // DBReader dbr = (DBReader)
-        // context.getAttribute(MagusServlet.DATABASE);
-        // Map<String, TableWrapper> tables = (Map<String, TableWrapper>) context.getAttribute("tables");
-
         ApplicationMapper am = new ApplicationMapper();
         am.setContext(context);
         app = am.fetchByPrimaryKey(appId);
@@ -74,9 +44,6 @@ public class GenerateCommand implements ICommand {
 
         createWebFolderStructure(true);
         copyFiles(request);
-        executeDecorator(new WebXMLDecorator(app, tables.values(), context));
-        executeDecorator(new HeaderDecorator(app, tables.values(), context));
-        executeDecorator(new IndexDecorator(app, tables.values(), context));
 
         generateCode(appId, tables.values());
 
@@ -95,7 +62,6 @@ public class GenerateCommand implements ICommand {
 
     private void copyFiles(HttpServletRequest request) throws IOException {
         String appPath = request.getServletContext().getRealPath("..");
-        // String template = request.getParameter("template");
         String template = app.getTemplate();
 
         MagusConfig mc = (MagusConfig) context.getAttribute(MagusServlet.MAGUS_CONFIG);
@@ -125,51 +91,38 @@ public class GenerateCommand implements ICommand {
     }
 
     /**
-     * @param collection
+     * @param tables
      * @throws Exception
      */
-    private void generateCode(Long appId, Collection<TableWrapper> collection) throws Exception {
-        createWebEclipseProject();
+    private void generateCode(Long appId, Collection<TableWrapper> tables) throws Exception {
+        MagusConfig mc = (MagusConfig) context.getAttribute(MagusServlet.MAGUS_CONFIG);
 
-        executeDecorator(new DomainServletDecorator(app, context));
+        executeDecorator(new Decorator(app, context, "server/servlet/config/webclasspath.ftl", app.getPath(), "/.classpath"));
+        executeDecorator(new Decorator(app, context, "server/servlet/config/webproject.ftl", app.getPath(), "/.project"));
+        executeDecorator(new Decorator(app, context, "server/servlet/config/tomcatserverxml.ftl", app.getPath(), "/server.xml"));
+        executeDecorator(new Decorator(app, context, "server/servlet/DomainServlet.ftl", null, "/server/" + StringUtils.capitalize(app.getShortName()) + "Servlet.java"));
+        executeDecorator(new Decorator(app, context, "server/servlet/config/webxml.ftl", app.getPath() + "/WebContent/WEB-INF/", "web.xml"));
+        executeDecorator(new Decorator(app, context, "client/web/template/" + app.getTemplate() + "/pages/header.ftl", app.getPath() + "/WebContent/WEB-INF/jsp/", "header.jsp"));
+        executeDecorator(new Decorator(app, context, "client/web/template/" + app.getTemplate() + "/pages/index.ftl", app.getPath() + "/WebContent/WEB-INF/jsp/", "index.jsp"));
+        executeDecorator(new Decorator(app, context, "server/model/Mapper.ftl", null, "/mapper/Mapper.java"));
+        executeDecorator(new Decorator(app, context, "server/servlet/ICommand.ftl", null, "/core/ICommand.java"));
+        executeDecorator(new Decorator(app, context, "server/servlet/IContext.ftl", null, "/core/IContext.java"));
+        executeDecorator(new Decorator(app, context, "server/servlet/DefaultContext.ftl", null, "/core/DefaultContext.java"));
 
-        for (TableWrapper table : collection) {
+        for (TableWrapper table : tables) {
             // Load table meta data from database.
-            // MappedTable t = collection.getTable(table.getName());
             ApplicationMapper am = new ApplicationMapper();
             table = am.fetchApplicationTable(appId, table);
-
-            // Generate "model" classes.
-            executeDecorator(new DomainDecorator(app, table, context));
-            if (table.hasCompositePK()) {
-                executeDecorator(new DomainPKDecorator(app, table, context));
-            }
-            executeDecorator(new DomainModelDecorator(app, table, context));
-            executeDecorator(new DomainResourceDecorator(app, table, context));
-            executeDecorator(new DomainMapperDecorator(app, table, context));
-            executeDecorator(new Index2PageDecorator(app, table, context));
-            executeDecorator(new CreatePageDecorator(app, table, context));
-            executeDecorator(new UpdatePageDecorator(app, table, context));
-            executeDecorator(new SearchPageDecorator(app, table, context));
-            executeDecorator(new ActionCommandDecorator(app, table, context));
+            executeDecorator(new Decorator(app, table, context, "server/model/Domain.ftl", null, "/domain/" + table.getCamelCaseName(true) + ".java"));
+            executeDecorator(new Decorator(app, table, context, "server/model/DomainModel.ftl", null, "/model/" + table.getCamelCaseName(true) + "Model.java"));
+            executeDecorator(new Decorator(app, table, context, "server/rest/DomainResource.ftl", null, "/resource/" + table.getCamelCaseName(true) + "Resource.java"));
+            executeDecorator(new Decorator(app, table, context, "server/model/DomainMapper.ftl", null, "/mapper/" + table.getCamelCaseName(true) + "Mapper.java"));
+            executeDecorator(new Decorator(app, table, context, "client/web/template/" + app.getTemplate() + "/pages/index2.ftl", app.getPath() + mc.getParameter("jsp.path"), "/" + table.getAlias() + "/index.jsp"));
+            executeDecorator(new Decorator(app, table, context, "client/web/template/" + app.getTemplate() + "/pages/create.ftl", app.getPath() + mc.getParameter("jsp.path"), "/" + table.getAlias() + "/create.jsp"));
+            executeDecorator(new Decorator(app, table, context, "client/web/template/" + app.getTemplate() + "/pages/update.ftl", app.getPath() + mc.getParameter("jsp.path"), "/" + table.getAlias() + "/update.jsp"));
+            executeDecorator(new Decorator(app, table, context, "client/web/template/" + app.getTemplate() + "/pages/search.ftl", app.getPath() + mc.getParameter("jsp.path"), "/" + table.getAlias() + "/search.jsp"));
+            executeDecorator(new Decorator(app, table, context, "server/servlet/ActionCommand.ftl", null, "/server/" + table.getCamelCaseName() + "/commands/" + table.getCamelCaseName(true) + "ActionCommand.java"));
         }
-        executeDecorator(new SimpleDecorator(app, context, "mapper", "Mapper"));
-        executeDecorator(new SimpleDecorator(app, context, "core", "ICommand"));
-        executeDecorator(new SimpleDecorator(app, context, "core", "IContext"));
-        executeDecorator(new SimpleDecorator(app, context, "core", "DefaultContext"));
-    }
-
-    /**
-     * @throws IOException
-     * @throws TemplateException
-     */
-    private void createWebEclipseProject() throws IOException, TemplateException {
-
-        executeDecorator(new EclipseWebClasspathDecorator(app, context));
-        executeDecorator(new EclipseWebProjectDecorator(app, context));
-        // executeDecorator(new BuildPropertiesDecorator(app, context));
-        // executeDecorator(new BuildXMLDecorator(app, context));
-        executeDecorator(new TomcatServerXMLDecorator(app, context));
     }
 
     /**
@@ -177,8 +130,7 @@ public class GenerateCommand implements ICommand {
      * @throws IOException
      * @throws TemplateException
      */
-    private void executeDecorator(IDecorator d) throws IOException, TemplateException {
-        IOUtil.write(d.getFullPath(), d.decorate());
+    private void executeDecorator(Decorator d) throws Exception {
+        IOUtil.write(d.getPath(), d.decorate());
     }
-
 }

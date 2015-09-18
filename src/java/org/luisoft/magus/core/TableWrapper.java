@@ -257,4 +257,19 @@ public class TableWrapper {
         return this.table.hasExportedKeys();
     }
 
+    public List<TableWrapper> getWrappedFks() {
+        ArrayList<TableWrapper> ats = new ArrayList<TableWrapper>();
+        for (ForeignKey fk : this.table.getFks().values()) {
+
+            Table tmp = new Table();
+            tmp.setName(fk.getPkTableName());
+            tmp.setHasExportedKeys(fk.getExported());
+            TableWrapper appt = new TableWrapper(tmp);
+
+            ats.add(appt);
+
+        }
+        return ats;
+    }
+
 }

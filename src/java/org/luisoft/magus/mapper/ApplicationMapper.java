@@ -12,7 +12,6 @@ import java.util.Map;
 import org.luisoft.magus.core.ColumnWrapper;
 import org.luisoft.magus.core.FieldOption;
 import org.luisoft.magus.core.MagusServlet;
-import org.luisoft.magus.core.Mapper;
 import org.luisoft.magus.core.TableWrapper;
 import org.luisoft.magus.domain.Application;
 import org.luisoft.magus.domain.ApplicationDatabase;

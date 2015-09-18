@@ -35,7 +35,7 @@
             </parameter>
 			
 			<parameter name="template.path">
-                <value>/org/magus/templates/</value>
+                <value>/org/magus/cartridges/</value>
                 <description>Magus internal templates path.</description>
 			</parameter>
 

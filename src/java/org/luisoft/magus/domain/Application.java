@@ -2,6 +2,7 @@ package org.luisoft.magus.domain;
 
 import general.db.annotations.MappedColumn;
 import general.db.annotations.MappedTable;
+import general.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,6 +89,10 @@ public class Application {
         return shortName;
     }
 
+    public String getShortName(boolean capitalize) {
+        return StringUtils.capitalize(getShortName());
+    }
+
     /**
      * @param shortName
      *            the shortName to set
@@ -129,19 +134,11 @@ public class Application {
     /**
      * @return the javaPackage
      */
-    public String getJavaPackage() {
+    public String getPackage() {
         if (javaPackage == null) {
             return this.shortName;
         }
         return javaPackage;
-    }
-
-    /**
-     * @param javaPackage
-     *            the javaPackage to set
-     */
-    public void setJavaPackage(String javaPackage) {
-        this.javaPackage = javaPackage;
     }
 
     /**
@@ -277,4 +274,11 @@ public class Application {
         this.description = description;
     }
 
+    public String getFullPath() {
+        return this.getPath() + this.getSrcFolder() + this.getPackage();
+    }
+
+    public List<TableWrapper> getTables() {
+        return this.tables;
+    }
 }
