@@ -53,6 +53,21 @@ public class TableWrapper {
         return this.columns.values();
     }
 
+    public Collection<ColumnWrapper> getColumnsWrapper(boolean includePk) {
+        List<ColumnWrapper> list = new ArrayList<ColumnWrapper>();
+
+        for (ColumnWrapper cw : this.columns.values()) {
+            if (cw.isColumnInPrimaryKey()) {
+                if (includePk) {
+                    list.add(cw);
+                }
+            } else {
+                list.add(cw);
+            }
+        }
+        return list;
+    }
+
     public List<ColumnWrapper> getOrderedColumnsWrapper(boolean includePk) {
         List<ColumnWrapper> list = new ArrayList<ColumnWrapper>();
 
@@ -270,6 +285,22 @@ public class TableWrapper {
 
         }
         return ats;
+    }
+
+    public List<ForeignKey> getExportedForeignKey() {
+        return this.table.getExportedForeignKey();
+    }
+
+    public Collection<Column> getExportedKeyColumns() {
+        return this.table.getExportedKeyColumns();
+    }
+
+    public List<ColumnWrapper> getExportedWrappedKeyColumns() {
+        List<ColumnWrapper> cols = new ArrayList<ColumnWrapper>();
+        for (Column c : this.table.getExportedKeyColumns()) {
+            cols.add(new ColumnWrapper(c));
+        }
+        return cols;
     }
 
 }

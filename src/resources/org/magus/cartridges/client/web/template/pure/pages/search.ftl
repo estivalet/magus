@@ -77,7 +77,7 @@ function filterSearchStatus() {
         <#list columns as column><#t>
             var cell${column_index} = row.insertCell(${column_index});
             <#if (column.getCustomFieldType() == 9)>
-            cell${column_index}.innerHTML = "<img src='$?command=${clazzDomainName}Action&action=get${column.getCamelCaseName(true)}&id="+row.id+"' width='50' alt=''>";
+            cell${column_index}.innerHTML = "<img src='?command=${clazzDomainName}Action&action=get${column.getCamelCaseName(true)}&id="+row.id+"' width='50' alt=''>";
             <#else>
             <#if (column.isColumnInForeignKey())>
             cell${column_index}.innerHTML = xml_${column.getForeignTableAlias()};
@@ -272,7 +272,7 @@ window.onload = function() {
         <#-- Details table -->
         <div class="table-container">
             <div class="table-header">
-                <div class="table-header-text">Details</div>
+                <div class="table-header-text">Details ${fk.getFkTable().getName()}</div>
             </div>
             <div class="table">
                 <table>

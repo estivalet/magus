@@ -105,7 +105,7 @@ public class ${clazzDomainName} implements Serializable, Cloneable {
         <#list allColumns as column><#t>
         <#if (column.isColumnInForeignKey())>
         <#assign fkDisplay="${column.getCamelCaseName()}" + "_fk_display">
-        xml += "<${column.getAlias()}><![CDATA[" + ${column.getForeignTableAlias()}.get${.vars[fkDisplay]}() + "]]></${column.getAlias()}>";
+        xml += "<${column.getAlias()}><![CDATA[" + ${column.getForeignTableAlias()}.get${.vars[fkDisplay]?cap_first}() + "]]></${column.getAlias()}>";
         <#else>
         <#if (column.isColumnInPrimaryKey())>
         xml += "<${column.getAlias()} pk=\"true\"><![CDATA[" + ${column.getAlias()} + "]]></${column.getAlias()}>";

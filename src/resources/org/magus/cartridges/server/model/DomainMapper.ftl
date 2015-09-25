@@ -127,7 +127,7 @@ public class ${clazzName} extends Mapper {
             }
             con = getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
-            <#list columns as column>
+            <#list columnsMinusPk as column>
             <#if (column.getPSJavaMethod() != "Bytes" && !column.isColumnInForeignKey())>
             if(domain.get${column.getCamelCaseName(true)}() != null) {
             <#if (column.getPSJavaMethod() = 'String')>
@@ -271,7 +271,7 @@ public class ${clazzName} extends Mapper {
             </#if>
             </#list>
             int n = ps.executeUpdate();
-            super.message = "No rows create!";
+            super.message = "No rows created!";
             if (n > 0) {
                 super.message = "Created successfully " + n + " row(s)!";
             }

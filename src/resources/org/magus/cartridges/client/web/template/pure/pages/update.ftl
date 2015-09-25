@@ -14,7 +14,7 @@
                 <span id="messageText"></span>
             </div>
 
-            <form action="" method="post" id="myform">
+            <form action="" method="post" id="myform" enctype="multipart/form-data">
             <input type="hidden" id="command" name="command" value="${clazzDomainName}Action"/>
             <input type="hidden" id="${pks.getCamelCaseName()}" name="${pks.getCamelCaseName()}" value="<c:out value='<#noparse>${requestScope.</#noparse>${clazz.getAlias()}.${pks.getCamelCaseName()}}'/>"/>
             <#list columnsMinusPk as column><#t>

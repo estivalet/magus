@@ -4,6 +4,7 @@ import general.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.List;
@@ -144,7 +145,7 @@ public class Table extends NamedObject {
      */
     public String getSQLInsert(boolean includePk) {
         StringBuffer sb = new StringBuffer("INSERT INTO " + this.schema.getName() + "." + this.name + "(");
-        String columns = this.listColumnsAsCommaSeparated(this.getColumns(includePk), false, false);
+        String columns = this.listColumnsAsCommaSeparated(this.getOrderedColumns(includePk), false, false);
         sb.append(columns);
         sb.append(") VALUES (" + StringUtils.repeatChar('?', StringUtils.countChars(columns, ',') + 1, ",") + ")");
         return sb.toString();
@@ -158,7 +159,7 @@ public class Table extends NamedObject {
      */
     public String getSQLUpdate() {
         StringBuffer sb = new StringBuffer("UPDATE " + this.schema.getName() + "." + this.name + " SET ");
-        sb.append(this.listColumnsAsCommaSeparated(this.getColumns(false), true, false));
+        sb.append(this.listColumnsAsCommaSeparated(this.getOrderedColumns(false), true, false));
         sb.append(" WHERE " + this.listColumnsAsCommaSeparated(this.getPrimaryKeyColumns(), true, false));
         return sb.toString();
     }
@@ -288,6 +289,17 @@ public class Table extends NamedObject {
         }
     }
 
+    public List<ForeignKey> getExportedForeignKey() {
+        List<ForeignKey> fks = new ArrayList<ForeignKey>();
+        for (ForeignKey fk : this.fks.values()) {
+            if (fk.getExported()) {
+                fks.add(fk);
+            }
+        }
+
+        return fks;
+    }
+
     /**
      * @param fk
      */
@@ -365,6 +377,17 @@ public class Table extends NamedObject {
         return columns;
     }
 
+    public Collection<Column> getExportedKeyColumns() {
+        Collection<Column> columns = new ArrayList<Column>();
+        for (ForeignKey fk : fks.values()) {
+            if (fk.getExported()) {
+                System.out.println("xxxx " + fk.getFkTableName() + " " + fk.getFkColumnName());
+                columns.add(fk.getFkTable().getColumn(fk.getFkColumnName()));
+            }
+        }
+        return columns;
+    }
+
     /**
      * @param columnName
      * @return
@@ -409,6 +432,22 @@ public class Table extends NamedObject {
                 columns.add(column);
             }
         }
+        return columns;
+    }
+
+    private List<Column> getOrderedColumns(boolean includePk) {
+        List<Column> columns = new ArrayList<Column>();
+        for (Column column : this.columns.values()) {
+            boolean include = true;
+            if (this.isColumnInPrimaryKey(column.getName()) && !includePk) {
+                include = false;
+            }
+            if (include) {
+                columns.add(column);
+            }
+        }
+        Collections.sort(columns);
+
         return columns;
     }
 

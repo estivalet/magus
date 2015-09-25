@@ -77,14 +77,18 @@ public class Decorator {
         model.put("columnsMinusPk", this.table.getOrderedColumnsWrapper(false));
         // TODO Warning getting only the first exported key.
         if (this.table.hasExportedKeys()) {
-            ForeignKey fk = (ForeignKey) this.table.getFks().values().iterator().next();
+            // ForeignKey fk = (ForeignKey) this.table.getFks().values().iterator().next();
+            ForeignKey fk = (ForeignKey) this.table.getExportedForeignKey().iterator().next();
             model.put("fk", fk);
 
             ApplicationMapper am = new ApplicationMapper();
             TableWrapper fktable = new TableWrapper(fk.getFkTable());
             fktable = am.fetchApplicationTable(app.getId(), fktable);
 
-            model.put("fkTableColumns", fktable.getOrderedColumnsWrapper());
+            System.out.println("TABLE-->" + this.table.getAlias() + " " + fk.getFkTable().getName());
+
+            // model.put("fkTableColumns", fktable.getOrderedColumnsWrapper());
+            model.put("fkTableColumns", fktable.getColumnsWrapper());
         }
         //
 
@@ -177,7 +181,8 @@ public class Decorator {
                 TableWrapper foreignTable = am.fetchApplicationTable(app.getId(), c.getForeignTable());
 
                 String key = c.getCamelCaseName() + "_fk_display";
-                String value = StringUtils.toCamelCase(foreignTable.getOrderByColumn(), true);
+                // String value = StringUtils.toCamelCase(foreignTable.getOrderByColumn(), true);
+                String value = StringUtils.toCamelCase(foreignTable.getOrderByColumn(), false);
                 model.put(key, value);
 
             }

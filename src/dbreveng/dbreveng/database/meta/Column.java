@@ -2,7 +2,7 @@ package dbreveng.database.meta;
 
 import general.util.StringUtils;
 
-public class Column extends NamedObject {
+public class Column extends NamedObject implements Comparable<Column> {
 
     /** Bidirectional access... */
     private Table table;
@@ -272,6 +272,14 @@ public class Column extends NamedObject {
         // example, you don't need apostrophe for numeric columns. Refactor this
         // code and remove this comment.
         return "'" + value + "'";
+    }
+
+    @Override
+    public int compareTo(Column o) {
+        int a = o.ordinalPosition;
+        int b = ordinalPosition;
+
+        return a > b ? -1 : a < b ? 1 : 0;
     }
 
 }
