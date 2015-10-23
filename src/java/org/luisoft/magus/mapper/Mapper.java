@@ -22,12 +22,12 @@
 
 package org.luisoft.magus.mapper;
 
+import general.server.IContext;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 
 import javax.sql.DataSource;
-
-import org.luisoft.magus.core.IContext;
 
 public class Mapper {
     private static DataSource ds;

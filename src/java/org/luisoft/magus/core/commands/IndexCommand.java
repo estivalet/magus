@@ -1,11 +1,12 @@
 package org.luisoft.magus.core.commands;
 
+import general.server.ICommand;
+import general.server.IContext;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.luisoft.magus.core.ICommand;
-import org.luisoft.magus.core.IContext;
 import org.luisoft.magus.mapper.ApplicationMapper;
 
 /**
@@ -35,8 +36,9 @@ public class IndexCommand implements ICommand {
             page = "/index5.jsp";
         } else if ("open".equals(action)) {
             page = "/open.jsp";
+        } else if ("fbuilder".equals(action)) {
+            page = "form_builder/index.jsp";
         }
-
         return null;
     }
 

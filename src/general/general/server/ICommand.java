@@ -1,4 +1,4 @@
-package org.luisoft.magus.core;
+package general.server;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

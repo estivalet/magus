@@ -2,6 +2,7 @@ package org.luisoft.magus.core;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+import general.server.IContext;
 import general.util.DateUtils;
 import general.util.StringUtils;
 

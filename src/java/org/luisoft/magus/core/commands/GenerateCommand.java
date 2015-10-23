@@ -1,6 +1,8 @@
 package org.luisoft.magus.core.commands;
 
 import freemarker.template.TemplateException;
+import general.server.ICommand;
+import general.server.IContext;
 import general.util.IOUtil;
 import general.util.StringUtils;
 
@@ -13,8 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.luisoft.magus.core.Decorator;
-import org.luisoft.magus.core.ICommand;
-import org.luisoft.magus.core.IContext;
 import org.luisoft.magus.core.MagusServlet;
 import org.luisoft.magus.core.TableWrapper;
 import org.luisoft.magus.domain.Application;

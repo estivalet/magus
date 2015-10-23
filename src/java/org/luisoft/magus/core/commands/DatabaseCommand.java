@@ -1,5 +1,8 @@
 package org.luisoft.magus.core.commands;
 
+import general.server.ICommand;
+import general.server.IContext;
+
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.sql.Types;
@@ -16,8 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.luisoft.magus.core.ColumnWrapper;
 import org.luisoft.magus.core.FieldOption;
 import org.luisoft.magus.core.FieldType;
-import org.luisoft.magus.core.ICommand;
-import org.luisoft.magus.core.IContext;
 import org.luisoft.magus.core.MagusServlet;
 import org.luisoft.magus.core.TableWrapper;
 import org.luisoft.magus.domain.Database;

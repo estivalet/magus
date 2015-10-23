@@ -1,4 +1,4 @@
-package org.luisoft.magus.core;
+package general.server;
 
 public interface IContext {
 

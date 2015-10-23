@@ -77,6 +77,9 @@ html, body {
     bottom:0;
     top:auto;
     border-top:1px solid black;
+    background:url(../images/header.png) no-repeat;
+    background-size: 100% 100%;
+    
 /*    background:#076dc1;*/
 }
 #content {
@@ -96,7 +99,7 @@ html, body {
 .top_header { 
   color:#a4c5ee; 
   min-width:1220px;
-  background:url(images/blue_header.jpgx) no-repeat;
+  background:url(../images/header.png) no-repeat;
   background-size: 100% 100%;
   border-bottom:1px solid black;
   /*

@@ -17,6 +17,9 @@ import org.luisoft.magus.mapper.Mapper;
 
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
+import general.server.ICommand;
+import general.server.IContext;
+import general.server.ServletWebContext;
 
 /**
  * Magus main controller.
@@ -58,7 +61,7 @@ public class MagusServlet extends HttpServlet {
         cfg.setObjectWrapper(new DefaultObjectWrapper());
         cfg.setClassForTemplateLoading(MagusServlet.class, magusConfig.getParameter("template.path"));
 
-        context = new MagusWebContext(this.getServletContext());
+        context = new ServletWebContext(this.getServletContext());
         context.setAttribute(MAGUS_CONFIG, magusConfig);
         context.setAttribute(FREEMARKER_CONFIG, cfg);
 

@@ -1,12 +1,12 @@
-package org.luisoft.magus.core;
+package general.server;
 
 import javax.servlet.ServletContext;
 
-public class MagusWebContext implements IContext {
+public class ServletWebContext implements IContext {
 
 	private ServletContext context;
 
-	public MagusWebContext(ServletContext context) {
+	public ServletWebContext(ServletContext context) {
 		this.context = context;
 	}
 

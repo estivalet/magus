@@ -1,12 +1,13 @@
 package org.luisoft.magus.core.commands;
 
+import general.server.ICommand;
+import general.server.IContext;
+
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.luisoft.magus.core.ICommand;
-import org.luisoft.magus.core.IContext;
 import org.luisoft.magus.domain.Application;
 import org.luisoft.magus.domain.ApplicationDatabase;
 import org.luisoft.magus.domain.Database;
