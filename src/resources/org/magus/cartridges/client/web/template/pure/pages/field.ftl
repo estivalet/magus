@@ -33,6 +33,9 @@
                     <#case 9><#-- FILE UPLOAD -->                    
                 <input type="file" id="${id}" name="${id}"/>
                     <#break>
+                    <#case 10><#-- FILE UPLOAD (PDF)-->                    
+                <input type="file" id="${id}" name="${id}"/>
+                    <#break>
                     <#default>
                         <#-- SELECT BOX FK If attribute is a foreign key then create a combo box with the values for selection -->
                         <#if (column.isColumnInForeignKey())>

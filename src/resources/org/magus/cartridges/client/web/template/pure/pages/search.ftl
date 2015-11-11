@@ -55,10 +55,12 @@ function filterSearchStatus() {
         
         for(var i=0; i < length; i++) {
         <#list columns as column><#t>
+            <#if (column.visible == 'Y')>
             <#if (column.isColumnInForeignKey())>
             xml_${column.getForeignTableAlias()} = checkNodeUndefined(xml.getElementsByTagName("${column.getForeignTableAlias()}")[i].childNodes[0]);
             <#else>
             xml_${column.getCamelCaseName()} = checkNodeUndefined(xml.getElementsByTagName("${column.getCamelCaseName()}")[i].childNodes[0]);
+            </#if>
             </#if>
         </#list>            
 
@@ -73,27 +75,31 @@ function filterSearchStatus() {
                 callServer("?command=${fk.getFkCamelCaseName(true)}Action&action=filter&${fk.getFkColumnCamelCase(false)}=" + this.id, filterDetailStatus);
             };
             </#if>
-                        
-        <#list columns as column><#t>
-            var cell${column_index} = row.insertCell(${column_index});
+                    
+            <#assign col = 0>
+            <#list columns as column><#t>
+            <#if (column.visible == 'Y')>
+            var cell${col} = row.insertCell(${col});
             <#if (column.getCustomFieldType() == 9)>
-            cell${column_index}.innerHTML = "<img src='?command=${clazzDomainName}Action&action=get${column.getCamelCaseName(true)}&id="+row.id+"' width='50' alt=''>";
+            cell${col}.innerHTML = "<img src='?command=${clazzDomainName}Action&action=get${column.getCamelCaseName(true)}&id="+row.id+"' width='50' alt=''>";
             <#else>
             <#if (column.isColumnInForeignKey())>
-            cell${column_index}.innerHTML = xml_${column.getForeignTableAlias()};
+            cell${col}.innerHTML = xml_${column.getForeignTableAlias()};
             <#else>
             <#if (column.isColumnInPrimaryKey())>
-            cell${column_index}.innerHTML = "<a href=\"#\" onclick=\"edit('','${clazzDomainName}Action','update','" + xml_${column.getCamelCaseName()} + "')\">" + xml_${column.getCamelCaseName()} + "</a>";
+            cell${col}.innerHTML = "<a href=\"#\" onclick=\"edit('','${clazzDomainName}Action','update','" + xml_${column.getCamelCaseName()} + "')\">" + xml_${column.getCamelCaseName()} + "</a>";
             <#assign pkColumn="${column.getCamelCaseName()}">
             <#else>            
-            cell${column_index}.innerHTML = xml_${column.getCamelCaseName()};
+            cell${col}.innerHTML = xml_${column.getCamelCaseName()};
             </#if>
             </#if>
             </#if>
-        </#list>
-            var cell${columns?size} = row.insertCell(${columns?size});
-            cell${columns?size}.innerHTML = "<a href=\"#\" onclick=\"edit('','${clazzDomainName}Action','update','" + xml_${pkColumn} + "')\"><img src=\"css/pimpa_yes.gif\" alt=\"picture\" class=\"tabpimpa\" height=\"13\" width=\"13\"></a>";
-            cell${columns?size}.innerHTML += "&nbsp;<a href=\"#\" onclick=\"edit('','${clazzDomainName}Action','delete','" + xml_${pkColumn} + "')\"><img src=\"css/pimpa_no.gif\" alt=\"picture\" class=\"tabpimpa\" height=\"13\" width=\"13\"></a>";
+            <#assign col = col + 1>
+            </#if>
+            </#list>
+            var cell${col} = row.insertCell(${col});
+            cell${col}.innerHTML = "<a href=\"#\" onclick=\"edit('','${clazzDomainName}Action','update','" + xml_${pkColumn} + "')\"><img src=\"css/pimpa_yes.gif\" alt=\"picture\" class=\"tabpimpa\" height=\"13\" width=\"13\"></a>";
+            cell${col}.innerHTML += "&nbsp;<a href=\"#\" onclick=\"edit('','${clazzDomainName}Action','delete','" + xml_${pkColumn} + "')\"><img src=\"css/pimpa_no.gif\" alt=\"picture\" class=\"tabpimpa\" height=\"13\" width=\"13\"></a>";
             
         }
         
@@ -249,7 +255,7 @@ window.onload = function() {
                     <thead>
                         <tr>
                         <#list columns as column><#t>
-                            <#if (column.visible = 'Y')>
+                            <#if (column.visible == 'Y')>
                                 <#if (column.isColumnInForeignKey())>
                         <th>${column.getForeignTableAlias()}</th>
                                 <#else>
@@ -279,7 +285,7 @@ window.onload = function() {
                     <thead>
                         <tr>
                             <#list fkTableColumns as column><#t>
-                                <#if (column.visible = 'Y')>
+                                <#if (column.visible == 'Y')>
                                     <#if (column.isColumnInForeignKey())>
                             <th>${column.getForeignTableAlias()}</th>
                                     <#else>

@@ -78,6 +78,7 @@
                                 <li><label for="projectShortName"><strong>Short Name</strong></label> <input id="projectShortName" name="projectShortName"
                                     class="text medium" /></li>
                                 <li><label for="template"><strong>Template</strong></label> <select id="template" name="template" class="input_short">
+                                        <option value="pure" selected="selected">pure</option>
                                         <option value="black">Black</option>
                                         <option value="boxieblue">Boxie Blue</option>
                                 </select></li>
