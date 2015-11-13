@@ -70,7 +70,14 @@ public class Decorator {
         model.put("clazz", this.table);
         model.put("clazzDomainName", this.table.getAlias(true));
 
-        model.put("columns", this.table.getColumnsWrapper());
+        // Collections.sort(this.table.getColumnsWrapper(), new Comparator<ColumnWrapper>() {
+        // public int compare(ColumnWrapper o1, ColumnWrapper o2) {
+        // return o1.getDisplayOrder() - o2.getDisplayOrder();
+        // }
+        // });
+        // model.put("columns", this.table.getColumnsWrapper());
+        model.put("columns", this.table.getOrderedColumnsWrapper(true));
+
         // TODO Warning! Getting only the first PK, need to check what to do if a table has more than one PK.
         model.put("pks", this.table.getPrimaryKeyColumns().iterator().next());
         model.put("fks", this.table.getWrappedFks());

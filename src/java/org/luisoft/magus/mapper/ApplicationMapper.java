@@ -373,7 +373,7 @@ public class ApplicationMapper extends Mapper {
      * @return
      */
     private Long fetchApplicationTableColumnId(Long tableId, String columnName) {
-        String sql = "select * from mw_field where table_id=? and name=?";
+        String sql = "select * from mw_field where table_id=? and name=? order by display_order";
 
         ResultSet rs = null;
         PreparedStatement ps = null;
@@ -594,7 +594,7 @@ public class ApplicationMapper extends Mapper {
                 tw.setOrderBy(rs.getString("orderby"));
 
                 Long tableId = rs.getLong("id");
-                sql = "select * from mw_field where table_id = ?";
+                sql = "select * from mw_field where table_id = ? order by display_order";
                 ps2 = con.prepareStatement(sql);
                 ps2.setLong(1, tableId);
                 rs2 = ps2.executeQuery();
@@ -685,7 +685,7 @@ public class ApplicationMapper extends Mapper {
                 tw.setOrderBy(rs.getString("orderby"));
 
                 Long tableId = rs.getLong("id");
-                sql = "select * from mw_field where table_id = ?";
+                sql = "select * from mw_field where table_id = ? order by display_order";
                 ps2 = con.prepareStatement(sql);
                 ps2.setLong(1, tableId);
                 rs2 = ps2.executeQuery();
@@ -698,7 +698,7 @@ public class ApplicationMapper extends Mapper {
                     cw.setInputMask(rs2.getString("mask"));
 
                     // Look for columns options metadata information.
-                    sql = "select * from mw_field_option where field_id = ?";
+                    sql = "select * from mw_field_option where field_id = ? order by display_order";
                     ps3 = con.prepareStatement(sql);
                     ps3.setLong(1, rs2.getLong("id"));
                     rs3 = ps3.executeQuery();
@@ -773,7 +773,7 @@ public class ApplicationMapper extends Mapper {
                 tw = new TableWrapper(dbr.getTable(rs.getString("name")));
 
                 Long tableId = rs.getLong("id");
-                sql = "select * from mw_field where table_id = ?";
+                sql = "select * from mw_field where table_id = ? order by display_order";
                 ps2 = con.prepareStatement(sql);
                 ps2.setLong(1, tableId);
                 rs2 = ps2.executeQuery();
@@ -786,7 +786,7 @@ public class ApplicationMapper extends Mapper {
                     cw.setInputMask(rs2.getString("mask"));
 
                     // Look for columns options metadata information.
-                    sql = "select * from mw_field_option where field_id = ?";
+                    sql = "select * from mw_field_option where field_id = ? order by display_order";
                     ps3 = con.prepareStatement(sql);
                     ps3.setLong(1, rs2.getLong("id"));
                     rs3 = ps3.executeQuery();
