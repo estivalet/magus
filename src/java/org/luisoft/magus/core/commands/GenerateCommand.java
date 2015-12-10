@@ -121,6 +121,7 @@ public class GenerateCommand implements ICommand {
             executeDecorator(new Decorator(app, table, context, "client/web/template/" + app.getTemplate() + "/pages/create.ftl", app.getPath() + mc.getParameter("jsp.path"), "/" + table.getAlias() + "/create.jsp"));
             executeDecorator(new Decorator(app, table, context, "client/web/template/" + app.getTemplate() + "/pages/update.ftl", app.getPath() + mc.getParameter("jsp.path"), "/" + table.getAlias() + "/update.jsp"));
             executeDecorator(new Decorator(app, table, context, "client/web/template/" + app.getTemplate() + "/pages/search.ftl", app.getPath() + mc.getParameter("jsp.path"), "/" + table.getAlias() + "/search.jsp"));
+            executeDecorator(new Decorator(app, table, context, "client/web/template/" + app.getTemplate() + "/pages/search_js.ftl", app.getPath() + mc.getParameter("jsp.path"), "/" + table.getAlias() + "/search.js"));
             executeDecorator(new Decorator(app, table, context, "server/servlet/ActionCommand.ftl", null, "/server/" + table.getCamelCaseName() + "/commands/" + table.getCamelCaseName(true) + "ActionCommand.java"));
         }
     }
