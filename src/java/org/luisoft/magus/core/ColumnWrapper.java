@@ -165,6 +165,17 @@ public class ColumnWrapper implements Comparable<ColumnWrapper> {
         return StringUtils.toCamelCase(at.getAlias() + "." + fk.getPkColumnName());
     }
 
+    public String getForeignTableColumnPkAlias() {
+
+        ForeignKey fk = this.column.getTable().getForeignKey(this.column.getName());
+
+        Table tmp = new Table();
+        tmp.setName(fk.getPkTableName());
+        TableWrapper at = new TableWrapper(tmp);
+
+        return StringUtils.toCamelCase(fk.getPkColumnName());
+    }
+
     public String getForeignTable() {
         return this.column.getForeignTable();
     }

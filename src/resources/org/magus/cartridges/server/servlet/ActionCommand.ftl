@@ -61,7 +61,7 @@ public class ${clazzName} implements ICommand {
             model = new ${clazz.getAlias(true)}Model(Integer.parseInt(request.getParameter("${pks.getCamelCaseName()}")));
             request.setAttribute("${clazz.getAlias()}", model);
             byte[] data = model.get${column.getCamelCaseName(true)}();
-            if (data.length > 0) {
+            if (data != null) {
                 response.setContentType("image/png");
                 response.setContentLength(data.length);
                 OutputStream out = response.getOutputStream();
@@ -89,7 +89,7 @@ public class ${clazzName} implements ICommand {
         } else if("filter".equals(action)) {
             filter(request, response);
         } else if ("index".equals(action)) {
-            this.page = "search.jsp";
+            this.page = "index.jsp";
             request.setAttribute("firstTime", "Y");
             return null;            
 		} else {

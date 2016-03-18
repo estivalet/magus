@@ -118,6 +118,7 @@ public class GenerateCommand implements ICommand {
             executeDecorator(new Decorator(app, table, context, "server/rest/DomainResource.ftl", null, "/resource/" + table.getCamelCaseName(true) + "Resource.java"));
             executeDecorator(new Decorator(app, table, context, "server/model/DomainMapper.ftl", null, "/mapper/" + table.getCamelCaseName(true) + "Mapper.java"));
             executeDecorator(new Decorator(app, table, context, "client/web/template/" + app.getTemplate() + "/pages/index2.ftl", app.getPath() + mc.getParameter("jsp.path"), "/" + table.getAlias() + "/index.jsp"));
+            executeDecorator(new Decorator(app, table, context, "client/web/template/" + app.getTemplate() + "/pages/index_js.ftl", app.getPath() + mc.getParameter("jsp.path"), "/" + table.getAlias() + "/index.js"));
             executeDecorator(new Decorator(app, table, context, "client/web/template/" + app.getTemplate() + "/pages/create.ftl", app.getPath() + mc.getParameter("jsp.path"), "/" + table.getAlias() + "/create.jsp"));
             executeDecorator(new Decorator(app, table, context, "client/web/template/" + app.getTemplate() + "/pages/update.ftl", app.getPath() + mc.getParameter("jsp.path"), "/" + table.getAlias() + "/update.jsp"));
             executeDecorator(new Decorator(app, table, context, "client/web/template/" + app.getTemplate() + "/pages/search.ftl", app.getPath() + mc.getParameter("jsp.path"), "/" + table.getAlias() + "/search.jsp"));

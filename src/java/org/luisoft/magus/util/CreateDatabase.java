@@ -85,7 +85,7 @@ public class CreateDatabase {
     public static void main(String[] args) throws Exception {
         setupSchema(CreateDatabase.class.getResourceAsStream("/magus.sql"));
         // setupSchema(CreateDatabase.class.getResourceAsStream("/sample_employee_v1.sql"));
-        // setupSchema(CreateDatabase.class.getResourceAsStream("/octupus.sql"));
+        setupSchema(CreateDatabase.class.getResourceAsStream("/octupus.sql"));
         // setupSchema(CreateDatabase.class.getResourceAsStream("/rbac.sql"));
         setupSchema(CreateDatabase.class.getResourceAsStream("/recipe.sql"));
 

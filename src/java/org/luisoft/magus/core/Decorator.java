@@ -2,6 +2,9 @@ package org.luisoft.magus.core;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+import general.db.local.LocalContext;
+import general.db.local.LocalContextFactory;
+import general.db.mapper.Mapper;
 import general.server.IContext;
 import general.util.DateUtils;
 import general.util.StringUtils;
@@ -11,9 +14,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+
 import org.luisoft.magus.domain.Application;
 import org.luisoft.magus.domain.MagusConfig;
 import org.luisoft.magus.mapper.ApplicationMapper;
+import org.luisoft.magus.mapper.MagusConfigMapper;
 
 import dbreveng.database.meta.Column;
 import dbreveng.database.meta.ForeignKey;
@@ -45,41 +52,42 @@ public class Decorator {
             this.path = path + destFileName;
         }
         this.templateFileName = templateFileName;
-        this.setUpTemplateVariables();
+        System.out.println("[Decorator] INFO: Adding 'date' = " + DateUtils.getToday(getParameter("date.format")));
+        model.put("date", DateUtils.getToday(getParameter("date.format")));
+        System.out.println("[Decorator] INFO: Adding 'app' = " + app);
+        model.put("app", app);
+        System.out.println("[Decorator] INFO: Adding 'classpath' = " + getParameter("class.path").split(","));
+        model.put("classpath", getParameter("class.path").split(","));
     }
 
     public Decorator(Application app, TableWrapper table, IContext context, String templateFileName, String path, String destFileName) {
         this(app, context, templateFileName, path, destFileName);
         this.table = table;
-        this.setUpTemplateVariables2();
+        this.setUpTemplateVariables();
     }
 
     private void setUpTemplateVariables() {
-        model.put("date", DateUtils.getToday(getParameter("date.format")));
-        model.put("app", app);
-        model.put("classpath", getParameter("class.path").split(","));
-    }
-
-    private void setUpTemplateVariables2() {
+        System.out.println("[Decorator] INFO: Adding 'collection' = " + getParameter("collection"));
         model.put("collection", getParameter("collection"));
+        System.out.println("[Decorator] INFO: Adding 'recordsPerPage' = " + getParameter("records.per.page"));
         model.put("recordsPerPage", getParameter("records.per.page"));
+        System.out.println("[Decorator] INFO: Adding 'clazzArray' = " + getParameter("collection.interface").replace("?", this.table.getAlias(true)));
         model.put("clazzArray", getParameter("collection.interface").replace("?", this.table.getAlias(true)));
+        System.out.println("[Decorator] INFO: Adding 'clazzImplementation' = " + getParameter("collection.implementation").replace("?", this.table.getAlias(true)));
         model.put("clazzImplementation", getParameter("collection.implementation").replace("?", this.table.getAlias(true)));
-
+        System.out.println("[Decorator] INFO: Adding 'clazzName' = " + destFileName.substring(destFileName.lastIndexOf("/") + 1, destFileName.lastIndexOf(".")));
         model.put("clazzName", destFileName.substring(destFileName.lastIndexOf("/") + 1, destFileName.lastIndexOf(".")));
+        System.out.println("[Decorator] INFO: Adding 'clazz' = " + this.table);
         model.put("clazz", this.table);
+        System.out.println("[Decorator] INFO: Adding 'clazzDomainName' = " + this.table.getAlias(true));
         model.put("clazzDomainName", this.table.getAlias(true));
-
-        // Collections.sort(this.table.getColumnsWrapper(), new Comparator<ColumnWrapper>() {
-        // public int compare(ColumnWrapper o1, ColumnWrapper o2) {
-        // return o1.getDisplayOrder() - o2.getDisplayOrder();
-        // }
-        // });
-        // model.put("columns", this.table.getColumnsWrapper());
+        System.out.println("[Decorator] INFO: Adding 'columns' = " + this.table.getOrderedColumnsWrapper(true));
         model.put("columns", this.table.getOrderedColumnsWrapper(true));
 
         // TODO Warning! Getting only the first PK, need to check what to do if a table has more than one PK.
-        model.put("pks", this.table.getPrimaryKeyColumns().iterator().next());
+        Column pks = this.table.getPrimaryKeyColumns().iterator().next();
+        System.out.println("[Decorator] INFO: Adding 'pks' = " + pks);
+        model.put("pks", pks);
         model.put("fks", this.table.getWrappedFks());
         model.put("pkColumns", this.table.getPrimaryKeyColumns());
         model.put("columnsMinusPk", this.table.getOrderedColumnsWrapper(false));
@@ -210,6 +218,12 @@ public class Decorator {
         return out.toString();
     }
 
+    /**
+     * 
+     * @param parameterName
+     *            parameter name to be retrived
+     * @return Returns the value of a parameter from magus configuration file
+     */
     private String getParameter(String parameterName) {
         MagusConfig mc = (MagusConfig) context.getAttribute(MagusServlet.MAGUS_CONFIG);
         return mc.getParameter(parameterName);
@@ -222,4 +236,30 @@ public class Decorator {
         return path;
     }
 
+    /**
+     * @param args
+     * @throws Exception
+     */
+    public static void main(String[] args) throws Exception {
+        // Connects to Apache Tomcat data source.
+        LocalContext ctx = LocalContextFactory.createLocalContext("org.hsqldb.jdbcDriver");
+        ctx.addDataSource("java:/comp/env/jdbc/MagusDB", "jdbc:hsqldb:hsql://localhost/magusdb", "sa", "");
+        DataSource ds = (DataSource) new InitialContext().lookup("java:/comp/env/jdbc/MagusDB");
+        Mapper.setDataSource(ds);
+
+        // Retrieve parameters.
+        MagusConfigMapper mapper = new MagusConfigMapper();
+        MagusConfig magusConfig = mapper.fetch();
+        ctx.setAttribute(MagusServlet.MAGUS_CONFIG, magusConfig);
+
+        // Get an application to check the mapping.
+        ApplicationMapper am = new ApplicationMapper();
+        am.setContext(ctx);
+        Application app = am.fetchByPrimaryKey(3L);
+        Map<String, TableWrapper> tables = am.fetchApplicationTables(3L);
+        // new Decorator(app, ctx, "server/servlet/config/webclasspath.ftl", app.getPath(), "/.classpath");
+        TableWrapper table = am.fetchApplicationTable(3L, tables.get("RECEITA"));
+        new Decorator(app, table, ctx, "server/model/Domain.ftl", null, "/domain/" + table.getCamelCaseName(true) + ".java");
+
+    }
 }

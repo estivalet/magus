@@ -109,7 +109,7 @@ public class TableWrapper {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("       <table name=\"" + this.alias + "\">\n");
+        sb.append("       <table name=\"" + this.getAlias() + "\">\n");
         sb.append("           <schema>" + this.getTable().getSchema().getName() + "</schema>\n");
         sb.append("       </table>\n");
 

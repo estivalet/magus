@@ -393,6 +393,7 @@ CREATE TABLE octupus.BOOK (
    category_id INTEGER,
    language_id INTEGER,
    country_id INTEGER,
+   cover binary null,
    created TIMESTAMP DEFAULT 'now',
    modified TIMESTAMP,
    PRIMARY KEY (id),
