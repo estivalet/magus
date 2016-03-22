@@ -97,6 +97,7 @@ public class GenerateCommand implements ICommand {
     private void generateCode(Long appId, Collection<TableWrapper> tables) throws Exception {
         MagusConfig mc = (MagusConfig) context.getAttribute(MagusServlet.MAGUS_CONFIG);
 
+        executeDecorator(new Decorator(app, context, "server/servlet/config/pom.ftl", app.getPath(), "/pom.xml"));
         executeDecorator(new Decorator(app, context, "server/servlet/config/webclasspath.ftl", app.getPath(), "/.classpath"));
         executeDecorator(new Decorator(app, context, "server/servlet/config/webproject.ftl", app.getPath(), "/.project"));
         executeDecorator(new Decorator(app, context, "server/servlet/config/tomcatserverxml.ftl", app.getPath(), "/server.xml"));

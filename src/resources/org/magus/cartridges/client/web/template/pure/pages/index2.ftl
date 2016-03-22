@@ -361,13 +361,11 @@ function validateForm() {
             <div id="message" class="alert-box error" style="display:none">
                 <span id="messageText"></span>
             </div>
-            <form action="" method="post" id="myform" enctype="multipart/form-data">
                 <input type="hidden" id="command" name="command" value="POST"/>
                 <input type="hidden" id="${pks.getCamelCaseName()}" name="${pks.getCamelCaseName()}" value="0"/>
             <#list columnsMinusPk as column><#t>
                 <#include "field.ftl">
             </#list>
-            </form>
             <div class="buttons">
                 <input type="button" id="submit-go" value="Save" onclick="validateForm()"/>
                 <input type="reset" value="Reset"/>

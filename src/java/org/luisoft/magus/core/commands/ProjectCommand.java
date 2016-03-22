@@ -45,6 +45,7 @@ public class ProjectCommand implements ICommand {
         String description = request.getParameter("description");
         String path = request.getParameter("path");
         String template = request.getParameter("template");
+        String architecture = request.getParameter("architecture");
 
         Application app = new Application();
         app.setName(projectName);
@@ -52,6 +53,7 @@ public class ProjectCommand implements ICommand {
         app.setDescription(description);
         app.setPath(path);
         app.setTemplate(template);
+        app.setArchitecture(architecture);
 
         System.out.println("[Project] Creating new project " + projectName);
 

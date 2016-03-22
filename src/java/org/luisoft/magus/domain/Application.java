@@ -30,6 +30,9 @@ public class Application {
     @MappedColumn(name = "template")
     private String template;
 
+    @MappedColumn(name = "architecture")
+    private String architecture;
+
     @MappedColumn(name = "src_folder")
     private String srcFolder = "/src/main/java/";
 
@@ -214,6 +217,7 @@ public class Application {
         sb.append("    <name>" + name + "</name>\n");
         sb.append("    <path>" + path + "</path>\n");
         sb.append("    <template>" + template + "</template>\n");
+        sb.append("    <architecture>" + architecture + "</architecture>\n");
         if (applicationDatabase != null) {
             sb.append(applicationDatabase);
         }
@@ -281,4 +285,20 @@ public class Application {
     public List<TableWrapper> getTables() {
         return this.tables;
     }
+
+    /**
+     * @return the architecture
+     */
+    public String getArchitecture() {
+        return architecture;
+    }
+
+    /**
+     * @param architecture
+     *            the architecture to set
+     */
+    public void setArchitecture(String architecture) {
+        this.architecture = architecture;
+    }
+
 }

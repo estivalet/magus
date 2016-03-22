@@ -6,6 +6,7 @@
 
 package ${app.package}.resource;
 
+import java.io.InputStream;
 import java.net.URI;
 
 import javax.ws.rs.Consumes;
@@ -19,6 +20,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
+
+import org.luisoft.commons.utils.IOUtil;
 
 import com.google.gson.Gson;
 
@@ -185,5 +191,23 @@ public class ${clazzDomainName}Resource {
          return Response.status(200).entity(mapper.getMessage()).type(MediaType.APPLICATION_JSON).build();
     }
     
+    <#list columnsMinusPk as column>
+    <#if (column.customFieldType = 9)>
+    @POST
+    @Path("/${column.getCamelCaseName()}")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response uploadFile(@FormDataParam("${column.getCamelCaseName()}") InputStream uploadedInputStream, @FormDataParam("${column.getCamelCaseName()}") FormDataContentDisposition fileDetail) {
+        String uploadedFileLocation = "c://temp/" + fileDetail.getFileName();
+
+        // save it
+        IOUtil.write(uploadedInputStream, uploadedFileLocation);
+
+        String output = "File uploaded to : " + uploadedFileLocation;
+
+        return Response.status(200).entity(output).build();
+
+    }
+    </#if>
+    </#list>    
       
 }

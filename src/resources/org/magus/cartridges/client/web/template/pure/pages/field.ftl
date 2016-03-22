@@ -1,5 +1,6 @@
             <div class="field">
         <#assign id="${column.getCamelCaseName()}">
+        <#assign arch="${app.architecture}">
         <#assign size="${column.getInputSize()}">
         <label for="${id}"><strong>${column.getLabel()}<#if column.isRequired()>*</#if></strong></label> 
                 <#switch column.customFieldType>
@@ -30,8 +31,16 @@
                     <#case 8><#-- RICH TEXT EDITOR -->
                 <textarea class="ckeditor" id="${id}" name="${id}"><#noparse>${</#noparse>${id}Value}</textarea>
                     <#break>
-                    <#case 9><#-- FILE UPLOAD -->                    
+                    <#case 9><#-- FILE UPLOAD -->    
+                    <#-- The form tag is needed only for REST upload -->
+                    <#if (arch = 'REST')>
+                    <form action="rest/${clazz.getAlias()}/${id}" method="post" enctype="multipart/form-data">
+                    </#if>                
                 <input type="file" id="${id}" name="${id}"/>
+                    <#if (arch = 'REST')>
+                <input type="submit" value="Upload It" />
+                    </form>
+                    </#if>                
                     <#break>
                     <#case 10><#-- FILE UPLOAD (PDF)-->                    
                 <input type="file" id="${id}" name="${id}"/>

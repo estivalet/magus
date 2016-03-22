@@ -40,11 +40,12 @@ function newProject() {
 	var projectDescription = document.getElementById("projectDescription").value;
 	var projectPath = document.getElementById("projectPath").value;
 	var template = document.getElementById("template").value;
+	var architecture = document.getElementById("architecture").value;
 
 	callServer("magus?command=Project&action=new&projectName=" + projectName
 			+ "&shortName=" + projectShortName + "&description="
 			+ projectDescription + "&path=" + projectPath + "&template="
-			+ template, newProjectStatus);
+			+ template + "&architecture=" + architecture, newProjectStatus);
 }
 
 /**
@@ -90,6 +91,7 @@ function loadProjectStatus() {
 		var name = getNodeValue(app[0], "name");
 		var path = getNodeValue(app[0], "path");
 		var template = getNodeValue(app[0], "template");
+		var architecture = getNodeValue(app[0], "architecture");
 
 		// Retrieve database information used by the application.
 		var db = app[0].getElementsByTagName("database");
@@ -111,6 +113,7 @@ function loadProjectStatus() {
 		document.getElementById("projectShortName").value = shortName;
 		document.getElementById("projectPath").value = path;
 		document.getElementById("template").value = template;
+		document.getElementById("architecture").value = architecture;
 
 		document.getElementById("database").value = dbtype;
 		document.getElementById("dbURL").value = dbconnString;

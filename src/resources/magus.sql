@@ -44,6 +44,7 @@ CREATE TABLE MW_APPLICATION
   copyright varchar(200),
   license_file varchar(100),
   template varchar(50),
+  architecture varchar(50),
   records_per_page integer,
   user varchar(50),
   CONSTRAINT apb_uniq_name unique(name)

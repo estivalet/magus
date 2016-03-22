@@ -35,7 +35,7 @@ public class ApplicationMapper extends Mapper {
      * @return
      */
     public Application create(Application app) {
-        String sql = "insert into mw_application(name, short_name, description, path, template) values (?,?,?,?,?)";
+        String sql = "insert into mw_application(name, short_name, description, path, template, architecture) values (?,?,?,?,?,?)";
 
         ResultSet rs = null;
         PreparedStatement ps = null;
@@ -48,6 +48,7 @@ public class ApplicationMapper extends Mapper {
             ps.setString(3, app.getDescription());
             ps.setString(4, app.getPath());
             ps.setString(5, app.getTemplate());
+            ps.setString(6, app.getArchitecture());
             ps.execute();
 
             return fetchByName(app.getName());
@@ -118,7 +119,7 @@ public class ApplicationMapper extends Mapper {
      * @return
      */
     public Application fetchByName(String name) {
-        String sql = "select app.id, app.short_name, app.name, app.path, app.template from mw_application app where app.name = ?";
+        String sql = "select app.id, app.short_name, app.name, app.path, app.template, app.architecture from mw_application app where app.name = ?";
 
         ResultSet rs = null;
         PreparedStatement ps = null;
@@ -135,6 +136,7 @@ public class ApplicationMapper extends Mapper {
                 app.setName(rs.getString("name"));
                 app.setPath(rs.getString("path"));
                 app.setTemplate(rs.getString("template"));
+                app.setArchitecture(rs.getString("architecture"));
             }
             return app;
         } catch (Exception e) {
@@ -160,7 +162,7 @@ public class ApplicationMapper extends Mapper {
      * @return
      */
     public Application fetchByPrimaryKey(Long id) {
-        String sql = "select app.short_name, app.name, app.path, app.template, appdb.db_type, appdb.connection_string, appdb.username, appdb.password from mw_application app,mw_application_database appdb where appdb.app_id = app.id and app.id=?";
+        String sql = "select app.short_name, app.name, app.path, app.template, app.architecture, appdb.db_type, appdb.connection_string, appdb.username, appdb.password from mw_application app,mw_application_database appdb where appdb.app_id = app.id and app.id=?";
 
         ResultSet rs = null;
         PreparedStatement ps = null;
@@ -181,6 +183,7 @@ public class ApplicationMapper extends Mapper {
                 app.setName(rs.getString("name"));
                 app.setPath(rs.getString("path"));
                 app.setTemplate(rs.getString("template"));
+                app.setArchitecture(rs.getString("architecture"));
 
                 MagusConfig mc = (MagusConfig) context.getAttribute(MagusServlet.MAGUS_CONFIG);
                 Database db = mc.getDatabase(rs.getString("db_type"));

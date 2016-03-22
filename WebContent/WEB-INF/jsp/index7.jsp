@@ -77,6 +77,10 @@
                                 <li><label for="projectName"><strong>Name</strong></label> <input id="projectName" name="projectName" class="text medium" /></li>
                                 <li><label for="projectShortName"><strong>Short Name</strong></label> <input id="projectShortName" name="projectShortName"
                                     class="text medium" /></li>
+                                <li><label for="architecture"><strong>Architecture</strong></label> <select id="architecture" name="architecture" class="input_short">
+                                        <option value="JSP_Servlet" selected="selected">JSP & Servlet</option>
+                                        <option value="REST">REST</option>
+                                </select></li>
                                 <li><label for="template"><strong>Template</strong></label> <select id="template" name="template" class="input_short">
                                         <option value="pure" selected="selected">pure</option>
                                         <option value="black">Black</option>

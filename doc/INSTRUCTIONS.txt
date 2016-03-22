@@ -57,3 +57,26 @@ Magus will generate.
 Open squirrel client
 
 create a new connection to jdbc:postgresql://localhost:5432/company
+
+6. Configure Apache Tomcat to deploy generated applications:
+
+6.1 Add the following to maven conf/settings.xml
+    
+    <server>
+        <id>TomcatServer</id>
+        <username>admin</username>
+        <password>admin</password>
+    </server>
+
+6.2 Add the following to tomcat conf/tomcat-users.xml
+        
+    <role rolename="manager-gui"/>
+    <role rolename="manager-script"/>
+    <user username="admin" password="admin" roles="manager-gui,manager-script" />
+    
+6.3 Deploy using the following command:
+
+    mvn tomcat7:deploy
+    
+    Use "mvn compile war:exploded" to deploy war exploded
+            
