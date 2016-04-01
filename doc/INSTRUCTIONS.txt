@@ -80,3 +80,18 @@ create a new connection to jdbc:postgresql://localhost:5432/company
     
     Use "mvn compile war:exploded" to deploy war exploded
             
+7. Import generated application to eclipse
+
+   a. File -> Import... -> Maven -> Existing Maven Projects
+   b. Choose application root folder (e.g. C:\apache-tomcat-7.0.53\webapps\recipe)
+   c. Right click and choose properties
+   d. Go to Java Build Path
+   e. Adjust output folder to WEB-INF\classes  in default output folder and in src\main\java
+   f. Open a command prompt and go to application root folder and execute the command below
+                   
+      mvn compile war:exploded
+      
+      It will copy all dependencies to WEB-INF\lib folder
+      
+   g. Get back to eclipe and press F5 in the project to update its contents.
+   

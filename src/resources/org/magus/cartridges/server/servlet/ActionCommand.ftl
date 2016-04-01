@@ -54,7 +54,7 @@ public class ${clazzName} implements ICommand {
 	public Object execute(HttpServletRequest request, HttpServletResponse response, IContext context) throws Exception {
 		this.action = request.getParameter("action");
 		${clazz.getAlias(true)}Model model;
-		
+		<#assign arch="${app.architecture}">
 		<#list columns as column><#t>
         <#if (column.customFieldType == 9)>
         if ("get${column.getCamelCaseName(true)}".equals(action)) {
@@ -89,7 +89,11 @@ public class ${clazzName} implements ICommand {
         } else if("filter".equals(action)) {
             filter(request, response);
         } else if ("index".equals(action)) {
+            <#if (arch = 'REST')>
             this.page = "index.jsp";
+            <#else>
+            this.page = "search.jsp";
+            </#if>
             request.setAttribute("firstTime", "Y");
             return null;            
 		} else {

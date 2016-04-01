@@ -24,6 +24,8 @@
          reloadable="true" 
          crossContext="true"
          >
+                     <WatchedResource>**/**</WatchedResource>
+         
     <Resource name="jdbc/MagusDB" 
               auth="Container" 
               type="javax.sql.DataSource" 

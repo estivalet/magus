@@ -9,6 +9,7 @@
  *      Using for paging purposes.
  */
 filter${clazzDomainName} = function(pageNum) {
+    openModal();
     // Displays search screen.
     document.getElementById("container").innerHTML = document.getElementById("searchbox").innerHTML;  
     // Call server to retrieve ${clazzDomainName}.
@@ -20,6 +21,7 @@ filter${clazzDomainName} = function(pageNum) {
  */
 filter${clazzDomainName}SearchStatus = function() {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+        closeModal();
         var obj = JSON.parse(xmlhttp.responseText);
         
         results = document.getElementById("results");
@@ -374,6 +376,12 @@ function validateForm() {
         </div>
     </div>
 </div>
+
+<div id="fade"></div>
+<div id="modal">
+    <img id="loader" src="images/loading.gif" />
+</div>
+
 
 <script>
 document.onload = filter${clazzDomainName}(1);

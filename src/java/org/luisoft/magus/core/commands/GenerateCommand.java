@@ -103,12 +103,12 @@ public class GenerateCommand implements ICommand {
         executeDecorator(new Decorator(app, context, "server/servlet/config/tomcatserverxml.ftl", app.getPath(), "/server.xml"));
         executeDecorator(new Decorator(app, context, "server/servlet/DomainServlet.ftl", null, "/server/" + StringUtils.capitalize(app.getShortName()) + "Servlet.java"));
         executeDecorator(new Decorator(app, context, "server/servlet/config/webxml.ftl", app.getPath() + "/WebContent/WEB-INF/", "web.xml"));
-        executeDecorator(new Decorator(app, context, "client/web/template/" + app.getTemplate() + "/pages/header.ftl", app.getPath() + "/WebContent/WEB-INF/jsp/", "header.jsp"));
-        executeDecorator(new Decorator(app, context, "client/web/template/" + app.getTemplate() + "/pages/index.ftl", app.getPath() + "/WebContent/WEB-INF/jsp/", "index.jsp"));
         executeDecorator(new Decorator(app, context, "server/model/Mapper.ftl", null, "/mapper/Mapper.java"));
         executeDecorator(new Decorator(app, context, "server/servlet/ICommand.ftl", null, "/core/ICommand.java"));
         executeDecorator(new Decorator(app, context, "server/servlet/IContext.ftl", null, "/core/IContext.java"));
         executeDecorator(new Decorator(app, context, "server/servlet/DefaultContext.ftl", null, "/core/DefaultContext.java"));
+        executeDecorator(new Decorator(app, context, "client/web/template/" + app.getTemplate() + "/pages/header.ftl", app.getPath() + "/WebContent/WEB-INF/jsp/", "header.jsp"));
+        executeDecorator(new Decorator(app, context, "client/web/template/" + app.getTemplate() + "/pages/index.ftl", app.getPath() + "/WebContent/WEB-INF/jsp/", "index.jsp"));
 
         for (TableWrapper table : tables) {
             // Load table meta data from database.
@@ -118,13 +118,17 @@ public class GenerateCommand implements ICommand {
             executeDecorator(new Decorator(app, table, context, "server/model/DomainModel.ftl", null, "/model/" + table.getCamelCaseName(true) + "Model.java"));
             executeDecorator(new Decorator(app, table, context, "server/rest/DomainResource.ftl", null, "/resource/" + table.getCamelCaseName(true) + "Resource.java"));
             executeDecorator(new Decorator(app, table, context, "server/model/DomainMapper.ftl", null, "/mapper/" + table.getCamelCaseName(true) + "Mapper.java"));
-            executeDecorator(new Decorator(app, table, context, "client/web/template/" + app.getTemplate() + "/pages/index2.ftl", app.getPath() + mc.getParameter("jsp.path"), "/" + table.getAlias() + "/index.jsp"));
-            executeDecorator(new Decorator(app, table, context, "client/web/template/" + app.getTemplate() + "/pages/index_js.ftl", app.getPath() + mc.getParameter("jsp.path"), "/" + table.getAlias() + "/index.js"));
-            executeDecorator(new Decorator(app, table, context, "client/web/template/" + app.getTemplate() + "/pages/create.ftl", app.getPath() + mc.getParameter("jsp.path"), "/" + table.getAlias() + "/create.jsp"));
-            executeDecorator(new Decorator(app, table, context, "client/web/template/" + app.getTemplate() + "/pages/update.ftl", app.getPath() + mc.getParameter("jsp.path"), "/" + table.getAlias() + "/update.jsp"));
-            executeDecorator(new Decorator(app, table, context, "client/web/template/" + app.getTemplate() + "/pages/search.ftl", app.getPath() + mc.getParameter("jsp.path"), "/" + table.getAlias() + "/search.jsp"));
-            executeDecorator(new Decorator(app, table, context, "client/web/template/" + app.getTemplate() + "/pages/search_js.ftl", app.getPath() + mc.getParameter("jsp.path"), "/" + table.getAlias() + "/search.js"));
             executeDecorator(new Decorator(app, table, context, "server/servlet/ActionCommand.ftl", null, "/server/" + table.getCamelCaseName() + "/commands/" + table.getCamelCaseName(true) + "ActionCommand.java"));
+            if ("JSP_Servlet".equals(app.getArchitecture())) {
+                executeDecorator(new Decorator(app, table, context, "client/web/template/" + app.getTemplate() + "/pages/create.ftl", app.getPath() + mc.getParameter("jsp.path"), "/" + table.getAlias() + "/create.jsp"));
+                executeDecorator(new Decorator(app, table, context, "client/web/template/" + app.getTemplate() + "/pages/update.ftl", app.getPath() + mc.getParameter("jsp.path"), "/" + table.getAlias() + "/update.jsp"));
+                executeDecorator(new Decorator(app, table, context, "client/web/template/" + app.getTemplate() + "/pages/search.ftl", app.getPath() + mc.getParameter("jsp.path"), "/" + table.getAlias() + "/search.jsp"));
+                executeDecorator(new Decorator(app, table, context, "client/web/template/" + app.getTemplate() + "/pages/search_js.ftl", app.getPath() + mc.getParameter("jsp.path"), "/" + table.getAlias() + "/search.js"));
+            } else if ("REST".equals(app.getArchitecture())) {
+                executeDecorator(new Decorator(app, table, context, "client/web/template/" + app.getTemplate() + "/pages/index2.ftl", app.getPath() + mc.getParameter("jsp.path"), "/" + table.getAlias() + "/index.jsp"));
+            }
+            // executeDecorator(new Decorator(app, table, context, "client/web/template/" + app.getTemplate() + "/pages/index_js.ftl", app.getPath() + mc.getParameter("jsp.path"), "/" +
+            // table.getAlias() + "/index.js"));
         }
     }
 
