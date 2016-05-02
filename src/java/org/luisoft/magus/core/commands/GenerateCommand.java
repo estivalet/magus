@@ -43,9 +43,11 @@ public class GenerateCommand implements ICommand {
         Map<String, TableWrapper> tables = am.fetchApplicationTables(appId);
 
         createWebFolderStructure(true);
-        copyFiles(request);
+        // copyFiles(request);
+        copyFilesJSF(request);
 
-        generateCode(appId, tables.values());
+        // generateCode(appId, tables.values());
+        generateCodeJSF(appId, tables.values());
 
         return null;
     }
@@ -78,6 +80,18 @@ public class GenerateCommand implements ICommand {
 
     }
 
+    private void copyFilesJSF(HttpServletRequest request) throws IOException {
+        String appPath = request.getServletContext().getRealPath("..");
+
+        MagusConfig mc = (MagusConfig) context.getAttribute(MagusServlet.MAGUS_CONFIG);
+        String path = appPath + "/" + mc.getParameter("common.files.path") + "jsf";
+
+        File src = new File(path);
+        File dest = new File(app.getPath());
+        IOUtil.copyFiles(src, dest, false);
+
+    }
+
     /**
      * @param deleteContents
      * @throws Exception
@@ -87,6 +101,25 @@ public class GenerateCommand implements ICommand {
         IOUtil.createDir(app.getPath(), deleteContents);
         for (String dir : mc.getParameter("folders.path").split(",")) {
             IOUtil.createDir(app.getPath() + "/" + dir);
+        }
+    }
+
+    /**
+     * @param tables
+     * @throws Exception
+     */
+    private void generateCodeJSF(Long appId, Collection<TableWrapper> tables) throws Exception {
+        MagusConfig mc = (MagusConfig) context.getAttribute(MagusServlet.MAGUS_CONFIG);
+
+        executeDecorator(new Decorator(app, context, "jsf/classpath.ftl", app.getPath(), "/.classpath"));
+        executeDecorator(new Decorator(app, context, "jsf/project.ftl", app.getPath(), "/.project"));
+        executeDecorator(new Decorator(app, context, "jsf/DAO.ftl", null, "/dao/DAO.java"));
+
+        for (TableWrapper table : tables) {
+            ApplicationMapper am = new ApplicationMapper();
+            table = am.fetchApplicationTable(appId, table);
+            executeDecorator(new Decorator(app, table, context, "jsf/model.ftl", null, "/model/" + table.getCamelCaseName(true) + ".java"));
+            executeDecorator(new Decorator(app, table, context, "jsf/bean.ftl", null, "/bean/" + table.getCamelCaseName(true) + "Bean.java"));
         }
     }
 

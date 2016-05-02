@@ -10,10 +10,14 @@
 				<connectionImpl>dbreveng.database.impl.hsqldb.HSQLDBDatabaseConnection</connectionImpl>
 				<driver>org.hsqldb.jdbcDriver</driver>
 			</database>
-			<database type="PostgreSQL">
-				<connectionImpl>dbreveng.database.impl.postgresql.PostgreSQLDatabaseConnection</connectionImpl>
-				<driver>org.postgresql.Driver</driver>
-			</database>
+            <database type="PostgreSQL">
+                <connectionImpl>dbreveng.database.impl.postgresql.PostgreSQLDatabaseConnection</connectionImpl>
+                <driver>org.postgresql.Driver</driver>
+            </database>
+            <database type="MySQL">
+                <connectionImpl>dbreveng.database.impl.mysql.MySQLDatabaseConnection</connectionImpl>
+                <driver>com.mysql.jdbc.Driver</driver>
+            </database>
 		</databases>
 		
 		<!--  Supported web servers. -->	

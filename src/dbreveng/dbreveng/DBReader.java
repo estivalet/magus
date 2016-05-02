@@ -181,7 +181,9 @@ public class DBReader {
             Iterator<String> catalogs = db.getCatalogs().keySet().iterator();
             while (catalogs.hasNext()) {
                 String catalogName = catalogs.next();
-                db.addSchema(catalogName, new Schema(catalogName));
+                Schema s = new Schema(catalogName);
+                s.setCatalogName(catalogName);
+                db.addSchema(catalogName, s);
             }
         } else {
             // Adding database schemas.
@@ -462,8 +464,20 @@ public class DBReader {
         DBReader dbr = new DBReader();
         dbr.setDbConnectionImplementation(config.getProperty(DB_IMPLEMENTATION));
 
+        System.out.println(config.getProperty(DB_IMPLEMENTATION));
+
         dbr.readDatabase(config.getProperty(DB_DRIVER), config.getProperty(DB_URL), config.getProperty(DB_USER), config.getProperty(DB_PASSWORD));
 
+        dbr.getDatabase().setCurrentCatalog("livrariadb");
+        dbr.getDatabase().setCurrentSchema("livrariadb");
+
         System.out.println(dbr.getDatabase());
+
+        System.out.println("-----------------");
+
+        Collection<Table> tables = dbr.getDatabase().getTables();
+        for (Table t : tables) {
+            System.out.println(t.getName());
+        }
     }
 }

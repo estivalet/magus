@@ -81,11 +81,15 @@ public class Decorator {
         model.put("clazz", this.table);
         System.out.println("[Decorator] INFO: Adding 'clazzDomainName' = " + this.table.getAlias(true));
         model.put("clazzDomainName", this.table.getAlias(true));
+        model.put("objectDomainName", this.table.getAlias());
         System.out.println("[Decorator] INFO: Adding 'columns' = " + this.table.getOrderedColumnsWrapper(true));
         model.put("columns", this.table.getOrderedColumnsWrapper(true));
 
         // TODO Warning! Getting only the first PK, need to check what to do if a table has more than one PK.
-        Column pks = this.table.getPrimaryKeyColumns().iterator().next();
+        Column pks = null;
+        if (!this.table.getPrimaryKeyColumns().isEmpty()) {
+            pks = this.table.getPrimaryKeyColumns().iterator().next();
+        }
         System.out.println("[Decorator] INFO: Adding 'pks' = " + pks);
         model.put("pks", pks);
         model.put("fks", this.table.getWrappedFks());

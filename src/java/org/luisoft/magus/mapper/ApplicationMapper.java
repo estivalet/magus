@@ -209,6 +209,7 @@ public class ApplicationMapper extends Mapper {
                     context.setAttribute(MagusServlet.DATABASE, dbr);
 
                     dbr.getDatabase().setCurrentSchema(rs2.getString("SCHEMA"));
+                    dbr.getDatabase().setCurrentCatalog(rs2.getString("CATALOG"));
                     TableWrapper tw = new TableWrapper(dbr.getTable(rs2.getString("NAME")));
                     tw.setAlias(rs2.getString("NAME"));
 

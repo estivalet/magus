@@ -172,6 +172,9 @@ function listSchemasStatus() {
 			schemaName = schemas[i].firstChild.nodeValue;
 			createSelectOption(schemaCbo, schemaName, schemaName);
 		}
+		if(!projectSchema) {
+			projectSchema = schemaCbo.options[schemaCbo.selectedIndex].text
+		}
 		schemaCbo.value = projectSchema;
 		listTables(projectSchema);
 	}

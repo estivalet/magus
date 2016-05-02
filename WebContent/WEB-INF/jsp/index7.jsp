@@ -116,7 +116,8 @@
                     <div class="tab3">
                         <form action="" method="post" id="form_example" class="form_example">
                             <ol>
-                                <li><label for="schema"><strong>Schema</strong></label> <select id="schema" name="schema" onchange="listTables(this.value)">
+                                <li><label for="schema"><strong>Schema</strong></label> 
+                                <select id="schema" name="schema" onchange="listTables(this.value)">
                                 </select></li>
                                 <li>
                                     <table border="0">

@@ -17,7 +17,7 @@ import java.sql.Statement;
  */
 public class CreateDatabase {
 
-    private static final String DB_DRIVER = "org.hsqldb.jdbcDriver";
+    private static final String DB_DRIVER = "org.hsqldb.jdbc.JDBCDriver";
     private static final String DB_URL = "jdbc:hsqldb:hsql://localhost/magusdb";
     private static final String DB_USERNAME = "sa";
     private static final String DB_PASSWORD = "";

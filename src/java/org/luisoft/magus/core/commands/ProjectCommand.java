@@ -134,7 +134,7 @@ public class ProjectCommand implements ICommand {
         am.setContext(context);
         Application app = am.fetchByPrimaryKey(new Long(project));
 
-        System.out.println(app.getName());
+        System.out.println(app);
 
         message.append(app);
         message.append("</request>");

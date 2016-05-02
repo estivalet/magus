@@ -111,6 +111,11 @@ public class DatabaseCommand implements ICommand {
             DBReader dbr = new DBReader();
             dbr.setDbConnectionImplementation(connImpl);
             dbr.readDatabase(driver, url, username, password);
+            if ("MySQL".equals(database)) {
+                String catsche = url.substring(url.lastIndexOf("/") + 1);
+                dbr.getDatabase().setCurrentCatalog(catsche);
+                dbr.getDatabase().setCurrentSchema(catsche);
+            }
             context.setAttribute(MagusServlet.DATABASE, dbr);
 
             message.append("<schemas>");
