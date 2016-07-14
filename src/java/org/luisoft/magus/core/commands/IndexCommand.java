@@ -49,20 +49,11 @@ public class IndexCommand implements ICommand {
      */
     @Override
     public String dispatch() {
-        // return "/index.jsp";
-        // return "/index2.jsp";
-        // return "/index3.jsp";
-
-        // return "/index4.jsp";
-        // return "/index5.jsp";
-
         if (page != null) {
             return page;
         }
 
         return "/index7.jsp";
-        // return "/login.jsp";
-
     }
 
 }

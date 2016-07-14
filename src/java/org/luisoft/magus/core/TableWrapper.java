@@ -105,17 +105,6 @@ public class TableWrapper {
         return true;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("       <table name=\"" + this.alias + "\">\n");
-        sb.append("           <schema>" + this.getTable().getSchema().getName() + "</schema>\n");
-        sb.append("       </table>\n");
-
-        return sb.toString();
-    }
-
     /**
      * TODO review.
      * 
@@ -301,6 +290,17 @@ public class TableWrapper {
             cols.add(new ColumnWrapper(c));
         }
         return cols;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("       <table name=\"" + this.alias + "\">\n");
+        sb.append("           <schema>" + this.getTable().getSchema().getName() + "</schema>\n");
+        sb.append("       </table>\n");
+
+        return sb.toString();
     }
 
 }

@@ -27,7 +27,12 @@
 	
 		<!-- General parameters. -->
 		<parameters>
-		
+
+            <parameter name="archetype.files.path">
+                <value>/src/archetype/</value>
+                <description>Archetype support files.</description>
+            </parameter>
+
 			<parameter name="common.files.path">
 				<value>/src/files/common/</value>
 				<description>Magus common files to copy to a new application.</description>
