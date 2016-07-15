@@ -110,6 +110,10 @@ public class DatabaseCommand implements ICommand {
         try {
             DBReader dbr = new DBReader();
             dbr.setDbConnectionImplementation(connImpl);
+
+            // dbr.setWorkingCatalog(url.substring(url.lastIndexOf("/") + 1));
+            // dbr.setWorkingSchema(url.substring(url.lastIndexOf("/") + 1));
+
             dbr.readDatabase(driver, url, username, password);
             if ("MySQL".equals(database)) {
                 String catsche = url.substring(url.lastIndexOf("/") + 1);

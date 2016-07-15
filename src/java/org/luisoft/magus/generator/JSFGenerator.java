@@ -12,13 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.luisoft.magus.core.MagusServlet;
 import org.luisoft.magus.core.TableWrapper;
-import org.luisoft.magus.decorator.JSPServletDecorator;
+import org.luisoft.magus.decorator.BaseDecorator;
+import org.luisoft.magus.decorator.JSFDecorator;
 import org.luisoft.magus.domain.Application;
 import org.luisoft.magus.domain.MagusConfig;
 import org.luisoft.magus.mapper.ApplicationMapper;
 
 /**
- * Generator for JSP_Servlet archetype.
+ * Generator for JSF archetype.
  * 
  * @author lestivalet
  * 
@@ -69,7 +70,7 @@ public class JSFGenerator {
         MagusConfig mc = (MagusConfig) context.getAttribute(MagusServlet.MAGUS_CONFIG);
 
         // Copy template files for the archetype to destination folder of the application being generated.
-        File src = new File(appPath + "/" + mc.getParameter("archetype.files.path") + "jsp/" + template);
+        File src = new File(appPath + "/" + mc.getParameter("archetype.files.path") + "jsf");
         File dest = new File(((Application) context.getAttribute("app")).getPath());
         IOUtil.copyFiles(src, dest, false);
     }
@@ -79,30 +80,17 @@ public class JSFGenerator {
      */
     private void generateCode() throws Exception {
         Application app = (Application) context.getAttribute("app");
-        String tplPath = "archetype/jsp/" + app.getTemplate();
+        String tplPath = "archetype/jsf";
         String javaPath = app.getSrcFolder() + app.getPackage();
 
-        executeDecorator(new JSPServletDecorator(app, context, tplPath + "/pom.xml.ftl", "/pom.xml"));
-        executeDecorator(new JSPServletDecorator(app, context, tplPath + "/classpath.ftl", "/.classpath"));
-        executeDecorator(new JSPServletDecorator(app, context, tplPath + "/project.ftl", "/.project"));
-        executeDecorator(new JSPServletDecorator(app, context, tplPath + "/server.xml.ftl", "/server.xml"));
-        executeDecorator(new JSPServletDecorator(app, context, tplPath + "/DomainServlet.java.ftl", javaPath + "/server/" + StringUtils.capitalize(app.getShortName()) + "Servlet.java"));
-        executeDecorator(new JSPServletDecorator(app, context, tplPath + "/web.xml.ftl", "/WebContent/WEB-INF/web.xml"));
-        executeDecorator(new JSPServletDecorator(app, context, tplPath + "/header.jsp.ftl", "/WebContent/WEB-INF/jsp/header.jsp"));
-        executeDecorator(new JSPServletDecorator(app, context, tplPath + "/index.jsp.ftl", "/WebContent/WEB-INF/jsp/index.jsp"));
+        executeDecorator(new JSFDecorator(app, context, tplPath + "/DAO.ftl", javaPath + "/dao/" + StringUtils.capitalize(app.getShortName()) + "DAO.java"));
 
         for (TableWrapper table : app.getTables()) {
             // Load table meta data from database.
             ApplicationMapper am = new ApplicationMapper();
             table = am.fetchApplicationTable(app.getId(), table);
-            executeDecorator(new JSPServletDecorator(app, table, context, tplPath + "/Domain.java.ftl", javaPath + "/domain/" + table.getCamelCaseName(true) + ".java"));
-            executeDecorator(new JSPServletDecorator(app, table, context, tplPath + "/DomainModel.java.ftl", javaPath + "/model/" + table.getCamelCaseName(true) + "Model.java"));
-            executeDecorator(new JSPServletDecorator(app, table, context, tplPath + "/DomainMapper.java.ftl", javaPath + "/mapper/" + table.getCamelCaseName(true) + "Mapper.java"));
-            executeDecorator(new JSPServletDecorator(app, table, context, tplPath + "/ActionCommand.java.ftl", javaPath + "/server/" + table.getCamelCaseName() + "/commands/" + table.getCamelCaseName(true) + "ActionCommand.java"));
-            executeDecorator(new JSPServletDecorator(app, table, context, tplPath + "/create.jsp.ftl", "/WebContent/WEB-INF/jsp/" + table.getAlias() + "/create.jsp"));
-            executeDecorator(new JSPServletDecorator(app, table, context, tplPath + "/update.jsp.ftl", "/WebContent/WEB-INF/jsp/" + table.getAlias() + "/update.jsp"));
-            executeDecorator(new JSPServletDecorator(app, table, context, tplPath + "/search.jsp.ftl", "/WebContent/WEB-INF/jsp/" + table.getAlias() + "/search.jsp"));
-            executeDecorator(new JSPServletDecorator(app, table, context, tplPath + "/search.js.ftl", "/WebContent/WEB-INF/jsp/" + table.getAlias() + "/search.js"));
+            executeDecorator(new JSFDecorator(app, table, context, tplPath + "/bean.ftl", javaPath + "/domain/" + table.getCamelCaseName(true) + ".java"));
+            executeDecorator(new JSFDecorator(app, table, context, tplPath + "/model.ftl", javaPath + "/model/" + table.getCamelCaseName(true) + "Model.java"));
 
         }
 
@@ -113,7 +101,7 @@ public class JSFGenerator {
      * @throws IOException
      * @throws TemplateException
      */
-    private void executeDecorator(JSPServletDecorator d) throws Exception {
+    private void executeDecorator(BaseDecorator d) throws Exception {
         IOUtil.write(d.getPath(), d.decorate());
     }
 }

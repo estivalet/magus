@@ -66,6 +66,9 @@ public class DBReader {
 
     public static final String DB_TEST_SCRIPT = "db.test.script";
 
+    private String workingCatalog;
+    private String workingSchema;
+
     public static PropertyLoader config;
     static {
         try {
@@ -101,13 +104,13 @@ public class DBReader {
         return DatabaseConnection.get().getConnection();
     }
 
-    public void setWorkingSchema(String schema) {
-        this.db.setCurrentSchema(schema);
-    }
-
-    public void setWorkingCatalog(String catalog) {
-        this.db.setCurrentCatalog(catalog);
-    }
+    // public void setWorkingSchema(String schema) {
+    // this.db.setCurrentSchema(schema);
+    // }
+    //
+    // public void setWorkingCatalog(String catalog) {
+    // this.db.setCurrentCatalog(catalog);
+    // }
 
     /**
      * @param tables
@@ -219,7 +222,13 @@ public class DBReader {
         while (rsCat.next()) {
             Catalog catalog = new Catalog(rsCat.getString("TABLE_CAT"));
             System.out.println("[DBReader] INFO: Found Catalog " + catalog.getName());
-            list.add(catalog);
+            if (this.workingCatalog != null) {
+                if (catalog.getName().equals(workingCatalog)) {
+                    list.add(catalog);
+                }
+            } else {
+                list.add(catalog);
+            }
         }
         if (list.isEmpty()) {
             System.out.println("[DBReader] WARNING: No Catalog found. Using default ");// + db.getCurrentCatalog().getName());
@@ -242,7 +251,13 @@ public class DBReader {
                 // dangerous, need to test with other databases.
                 schema.setCatalogName(db.getCurrentCatalog().getName());
             }
-            list.add(schema);
+            if (this.workingSchema != null) {
+                if (schema.getName().equals(this.workingSchema)) {
+                    list.add(schema);
+                }
+            } else {
+                list.add(schema);
+            }
         }
         rsSchem.close();
         return list;
@@ -457,6 +472,22 @@ public class DBReader {
     }
 
     /**
+     * @param workingCatalog
+     *            the workingCatalog to set
+     */
+    public void setWorkingCatalog(String workingCatalog) {
+        this.workingCatalog = workingCatalog;
+    }
+
+    /**
+     * @param workingSchema
+     *            the workingSchema to set
+     */
+    public void setWorkingSchema(String workingSchema) {
+        this.workingSchema = workingSchema;
+    }
+
+    /**
      * @param args
      * @throws Exception
      */
@@ -466,10 +497,16 @@ public class DBReader {
 
         System.out.println(config.getProperty(DB_IMPLEMENTATION));
 
+        // dbr.setWorkingCatalog("livrariadb");
+        // dbr.setWorkingSchema("livrariadb");
+
+        dbr.setWorkingCatalog("PUBLIC");
+        dbr.setWorkingSchema("RECIPE");
+
         dbr.readDatabase(config.getProperty(DB_DRIVER), config.getProperty(DB_URL), config.getProperty(DB_USER), config.getProperty(DB_PASSWORD));
 
-        dbr.getDatabase().setCurrentCatalog("livrariadb");
-        dbr.getDatabase().setCurrentSchema("livrariadb");
+        // dbr.getDatabase().setCurrentCatalog("livrariadb");
+        // dbr.getDatabase().setCurrentSchema("livrariadb");
 
         System.out.println(dbr.getDatabase());
 

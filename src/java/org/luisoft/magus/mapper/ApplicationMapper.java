@@ -205,6 +205,10 @@ public class ApplicationMapper extends Mapper {
                 while (rs2.next()) {
                     DBReader dbr = new DBReader();
                     dbr.setDbConnectionImplementation(db.getConnectionImpl());
+
+                    dbr.setWorkingCatalog(rs2.getString("CATALOG"));
+                    dbr.setWorkingSchema(rs2.getString("SCHEMA"));
+
                     dbr.readDatabase(db.getDriver(), ad.getConnectionString(), ad.getUsername(), ad.getPassword());
                     context.setAttribute(MagusServlet.DATABASE, dbr);
 
