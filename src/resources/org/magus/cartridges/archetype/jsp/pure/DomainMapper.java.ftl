@@ -4,17 +4,17 @@
  * Created on ${date} by ${app.user}
  */
 
-package ${app.package}.mapper;
+package ${app.shortName}.mapper;
 
 import org.luisoft.commons.core.Mapper;
 import org.luisoft.commons.sql.criteria.Criteria;
 
-import ${app.package}.domain.*;
-import ${app.package}.model.*;
+import ${app.shortName}.domain.*;
+import ${app.shortName}.model.*;
 import java.util.*;
 import java.sql.*;
 
-import ${app.package}.server.${app.getShortName(true)}Servlet;
+import ${app.shortName}.server.${app.getShortName(true)}Servlet;
 
 /**
  * Performs the mapping between database and ${clazz.getAlias(true)} object.

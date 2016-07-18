@@ -4,7 +4,7 @@
  * Created on ${date} by ${app.user}
  */
 
-package ${app.package}.server;
+package ${app.shortName}.server;
 
 import java.io.IOException;
 
@@ -25,7 +25,7 @@ import org.luisoft.commons.core.ICommand;
 import org.luisoft.commons.core.IContext;
 import org.luisoft.commons.core.Mapper;
 
-import ${app.package}.mapper.*;
+import ${app.shortName}.mapper.*;
 
 /**
  * ${app.getShortName(true)} main controller.

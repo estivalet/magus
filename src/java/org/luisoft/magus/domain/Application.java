@@ -33,13 +33,13 @@ public class Application {
     @MappedColumn(name = "architecture")
     private String architecture;
 
-    @MappedColumn(name = "src_folder")
-    private String srcFolder = "/src/main/java/";
-
-    private String testFolder = "/src/test/java/";
-
-    @MappedColumn(name = "java_package")
-    private String javaPackage;
+    // @MappedColumn(name = "src_folder")
+    // private String srcFolder = "/src/main/java/";
+    //
+    // private String testFolder = "/src/test/java/";
+    //
+    // @MappedColumn(name = "java_package")
+    // private String javaPackage;
 
     @MappedColumn(name = "user")
     private String user = "defaultUser";
@@ -119,30 +119,30 @@ public class Application {
         this.path = path;
     }
 
-    /**
-     * @return the srcFolder
-     */
-    public String getSrcFolder() {
-        return srcFolder;
-    }
-
-    /**
-     * @param srcFolder
-     *            the srcFolder to set
-     */
-    public void setSrcFolder(String srcFolder) {
-        this.srcFolder = srcFolder;
-    }
-
-    /**
-     * @return the javaPackage
-     */
-    public String getPackage() {
-        if (javaPackage == null) {
-            return this.shortName;
-        }
-        return javaPackage;
-    }
+    // /**
+    // * @return the srcFolder
+    // */
+    // public String getSrcFolder() {
+    // return srcFolder;
+    // }
+    //
+    // /**
+    // * @param srcFolder
+    // * the srcFolder to set
+    // */
+    // public void setSrcFolder(String srcFolder) {
+    // this.srcFolder = srcFolder;
+    // }
+    //
+    // /**
+    // * @return the javaPackage
+    // */
+    // public String getPackage() {
+    // if (javaPackage == null) {
+    // return this.shortName;
+    // }
+    // return javaPackage;
+    // }
 
     /**
      * @return the user
@@ -189,20 +189,20 @@ public class Application {
         this.licenseFile = licenseFile;
     }
 
-    /**
-     * @return the testFolder
-     */
-    public String getTestFolder() {
-        return testFolder;
-    }
-
-    /**
-     * @param testFolder
-     *            the testFolder to set
-     */
-    public void setTestFolder(String testFolder) {
-        this.testFolder = testFolder;
-    }
+    // /**
+    // * @return the testFolder
+    // */
+    // public String getTestFolder() {
+    // return testFolder;
+    // }
+    //
+    // /**
+    // * @param testFolder
+    // * the testFolder to set
+    // */
+    // public void setTestFolder(String testFolder) {
+    // this.testFolder = testFolder;
+    // }
 
     public void addTable(TableWrapper t) {
         this.tables.add(t);
@@ -278,9 +278,9 @@ public class Application {
         this.description = description;
     }
 
-    public String getFullPath() {
-        return this.getPath() + this.getSrcFolder() + this.getPackage();
-    }
+    // public String getFullPath() {
+    // return this.getPath() + this.getSrcFolder() + this.getPackage();
+    // }
 
     public List<TableWrapper> getTables() {
         return this.tables;

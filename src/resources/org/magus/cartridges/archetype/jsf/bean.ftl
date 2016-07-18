@@ -4,7 +4,7 @@
  * Created on ${date} by ${app.user}
  */
 
-package ${app.package}.bean;
+package ${app.shortName}.bean;
 
 import java.util.List;
 

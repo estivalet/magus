@@ -4,7 +4,7 @@
  * Created on ${date} by ${app.user}
  */
 
-package ${app.package}.server.${clazz.getAlias()}.commands;
+package ${app.shortName}.server.${clazz.getAlias()}.commands;
 
 import java.io.*;
 import java.util.*;
@@ -19,8 +19,8 @@ import org.luisoft.commons.sql.criteria.Column;
 import org.luisoft.commons.sql.criteria.Criteria;
 import org.luisoft.commons.sql.criteria.Like;
 
-import ${app.package}.domain.*;
-import ${app.package}.model.*;
+import ${app.shortName}.domain.*;
+import ${app.shortName}.model.*;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

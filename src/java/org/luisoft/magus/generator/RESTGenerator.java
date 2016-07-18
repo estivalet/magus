@@ -80,7 +80,7 @@ public class RESTGenerator {
     private void generateCode() throws Exception {
         Application app = (Application) context.getAttribute("app");
         String tplPath = "archetype/rest/" + app.getTemplate();
-        String javaPath = app.getSrcFolder() + app.getPackage();
+        String javaPath = "/src/main/java/" + app.getShortName();
 
         executeDecorator(new RESTDecorator(app, context, tplPath + "/pom.xml.ftl", "/pom.xml"));
         executeDecorator(new RESTDecorator(app, context, tplPath + "/classpath.ftl", "/.classpath"));

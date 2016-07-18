@@ -4,7 +4,7 @@
  * Created on ${date} by ${app.user}
  */
 
-package ${app.package}.domain;
+package ${app.shortName}.domain;
 
 import java.io.Serializable;
 

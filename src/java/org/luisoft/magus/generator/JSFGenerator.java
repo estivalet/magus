@@ -81,7 +81,7 @@ public class JSFGenerator {
     private void generateCode() throws Exception {
         Application app = (Application) context.getAttribute("app");
         String tplPath = "archetype/jsf";
-        String javaPath = app.getSrcFolder() + app.getPackage();
+        String javaPath = "/src/main/java/" + app.getShortName();
 
         executeDecorator(new JSFDecorator(app, context, tplPath + "/DAO.ftl", javaPath + "/dao/" + StringUtils.capitalize(app.getShortName()) + "DAO.java"));
 

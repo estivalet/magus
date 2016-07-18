@@ -4,7 +4,7 @@
  * Created on ${date} by ${app.user}
  */
 
-package ${app.package}.model;
+package ${app.shortName}.model;
 
 import java.io.Serializable;
 

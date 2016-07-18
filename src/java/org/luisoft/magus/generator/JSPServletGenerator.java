@@ -80,7 +80,7 @@ public class JSPServletGenerator {
     private void generateCode() throws Exception {
         Application app = (Application) context.getAttribute("app");
         String tplPath = "archetype/jsp/" + app.getTemplate();
-        String javaPath = app.getSrcFolder() + app.getPackage();
+        String javaPath = "/src/main/java/" + app.getShortName();
 
         executeDecorator(new JSPServletDecorator(app, context, tplPath + "/pom.xml.ftl", "/pom.xml"));
         executeDecorator(new JSPServletDecorator(app, context, tplPath + "/classpath.ftl", "/.classpath"));

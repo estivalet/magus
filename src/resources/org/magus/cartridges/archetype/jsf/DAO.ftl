@@ -1,4 +1,4 @@
-package ${app.package}.dao;
+package ${app.shortName}.dao;
 
 import java.util.List;
 

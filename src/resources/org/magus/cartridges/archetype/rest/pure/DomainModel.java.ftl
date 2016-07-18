@@ -4,12 +4,12 @@
  * Created on ${date} by ${app.user}
  */
 
-package ${app.package}.model;
+package ${app.shortName}.model;
 
 import org.luisoft.commons.sql.criteria.Criteria;
 
-import ${app.package}.domain.*;
-import ${app.package}.mapper.${clazz.getAlias(true)}Mapper;
+import ${app.shortName}.domain.*;
+import ${app.shortName}.mapper.${clazz.getAlias(true)}Mapper;
 import java.util.*;
 
 /**

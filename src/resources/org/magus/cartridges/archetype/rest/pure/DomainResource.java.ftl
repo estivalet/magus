@@ -4,7 +4,7 @@
  * Created on ${date} by ${app.user}
  */
 
-package ${app.package}.resource;
+package ${app.shortName}.resource;
 
 import java.io.InputStream;
 import java.net.URI;
@@ -28,8 +28,8 @@ import org.luisoft.commons.utils.IOUtil;
 
 import com.google.gson.Gson;
 
-import ${app.package}.domain.*;
-import ${app.package}.mapper.${clazz.getAlias(true)}Mapper;
+import ${app.shortName}.domain.*;
+import ${app.shortName}.mapper.${clazz.getAlias(true)}Mapper;
 import java.util.*;
 
 @Path("${clazz.getAlias()}")
