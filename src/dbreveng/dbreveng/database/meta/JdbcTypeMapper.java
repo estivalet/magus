@@ -14,6 +14,7 @@ public abstract class JdbcTypeMapper {
         case Types.LONGVARCHAR:
         case Types.CHAR:
         case Types.VARCHAR:
+        case Types.CLOB:
             return "String";
         case Types.NUMERIC:
         case Types.DECIMAL:
@@ -60,6 +61,7 @@ public abstract class JdbcTypeMapper {
         case Types.LONGVARCHAR:
         case Types.CHAR:
         case Types.VARCHAR:
+        case Types.CLOB:
             return "String";
         case Types.NUMERIC:
         case Types.DECIMAL:
