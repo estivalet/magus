@@ -20,7 +20,7 @@ public class JSPServletDecorator extends JavaDecorator {
 
         // super.addTemplateVariable("columns", table.getOrderedColumnsWrapper(true));
         super.addTemplateVariable("pkColumns", table.getPrimaryKeyColumns());
-        // TODO Warning! Getting only the first PK, need to check what to do if a table has more than one PK.
+        // TODO Warning! Getting only the first PK, need to check what to do if a table has more than one PK or even no PKs at all.
         Column pks = null;
         if (!table.getPrimaryKeyColumns().isEmpty()) {
             pks = table.getPrimaryKeyColumns().iterator().next();

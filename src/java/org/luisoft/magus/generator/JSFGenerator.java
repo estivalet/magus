@@ -81,17 +81,20 @@ public class JSFGenerator {
     private void generateCode() throws Exception {
         Application app = (Application) context.getAttribute("app");
         String tplPath = "archetype/jsf";
-        String javaPath = "/src/main/java/" + app.getShortName();
+        String javaPath = "/src/" + app.getShortName();
 
-        executeDecorator(new JSFDecorator(app, context, tplPath + "/DAO.ftl", javaPath + "/dao/" + StringUtils.capitalize(app.getShortName()) + "DAO.java"));
+        executeDecorator(new JSFDecorator(app, context, tplPath + "/web.xml.ftl", "/WebContent/WEB-INF/web.xml"));
+        executeDecorator(new JSFDecorator(app, context, tplPath + "/faces-config.xml.ftl", "/WebContent/WEB-INF/faces-config.xml"));
+        executeDecorator(new JSFDecorator(app, context, tplPath + "/DAO.java.ftl", javaPath + "/dao/" + StringUtils.capitalize(app.getShortName()) + "DAO.java"));
+        executeDecorator(new JSFDecorator(app, context, tplPath + "/persistence.xml.ftl", "/src/META-INF/persistence.xml"));
 
         for (TableWrapper table : app.getTables()) {
             // Load table meta data from database.
             ApplicationMapper am = new ApplicationMapper();
             table = am.fetchApplicationTable(app.getId(), table);
-            executeDecorator(new JSFDecorator(app, table, context, tplPath + "/bean.ftl", javaPath + "/domain/" + table.getCamelCaseName(true) + ".java"));
-            executeDecorator(new JSFDecorator(app, table, context, tplPath + "/model.ftl", javaPath + "/model/" + table.getCamelCaseName(true) + "Model.java"));
-
+            executeDecorator(new JSFDecorator(app, table, context, tplPath + "/Bean.java.ftl", javaPath + "/domain/" + table.getCamelCaseName(true) + "Bean.java"));
+            executeDecorator(new JSFDecorator(app, table, context, tplPath + "/Model.java.ftl", javaPath + "/model/" + table.getCamelCaseName(true) + ".java"));
+            executeDecorator(new JSFDecorator(app, table, context, tplPath + "/model.xhtml.ftl", "/WebContent/WEB-INF/" + table.getAlias() + ".xhtml"));
         }
 
     }

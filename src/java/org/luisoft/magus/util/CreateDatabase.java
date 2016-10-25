@@ -88,6 +88,7 @@ public class CreateDatabase {
         setupSchema(CreateDatabase.class.getResourceAsStream("/octupus.sql"));
         // setupSchema(CreateDatabase.class.getResourceAsStream("/rbac.sql"));
         setupSchema(CreateDatabase.class.getResourceAsStream("/recipe.sql"));
+        setupSchema(CreateDatabase.class.getResourceAsStream("/livraria.sql"));
 
         test();
     }
