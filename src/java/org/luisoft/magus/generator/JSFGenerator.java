@@ -3,7 +3,6 @@ package org.luisoft.magus.generator;
 import freemarker.template.TemplateException;
 import general.server.IContext;
 import general.util.IOUtil;
-import general.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -85,16 +84,17 @@ public class JSFGenerator {
 
         executeDecorator(new JSFDecorator(app, context, tplPath + "/web.xml.ftl", "/WebContent/WEB-INF/web.xml"));
         executeDecorator(new JSFDecorator(app, context, tplPath + "/faces-config.xml.ftl", "/WebContent/WEB-INF/faces-config.xml"));
-        executeDecorator(new JSFDecorator(app, context, tplPath + "/DAO.java.ftl", javaPath + "/dao/" + StringUtils.capitalize(app.getShortName()) + "DAO.java"));
+        executeDecorator(new JSFDecorator(app, context, tplPath + "/DAO.java.ftl", javaPath + "/dao/DAO.java"));
+        executeDecorator(new JSFDecorator(app, context, tplPath + "/JPAUtil.java.ftl", javaPath + "/dao/JPAUtil.java"));
         executeDecorator(new JSFDecorator(app, context, tplPath + "/persistence.xml.ftl", "/src/META-INF/persistence.xml"));
 
         for (TableWrapper table : app.getTables()) {
             // Load table meta data from database.
             ApplicationMapper am = new ApplicationMapper();
             table = am.fetchApplicationTable(app.getId(), table);
-            executeDecorator(new JSFDecorator(app, table, context, tplPath + "/Bean.java.ftl", javaPath + "/domain/" + table.getCamelCaseName(true) + "Bean.java"));
+            executeDecorator(new JSFDecorator(app, table, context, tplPath + "/Bean.java.ftl", javaPath + "/bean/" + table.getCamelCaseName(true) + "Bean.java"));
             executeDecorator(new JSFDecorator(app, table, context, tplPath + "/Model.java.ftl", javaPath + "/model/" + table.getCamelCaseName(true) + ".java"));
-            executeDecorator(new JSFDecorator(app, table, context, tplPath + "/model.xhtml.ftl", "/WebContent/WEB-INF/" + table.getAlias() + ".xhtml"));
+            executeDecorator(new JSFDecorator(app, table, context, tplPath + "/model.xhtml.ftl", "/WebContent/" + table.getAlias() + ".xhtml"));
         }
 
     }

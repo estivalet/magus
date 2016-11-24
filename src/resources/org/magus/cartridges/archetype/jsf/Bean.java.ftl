@@ -11,8 +11,8 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import br.com.caelum.livraria.dao.DAO;
-import br.com.caelum.livraria.modelo.Autor;
+import ${app.shortName}.dao.DAO;
+import ${app.shortName}.model.${clazz.getAlias(true)};
 
 @ManagedBean
 @ViewScoped
@@ -20,19 +20,24 @@ public class ${clazz.getAlias(true)}Bean {
 
     private ${clazz.getAlias(true)} ${clazz.getAlias()} = new ${clazz.getAlias(true)}();
     
-    private Integer autorId;
+    <#assign id="">
+    <#list allColumns as column><#t>
+    <#if (column.isColumnInPrimaryKey())>
+    <#assign id="${column.getAlias()}">
+    private ${column.getTypeName()} ${column.getAlias()}${column.getDefaultValue()};
+    </#if>
+    </#list>
+    
 
     public ${clazz.getAlias(true)} get${clazz.getAlias(true)}() {
         return ${clazz.getAlias()};
     }
 
-    public List<${clazz.getAlias(true)}> getAutores() {
+    public List<${clazz.getAlias(true)}> get${clazz.getAlias(true)}s() {
         return new DAO<${clazz.getAlias(true)}>(${clazz.getAlias(true)}.class).listaTodos();
     }
 
     public String gravar() {
-        System.out.println("Gravando ${clazz.getAlias()} " + this.${clazz.getAlias()}.getNome());
-
         if (this.${clazz.getAlias()}.getId() == null) {
             new DAO<${clazz.getAlias(true)}>(${clazz.getAlias(true)}.class).adiciona(this.${clazz.getAlias()});
         } else {
@@ -54,15 +59,26 @@ public class ${clazz.getAlias(true)}Bean {
         new DAO<${clazz.getAlias(true)}>(${clazz.getAlias(true)}.class).remove(${clazz.getAlias()});
     }
 
-    public Integer getAutorId() {
-        return autorId;
-    }
-
-    public void setAutorId(Integer autorId) {
-        this.autorId = autorId;
+    public void carregar${clazz.getAlias(true)}PelaId() {
+        this.${clazz.getAlias()} = new DAO<${clazz.getAlias(true)}>(${clazz.getAlias(true)}.class).buscaPorId(${id});
     }
     
-    public void carregar${clazz.getAlias(true)}PelaId() {
-        this.${clazz.getAlias()} = new DAO<${clazz.getAlias(true)}>(${clazz.getAlias(true)}.class).buscaPorId(autorId);
+   <#list allColumns as column><#t>
+   <#if (column.isColumnInPrimaryKey())>
+    /**
+     * @param ${column.getCamelCaseName()}
+     *            the ${column.getCamelCaseName()} to set.
+     */
+    public void set${column.getAlias()?cap_first}(${column.getTypeName()} ${column.getCamelCaseName()}) {
+        this.${column.getAlias()} = ${column.getCamelCaseName()};
     }
+
+    /**
+     * @return the ${column.getCamelCaseName()}
+     */
+    public ${column.getTypeName()} get${column.getAlias()?cap_first}() {
+        return this.${column.getAlias()};
+    }
+    </#if>
+    </#list>    
 }

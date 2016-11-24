@@ -13,9 +13,9 @@ public class DBReaderTest {
         dbr.setDbConnectionImplementation("dbreveng.database.impl.hsqldb.HSQLDBDatabaseConnection");
         dbr.readDatabase("org.hsqldb.jdbcDriver", "jdbc:hsqldb:hsql://localhost/magusdb", "sa", "");
 
-        dbr.getDatabase().setCurrentSchema("RECIPE");
+        dbr.getDatabase().setCurrentSchema("LIVRARIA");
 
-        Table t = dbr.getDatabase().getCurrentSchema().getTable("RECEITA");
+        Table t = dbr.getDatabase().getCurrentSchema().getTable("LIVRO");
         System.out.println(t);
 
         System.out.println("********************************");

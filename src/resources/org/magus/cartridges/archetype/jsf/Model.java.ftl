@@ -7,10 +7,13 @@
 package ${app.shortName}.model;
 
 import java.io.Serializable;
+import java.util.Calendar;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class ${clazz.getAlias(true)} implements Serializable {
@@ -23,7 +26,13 @@ public class ${clazz.getAlias(true)} implements Serializable {
     @GeneratedValue
     private ${column.getTypeName()} ${column.getAlias()}${column.getDefaultValue()};
     <#else>
+    <#-- Hibernate works better with Calendar -->
+    <#if (column.getTypeName() == 'java.sql.Timestamp')>
+    @Temporal(TemporalType.DATE)
+    private java.util.Calendar ${column.getAlias()} = Calendar.getInstance();
+    <#else>
     private ${column.getTypeName()} ${column.getAlias()}${column.getDefaultValue()};
+    </#if>
     </#if>
     </#list>
     
@@ -32,6 +41,10 @@ public class ${clazz.getAlias(true)} implements Serializable {
      * @param ${column.getCamelCaseName()}
      *            the ${column.getCamelCaseName()} to set.
      */
+    <#if (column.getTypeName() == 'java.sql.Timestamp')>
+    public void set${column.getAlias()?cap_first}(Calendar ${column.getCamelCaseName()}) {
+    <#else>
+    </#if>
     public void set${column.getAlias()?cap_first}(${column.getTypeName()} ${column.getCamelCaseName()}) {
         this.${column.getAlias()} = ${column.getCamelCaseName()};
     }
@@ -39,6 +52,10 @@ public class ${clazz.getAlias(true)} implements Serializable {
     /**
      * @return the ${column.getCamelCaseName()}
      */
+    <#if (column.getTypeName() == 'java.sql.Timestamp')>
+    public Calendar get${column.getAlias()?cap_first}() {
+    <#else>
+    </#if>
     public ${column.getTypeName()} get${column.getAlias()?cap_first}() {
         return this.${column.getAlias()};
     }

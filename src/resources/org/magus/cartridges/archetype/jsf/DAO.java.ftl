@@ -1,3 +1,9 @@
+<#include app.licenseFile>
+
+/*
+ * Created on ${date} by ${app.user}
+ */
+
 package ${app.shortName}.dao;
 
 import java.util.List;
