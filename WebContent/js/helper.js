@@ -170,11 +170,13 @@ if ( typeof String.prototype.startsWith != 'function' ) {
 	}
 
 	function openModal() {
-        document.getElementById('modal').style.display = 'block';
-        document.getElementById('fade').style.display = 'block';
+		loading.open();
+//        document.getElementById('modalxx').style.display = 'block';
+//        document.getElementById('fadexx').style.display = 'block';
 	}
 
 	function closeModal() {
-		document.getElementById('modal').style.display = 'none';
-		document.getElementById('fade').style.display = 'none';
+		loading.close();
+//		document.getElementById('modalxx').style.display = 'none';
+//		document.getElementById('fadexx').style.display = 'none';
 	}

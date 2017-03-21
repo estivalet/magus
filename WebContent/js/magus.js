@@ -102,6 +102,7 @@ function loadProjectStatus() {
 
 		// Retrieve tables.
 		var tbl = app[0].getElementsByTagName("table");
+		projectTables = new Array();
 		for (var i = 0; i < tbl.length; i++) {
 			projectTables[projectTables.length] = tbl[i].getAttribute("name");
 			projectSchema = getNodeValue(tbl[i], "schema");
@@ -202,6 +203,7 @@ function listTablesStatus() {
 		tableCbo = document.getElementById("tables");
 		tableCbo.options.length = 0;
 		var selectedTables = document.getElementById("selectedTables");
+		selectedTables.options.length = 0;
 		// Get XML from the server.
 		var xml = HttpReq.responseXML;
 		var tables = xml.getElementsByTagName("table");
@@ -284,7 +286,9 @@ function listTableColumnsStatus() {
 		var xml = HttpReq.responseXML;
 		var xmlData = xml.getElementsByTagName("column");
 
-		deleteTableRows("columnTbl", false);
+		//deleteTableRows("columnTbl", false);
+		document.querySelector("#columns").innerHTML="";
+		
 		for (i = 0; i < xmlData.length; i++) {
 			label = "";
 			if (xmlData[i].getElementsByTagName("label")[0].childNodes[0]) {
@@ -321,6 +325,132 @@ function listTableColumnsStatus() {
 }
 
 function addRow(tableID, columnName, label, columnType, displayOrder, comment,
+		masked, visible, filter) {
+
+	var columns = document.querySelector("#columns");
+	
+	var row = document.createElement("div");
+	row.style.padding="0px 0px 0px 20px";
+	row.classList.add("row");
+	columns.appendChild(row);
+	
+	
+	var div1 = document.createElement("div");
+	div1.classList.add("form-group");
+	var label1 = document.createElement("label");
+	label1.textContent = "Column: " + columnName;
+	div1.appendChild(label1);
+	row.appendChild(div1);
+
+	var row = document.createElement("div");
+	row.style.padding="0px 0px 0px 20px";
+	row.classList.add("row");
+	columns.appendChild(row);
+	
+	var div1 = document.createElement("div");
+	div1.classList.add("form-group");
+	div1.style.padding="0px 5px 5px 0px";
+	var input = document.createElement("input");
+	input.name = "label[]";
+	input.id = "label[]";
+	input.placeholder = "Label...";
+	input.value=label;
+	input.type="text";
+	input.classList.add("form-control");
+	div1.appendChild(input);
+	row.appendChild(div1);
+
+	var div1 = document.createElement("div");
+	div1.classList.add("form-group");
+	div1.style.padding="0px 5px 5px 0px";
+	var input = document.createElement("select");
+	// See FieldType.java
+	// TEXTBOX, CHECKBOX, RADIOBUTTON, SELECTBOXFK, TEXTAREA, HIDDEN, SELECTBOX,
+	// DATEPICKER
+	createSelectOption(input, "0", "TextBox", columnType);
+	createSelectOption(input, "1", "CheckBox", columnType);
+	createSelectOption(input, "2", "RadioButton", columnType);
+	createSelectOption(input, "3", "SelectBoxFK", columnType);
+	createSelectOption(input, "4", "TextArea", columnType);
+	createSelectOption(input, "5", "Hidden", columnType);
+	createSelectOption(input, "6", "SelectBox", columnType);
+	createSelectOption(input, "7", "DatePicker", columnType);
+	createSelectOption(input, "8", "RichTextEditor", columnType);
+	createSelectOption(input, "9", "PNG", columnType);
+	createSelectOption(input, "10", "PDF", columnType);
+	input.id = "selbox[]";
+	input.name = "selbox[]";
+	input.classList.add("form-control");
+	div1.appendChild(input);
+	row.appendChild(div1);
+
+	var div1 = document.createElement("div");
+	div1.classList.add("form-group");
+	div1.style.padding="0px 5px 5px 0px";
+	var input = document.createElement("input");
+	input.name = "order[]";
+	input.id = "order[]";
+	input.placeholder = "Order...";
+	input.type="text";
+	input.value=displayOrder;
+	input.classList.add("form-control");
+	div1.appendChild(input);
+	row.appendChild(div1);
+	
+	var div1 = document.createElement("div");
+	div1.classList.add("form-group");
+	div1.style.padding="0px 5px 5px 0px";
+	var input = document.createElement("input");
+	input.name = "masked[]";
+	input.id = "masked[]";
+	input.placeholder = "Mask...";
+	input.type="text";
+	input.value=masked;
+	input.classList.add("form-control");
+	div1.appendChild(input);
+	row.appendChild(div1);
+
+	var div1 = document.createElement("div");
+	div1.classList.add("form-group");
+	div1.style.padding="0px 5px 5px 0px";
+	var input = document.createElement("select");
+	createSelectOption(input, "Y", "Yes", "Y");
+	createSelectOption(input, "N", "No", "Y");
+	input.name = "visible[]";
+	input.id = "visible[]";
+	input.classList.add("form-control");
+	input.value=visible;
+	div1.appendChild(input);
+	row.appendChild(div1);
+
+	var div1 = document.createElement("div");
+	div1.classList.add("form-group");
+	div1.style.padding="0px 5px 5px 0px";
+	var input = document.createElement("select");
+	createSelectOption(input, "Y", "Yes", "Y");
+	createSelectOption(input, "N", "No", "Y");
+	input.name = "filter[]";
+	input.id = "filter[]";
+	input.classList.add("form-control");
+	input.value=filter;
+	div1.appendChild(input);
+	row.appendChild(div1);
+
+	var div1 = document.createElement("div");
+	div1.classList.add("form-group");
+	div1.style.padding="0px 5px 5px 0px";
+	var input = document.createElement("input");
+	input.name = "comment[]";
+	input.id = "comment[]";
+	input.placeholder = "Comment...";
+	input.type="text";
+	input.value = comment;
+	input.classList.add("form-control");
+	div1.appendChild(input);
+	row.appendChild(div1);
+
+}	
+function addRow_old(tableID, columnName, label, columnType, displayOrder, comment,
 		masked, visible, filter) {
 
 	var table = document.getElementById(tableID);
@@ -429,12 +559,12 @@ function addRow(tableID, columnName, label, columnType, displayOrder, comment,
 	element10.size = 80;
 	element10.value = comment;
 	cell10.appendChild(element10);
-
+/*
 	$('a[rel*=leanModal]').leanModal({
 		overlay : 0.8,
 		closeButton : ".modal_close",
 		closeCSS : ".closepopup"
-	});
+	});*/
 
 }
 
@@ -617,7 +747,7 @@ function saveColumnMapping() {
 function saveColumnMappingStatus() {
 
 }
-
+/*
 function generateCode() {
 	openModal();
 	callServer("magus?command=Generate&project="
@@ -632,5 +762,19 @@ function generateCodeStatus() {
 	if (HttpReq.readyState == 4 && HttpReq.status == 200) {
 		closeModal();
 		var xml = HttpReq.responseXML;
+	}
+}
+*/
+
+function generateCode() {
+	openModal();
+	callServer("magus?command=Generate&project="
+			+ document.getElementById('id').value, generateCodeStatus)
+}
+
+function generateCodeStatus() {
+	if (HttpReq.readyState == 4 && HttpReq.status == 200) {
+		closeModal();
+		alert("done!");
 	}
 }

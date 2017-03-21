@@ -1,13 +1,13 @@
 package org.luisoft.magus.core.commands;
 
-import general.server.ICommand;
-import general.server.IContext;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.luisoft.magus.mapper.ApplicationMapper;
+
+import general.server.ICommand;
+import general.server.IContext;
 
 /**
  * @author 88758559000
@@ -53,7 +53,7 @@ public class IndexCommand implements ICommand {
             return page;
         }
 
-        return "/index7.jsp";
+        return "/index_new.jsp";
     }
 
 }
