@@ -90,6 +90,7 @@ public class JSPServletGenerator {
         executeDecorator(new JSPServletDecorator(app, context, tplPath + "/DomainServlet.java.ftl", javaPath + "/server/" + StringUtils.capitalize(app.getShortName()) + "Servlet.java"));
         executeDecorator(new JSPServletDecorator(app, context, tplPath + "/web.xml.ftl", "/WebContent/WEB-INF/web.xml"));
         executeDecorator(new JSPServletDecorator(app, context, tplPath + "/header.jsp.ftl", "/WebContent/WEB-INF/jsp/header.jsp"));
+        executeDecorator(new JSPServletDecorator(app, context, tplPath + "/footer.jsp.ftl", "/WebContent/WEB-INF/jsp/footer.jsp"));
         executeDecorator(new JSPServletDecorator(app, context, tplPath + "/index.jsp.ftl", "/WebContent/WEB-INF/jsp/index.jsp"));
 
         for (TableWrapper table : app.getTables()) {

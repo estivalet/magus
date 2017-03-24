@@ -1,16 +1,17 @@
 package org.luisoft.magus.core.commands;
 
-import general.server.ICommand;
-import general.server.IContext;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.luisoft.magus.domain.Application;
 import org.luisoft.magus.generator.JSFGenerator;
 import org.luisoft.magus.generator.JSPServletGenerator;
+import org.luisoft.magus.generator.JSPv2ServletGenerator;
 import org.luisoft.magus.generator.RESTGenerator;
 import org.luisoft.magus.mapper.ApplicationMapper;
+
+import general.server.ICommand;
+import general.server.IContext;
 
 public class GenerateCommand implements ICommand {
 
@@ -34,6 +35,8 @@ public class GenerateCommand implements ICommand {
         String archetype = app.getArchitecture();
         if ("JSP_Servlet".equals(archetype)) {
             new JSPServletGenerator(context);
+        } else if ("JSPv2".equals(archetype)) {
+            new JSPv2ServletGenerator(context);
         } else if ("REST".equals(archetype)) {
             new RESTGenerator(context);
         } else if ("JSF".equals(archetype)) {

@@ -363,12 +363,7 @@
       <ul class="sidebar-menu">
         <li class="header">MAIN NAVIGATION</li>
         <li><a href="documentation/index.html"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
-        <li><a href="?command=Software&action=search">Search</a></li>
-        <li><a href="/glog/javatari/index.html">Atari 2600</a></li>
-		<li><a href="/glog/wmsx/index.html">Microsoft MSX</a></li>
-        <li><a href="/glog/AdminLTE-2.3.7/index_lfe_dropdownmenu.html">Site template</a></li>
-		<li><a href="/glog/slider-master/hyperspin.html">Hyperspin slide template</a></li>
-		<li><a href="http://howlerbr2.webhop.me/wiki">Emulators WIKI</a></li>
+        <li><a href="?command=Index">Generator</a></li>
         <li class="header">LABELS</li>
         <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
         <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>

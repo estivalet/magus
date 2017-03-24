@@ -713,7 +713,7 @@ ALTER TABLE octupus.PERSON ADD CONSTRAINT person_country FOREIGN KEY (country_id
 -------------------------------------------------- SAMPLE DATA -------------------------------------
 INSERT INTO octupus.AUTHOR(name) values ('J.K.Rowling');
 INSERT INTO octupus.AUTHOR(name) values ('Esopo');
-INSERT INTO octupus.AUTHOR(name) values ('Irm„os Grimm');
+INSERT INTO octupus.AUTHOR(name) values ('Irm√£os Grimm');
 INSERT INTO octupus.AUTHOR(name) values ('Hans Christian Andersen');
 
 INSERT INTO octupus.BOOK(title, isbn10, isbn13, module_id, category_id, language_id, country_id) values ('A Bela Adormecida', '10', '13', 1, 1, 1, 1);

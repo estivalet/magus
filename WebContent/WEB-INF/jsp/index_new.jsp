@@ -92,6 +92,7 @@
                                                 <div class="form-group">
                                                     <label for="project">Architecture</label> <select id="architecture" class="form-control">
                                                         <option value="JSP_Servlet" selected="selected">JSP &amp; Servlet</option>
+                                                        <option value="JSPv2" selected="selected">JSPv2</option>
                                                         <option value="REST">REST</option>
                                                         <option value="JSF">JSF</option>
 
@@ -112,6 +113,7 @@
                                                         <option value="pure" selected="selected">pure</option>
                                                         <option value="black">Black</option>
                                                         <option value="boxieblue">Boxie Blue</option>
+                                                        <option value="adminLTE">AdminLTE</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -224,7 +226,7 @@
   </div>
  -->
                                     </form>
-                                    <button type="submit" class="btn btn-primary" onclick="saveColumnMapping()">Submit</button>
+                                    <button type="submit" class="btn btn-primary" onclick="saveColumnMapping()">Save</button>
 
 
 

@@ -1,0 +1,97 @@
+fieldset.main 
+{  
+    margin: 1.5em 0 0 1.5em;  
+    padding: 1em 0 0 0;
+    width: 800px;
+    font-size: .9em;    
+}
+
+fieldset.main legend
+{  
+    margin-left: 1em;  
+    color: #000000;  
+    font-weight: bold;    
+}
+
+fieldset.main ol 
+{  
+    padding: 1em 1em 0 1em;  
+    list-style: none;
+}
+
+fieldset.main li 
+{  
+    padding-bottom: .5em;
+}
+
+fieldset.main ol li label 
+{  
+    float: left;
+    width: 10em;        
+    margin-right: 1em;
+}
+
+fieldset.nested 
+{  
+    margin: 0 0 1em 1em;  
+    padding: 0;
+    width: 93%;
+    font-size: .8em;
+    border: 1px solid gray;
+    background: #ebf4fb;    
+
+}
+
+fieldset.nested legend
+{  
+    margin-left: 1em;      
+    font-weight: normal;
+    font-size: .9em; 
+    color: black;
+    background-color: white;
+    padding: 0 1em 0 1em;
+    border: 1px solid black;
+}
+
+fieldset.nested ol 
+{  
+    padding: 0 1em 0 1em;  
+    list-style: none;
+}
+
+fieldset.nested li 
+{  
+    padding-bottom: .7em;
+}
+
+fieldset.nested ol li label 
+{  
+    float: left;
+    width: 10em;        
+    margin-right: 1em;
+}
+
+input.button
+{                                  
+    width: 6em;
+    height: 2.5em;
+}
+
+</style>
+
+/**
+<!--[if IE]>
+<style>
+    fieldset.nested 
+    {
+        position: relative;
+        margin-top: 15px;        
+    }
+
+    fieldset.nested legend 
+    {
+        position: absolute; top: -8px; left: 1em;
+    }
+</style>
+<![endif]-->
+**/

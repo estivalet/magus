@@ -31,7 +31,7 @@ CREATE TABLE recipe.CATEGORIA
 /***************************************************************************
  * Table      : RECEITA
  * Purpose    : 
- * Description: O campo descricao serve para a preguiça de cadastrar ingrediente por ingrediente.
+ * Description: O campo descricao serve para a preguiï¿½a de cadastrar ingrediente por ingrediente.
  *              Derivar o preco total e calorias total baseado na lista de ingredientes
  ***************************************************************************/
 CREATE TABLE recipe.RECEITA
@@ -97,7 +97,7 @@ INSERT INTO recipe.CATEGORIA(descricao) VALUES('Bebida');
 INSERT INTO recipe.CATEGORIA(descricao) VALUES('Sobremesa');
 INSERT INTO recipe.CATEGORIA(descricao) VALUES('Torta');
 INSERT INTO recipe.UNIDADE(descricao) VALUES('Gramas');
-INSERT INTO recipe.UNIDADE(descricao) VALUES('Colher de chá');
+INSERT INTO recipe.UNIDADE(descricao) VALUES('Colher de chÃ¡');
 INSERT INTO recipe.UNIDADE(descricao) VALUES('Colher de sopa');
 
 
