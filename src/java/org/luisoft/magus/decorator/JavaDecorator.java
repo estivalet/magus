@@ -1,8 +1,5 @@
 package org.luisoft.magus.decorator;
 
-import general.server.IContext;
-import general.util.StringUtils;
-
 import java.util.ArrayList;
 
 import org.luisoft.magus.core.ColumnWrapper;
@@ -13,6 +10,8 @@ import org.luisoft.magus.mapper.ApplicationMapper;
 import dbreveng.database.meta.Column;
 import dbreveng.database.meta.ForeignKey;
 import dbreveng.database.meta.Table;
+import general.server.IContext;
+import general.util.StringUtils;
 
 public class JavaDecorator extends BaseDecorator {
 
@@ -23,7 +22,7 @@ public class JavaDecorator extends BaseDecorator {
     protected ArrayList<ColumnWrapper> getTableColumns(Long appId, IContext context, TableWrapper table) {
         ArrayList<ColumnWrapper> columns = new ArrayList<ColumnWrapper>();
         for (Column c : table.getColumns().values()) {
-            ColumnWrapper column = new ColumnWrapper(c);
+            ColumnWrapper column = table.getColumnWrapper(c.getName());
             column.setAlias(StringUtils.toCamelCase(c.getName()));
             column.setTypeName(c.getJdbcDataType());
             column.setTable(table.getTable());

@@ -49,11 +49,10 @@
   <![endif]-->
   
   <script>
-function submit(formAction, command, action, pageNum) {
+function submit(formAction, command, action) {
     var form = createForm("myform","post",formAction);
     var input1 = createInput("command","hidden",command);
     var input2 = createInput("action","hidden",action);
-    var input3 = createInput("pageNum","hidden",pageNum);
     form.appendChild(input1);
     form.appendChild(input2);
     form.appendChild(input3);
@@ -383,7 +382,7 @@ function submit(formAction, command, action, pageNum) {
         <li><a href="documentation/index.html"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
         
         <#list app.tables as table><#t>
-            <li><a href="?command=${table.getCamelCaseName(true)}Action&action=index">${table.getCamelCaseName(true)}</a></li>
+            <li><a href="#" onclick="submit('','${table.getCamelCaseName(true)}Action','index')">${table.getCamelCaseName(true)}</a></li>
         </#list>
 
         

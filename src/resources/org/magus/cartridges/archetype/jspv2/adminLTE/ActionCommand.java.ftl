@@ -55,6 +55,25 @@ public class ${clazz.getAlias(true)}ActionCommand implements ICommand {
     public Object execute(HttpServletRequest request, HttpServletResponse response, IContext context) throws Exception {
         String op = request.getParameter("op");
         ${clazz.getAlias(true)}Model model = new ${clazz.getAlias(true)}Model();
+        <#list allColumns as column><#t>
+        <#if (column.getPSJavaMethod() == "Bytes")>
+        if ("get${column.getCamelCaseName(true)}".equals(op)) {
+            model = new ${clazz.getAlias(true)}Model(Integer.parseInt(request.getParameter("${pks.getCamelCaseName()}")));
+            request.setAttribute("${clazz.getAlias()}", model);
+            byte[] data = model.get${column.getCamelCaseName(true)}();
+            if (data != null) {
+                response.setContentType("image/png");
+                response.setContentLength(data.length);
+                OutputStream out = response.getOutputStream();
+                out.write(data);
+            }
+            this.dispatch = false;
+            
+            return null;
+        }
+        </#if>
+        </#list>
+    
         if (op == null || "index".equals(op)) {
             request.setAttribute("${clazz.getAlias()}s", model.listAll());
             this.page = "search.jsp";
@@ -82,6 +101,13 @@ public class ${clazz.getAlias(true)}ActionCommand implements ICommand {
             request.setAttribute("message", op + " successful!");
             this.page = "search.jsp";
         } else if ("update".equals(op)) {
+            <#list fks as fk><#t>
+            <#if (!fk.table.hasExportedKeys())>
+            ${fk.getAlias(true)}Model ${fk.getAlias()} = new ${fk.getAlias(true)}Model();
+            ${collection}<${fk.getAlias(true)}> ${fk.getAlias()}s = ${fk.getAlias()}.listAll();
+            request.setAttribute("${fk.getAlias()}s", ${fk.getAlias()}s);
+            </#if>
+            </#list><#t>        
             model = new ${clazz.getAlias(true)}Model(Integer.parseInt(request.getParameter("${pks.getCamelCaseName()}")));
             request.setAttribute("${clazz.getAlias()}", model);
             this.page = "create.jsp";
@@ -249,7 +275,7 @@ public class ${clazz.getAlias(true)}ActionCommand implements ICommand {
 	private ${clazz.getAlias(true)}Model populateDto(HttpServletRequest request,${clazz.getAlias(true)}Model model) throws Exception {
         <#list allColumns as column><#t>
         <#if (column.getPSJavaMethod() == "Bytes")>
-        if (request.getPart("${column.getCamelCaseName()}") != null) {
+        if (request.getPart("${column.getCamelCaseName()}") != null && request.getPart("${column.getCamelCaseName()}").getSize() > 0) {
             Part filePart = request.getPart("${column.getCamelCaseName()}");
             String fileName = getFileName(filePart);
             InputStream input = filePart.getInputStream();
@@ -266,7 +292,7 @@ public class ${clazz.getAlias(true)}ActionCommand implements ICommand {
             model.set${column.getCamelCaseName(true)}(result);
         }
         <#else>
-        if (request.getParameter("${column.getCamelCaseName()}") != null) {
+        if (request.getParameter("${column.getCamelCaseName()}") != null  && !"".equals(request.getParameter("${column.getCamelCaseName()}"))) {
         <#if (column.isColumnInForeignKey())>
 			${column.getForeignTableAlias(true)}Model tmp = new ${column.getForeignTableAlias(true)}Model(Integer.parseInt(request
 					.getParameter("${column.getCamelCaseName()}")));
@@ -308,7 +334,10 @@ public class ${clazz.getAlias(true)}ActionCommand implements ICommand {
 	 */
 	@Override
     public String dispatch() {
-        return "/${clazz.getCamelCaseName()}/" + page;
+        if (page != null) {
+            return "/${clazz.getCamelCaseName()}/" + page;
+        }
+        return null;
     }
 
     /*    

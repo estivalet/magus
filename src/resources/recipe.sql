@@ -48,8 +48,8 @@ CREATE TABLE recipe.RECEITA
   dificuldade varchar(20) null,
   descricao longvarchar null,
   modo_preparo longvarchar null,
-  foto binary null,
-  arquivo binary null,
+  foto longvarbinary null,
+  arquivo longvarbinary null,
   primary key(id),
   CONSTRAINT receita_uniq_nome unique(nome),
   CONSTRAINT fk_receita_categoria FOREIGN KEY (categoria_id) REFERENCES recipe.CATEGORIA (id)
@@ -101,3 +101,5 @@ INSERT INTO recipe.UNIDADE(descricao) VALUES('Colher de chá');
 INSERT INTO recipe.UNIDADE(descricao) VALUES('Colher de sopa');
 
 
+INSERT INTO MW_APPLICATION(ID,NAME,SHORT_NAME,DESCRIPTION,PATH,COPYRIGHT,LICENSE_FILE,TEMPLATE,ARCHITECTURE,RECORDS_PER_PAGE,USER) VALUES (20,'recipe','recipe','','/home/lestivalet/apps/apache-tomcat-8.0.41/webapps/recipe',null,null,'adminLTE','JSPv2',null,null);
+INSERT INTO MW_APPLICATION_DATABASE(APP_ID,DB_TYPE,DATA_SOURCE,DRIVER,CONNECTION_STRING,CONNECTION_IMPL,USERNAME,PASSWORD) VALUES (20,'HSQLDB','ds','driver','jdbc:hsqldb:hsql://localhost/magusdb','connimpl','sa','');

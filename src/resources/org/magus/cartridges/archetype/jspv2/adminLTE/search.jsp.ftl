@@ -24,11 +24,15 @@
                     <thead>
                         <tr>
                         <#list allColumns as column><#t>
+                        <#if (column.isColumnInPrimaryKey())>
+                        <#assign pkValue="${clazz.getAlias()}.${column.getLabel()}">
+                        </#if>
+
                         <#if (column.visible == 'Y')>
                         <#if (column.isColumnInForeignKey())>
                             <th>${column.getForeignTableAlias()}</th>
                         <#else>
-                            <th>${column.getLabel()}</th>
+                            <th>${column.getLabel()}-${column.customFieldType}</th>
                         </#if>
                         </#if>
                         </#list><#t>
@@ -39,16 +43,16 @@
                         <c:forEach items="<#noparse>${</#noparse>${clazz.getAlias()}s<#noparse>}</#noparse>" var="${clazz.getAlias()}" varStatus="loop">
                             <tr>
                             <#list allColumns as column><#t>
-
-                            <#if (column.isColumnInPrimaryKey())>
-                            <#assign pkValue="${clazz.getAlias()}.${column.getLabel()}">
-                            </#if>
-                            
+                            <#assign fkDisplay="${column.getCamelCaseName()}" + "_fk_display">
                             <#if (column.visible == 'Y')>
+                            <#if (column.customFieldType == 9)>
+                                <td><img src="?command=${clazz.getAlias(true)}Action&op=get${column.getCamelCaseName(true)}&id=<#noparse>${</#noparse>${pkValue}<#noparse>}</#noparse>" onerror="this.style.display='none'" width="50"/>
+                            <#else>
                             <#if (column.isColumnInForeignKey())>
-                                <td><#noparse>${</#noparse>${clazz.getAlias()}.${column.getForeignTableAlias()}<#noparse>}</#noparse></td>
+                                <td><#noparse>${</#noparse>${clazz.getAlias()}.${column.getForeignTableAlias()}.${.vars[fkDisplay]}<#noparse>}</#noparse></td>
                             <#else>
                                 <td><#noparse>${</#noparse>${clazz.getAlias()}.${column.getLabel()}<#noparse>}</#noparse></td>
+                            </#if>
                             </#if>
                             </#if>
                             </#list><#t>
