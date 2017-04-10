@@ -1,10 +1,5 @@
 package org.luisoft.magus.generator;
 
-import freemarker.template.TemplateException;
-import general.server.IContext;
-import general.util.IOUtil;
-import general.util.StringUtils;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -16,6 +11,11 @@ import org.luisoft.magus.decorator.RESTDecorator;
 import org.luisoft.magus.domain.Application;
 import org.luisoft.magus.domain.MagusConfig;
 import org.luisoft.magus.mapper.ApplicationMapper;
+
+import freemarker.template.TemplateException;
+import general.server.IContext;
+import general.util.IOUtil;
+import general.util.StringUtils;
 
 /**
  * Generator for JSP_Servlet archetype.
@@ -62,7 +62,8 @@ public class RESTGenerator {
      */
     private void copyFiles() throws IOException {
         // Get Magus current execution folder.
-        String appPath = ((HttpServletRequest) context.getAttribute("request")).getServletContext().getRealPath("..");
+        String appPath = ((HttpServletRequest) context.getAttribute("request")).getServletContext().getRealPath(".");
+        appPath = appPath.substring(0, appPath.lastIndexOf("/"));
         // Get template used by the application.
         String template = ((Application) context.getAttribute("app")).getTemplate();
 

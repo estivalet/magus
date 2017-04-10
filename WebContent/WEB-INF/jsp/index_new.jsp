@@ -94,6 +94,7 @@
                                                         <option value="JSP_Servlet" selected="selected">JSP &amp; Servlet</option>
                                                         <option value="JSPv2" selected="selected">JSPv2</option>
                                                         <option value="REST">REST</option>
+                                                        <option value="RESTv2">RESTv2</option>
                                                         <option value="JSF">JSF</option>
 
                                                     </select>

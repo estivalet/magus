@@ -32,7 +32,7 @@
                         <#if (column.isColumnInForeignKey())>
                             <th>${column.getForeignTableAlias()}</th>
                         <#else>
-                            <th>${column.getLabel()}-${column.customFieldType}</th>
+                            <th>${column.getLabel()}</th>
                         </#if>
                         </#if>
                         </#list><#t>
