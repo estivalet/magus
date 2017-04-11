@@ -384,12 +384,6 @@ function submit(formAction, command, action) {
         <#list app.tables as table><#t>
             <li><a href="#" onclick="submit('','${table.getCamelCaseName(true)}Action','index')">${table.getCamelCaseName(true)}</a></li>
         </#list>
-
-        
-        <li class="header">LABELS</li>
-        <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
-        <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
-        <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
       </ul>
     </section>
     <!-- /.sidebar -->

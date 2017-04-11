@@ -11,9 +11,23 @@
 
     <!-- Main content -->
     <section class="content">
+    
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <div id="divMsgDel" class="form-group invisible">
+                    <label class="control-label" id="messagesDel"></label>
+                </div>
+            </div>
+            <div class="box-body" id="box-body">
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    
+    
         <div class="box">
             <div class="box-header with-border">
-                <h3 class="box-title">Title</h3>
+                <h3 class="box-title">Create new</h3>
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                     <i class="fa fa-minus"></i></button>
@@ -54,16 +68,6 @@
     
     
     
-        <div class="box box-primary">
-            <div class="box-header with-border">
-                <a href="#" onclick="document.getElementById('myform').submit()"><img src="css/images/plus.png" /></a>
-            </div>
-
-            <div class="box-body" id="box-body">
-            </div>
-            <!-- /.box-body -->
-        </div>
-        <!-- /.box -->
     </section>
     <!-- /.content -->
 </div>
@@ -223,7 +227,9 @@
                 // Parse data retrieved from server to populate input fields. 
                 var obj = JSON.parse(xmlhttp.responseText);
                 <#list allColumns as column><#t>
-                document.getElementById("${column.getCamelCaseName()}").value = obj.${column.getCamelCaseName()};
+                <#if (column.customFieldType != 9) && (column.customFieldType !=10) >
+                document.getElementById("${column.getCamelCaseName()}").value = typeof obj.${column.getCamelCaseName()} == "undefined" ? "" : obj.${column.getCamelCaseName()};
+                </#if>
                 </#list>
                 // Set command to be an update.      
                 document.getElementById("command").value = "PUT";      
@@ -269,9 +275,9 @@
         remove${clazz.getAlias(true)}Status = function() {
             // If the delete operation got success.
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                $('#divMsg').removeClass("invisible");
-                $('#divMsg').addClass("has-success");
-                $('#messages').text(xmlhttp.responseText);
+                $('#divMsgDel').removeClass("invisible");
+                $('#divMsgDel').addClass("has-success");
+                $('#messagesDel').text(xmlhttp.responseText);
                 document.getElementById("box-body").innerHTML = "";
                 callServerJSON("GET","http://localhost:8080/recipe/rest/${clazz.getAlias()}/all/json", filter${clazz.getAlias(true)}SearchStatus);
             }
@@ -281,7 +287,29 @@
         
                 
         callServerJSON("GET","http://localhost:8080/recipe/rest/${clazz.getAlias()}/all/json", filter${clazz.getAlias(true)}SearchStatus);
-
+        
+        
+        <#list columnsMinusPk as column><#t>
+            <#if (column.isColumnInForeignKey())><#t>
+            <#assign fkDisplay="${column.getCamelCaseName()}" + "_fk_display">
+        $.ajax({
+            url: 'http://localhost:8080/${app.shortName}/rest/${column.getForeignTableAlias()}/all/json',
+            dataType: 'json',
+            success: function(data) {
+                var combo = document.getElementById("${column.getCamelCaseName()}");
+                data.forEach(function(obj) { 
+                    id = obj.${column.getForeignTableColumnPkAlias()};
+                    descricao = obj.${.vars[fkDisplay]};
+                    option = document.createElement('option');
+                    option.setAttribute('value', id);
+                    option.appendChild(document.createTextNode(descricao));
+                    combo.appendChild(option);
+                });            
+            },
+            type: 'GET'
+        });               
+            </#if>
+        </#list>
     });
 
 
