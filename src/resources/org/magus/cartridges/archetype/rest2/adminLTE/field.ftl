@@ -1,7 +1,11 @@
                         <div class="form-group">                                    
         <#assign id="${column.getCamelCaseName()}">
         <#assign size="${column.getInputSize()}">
-                            <label for="${id}">${column.getLabel()}<#if column.isRequired()>*</#if></label> 
+                            <#if (column.isColumnInForeignKey())>
+                            <label for="${id}">${column.getForeignTableAlias()}<#if column.isRequired()>*</#if></label>
+                            <#else> 
+                            <label for="${id}">${column.getLabel()}<#if column.isRequired()>*</#if></label>
+                            </#if> 
                 <#switch column.customFieldType>
                     <#case 1><#-- CHECKBOX -->
                         <#list column.options?keys as field>

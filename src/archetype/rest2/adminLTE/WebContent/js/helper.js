@@ -135,3 +135,45 @@ function closeModal() {
 	document.getElementById('fade').style.display = 'none';
 }
 
+function createTable(div, id, className) {
+    var myTableDiv = document.getElementById(div);
+    var table = document.createElement('TABLE');
+    table.id = id;
+    table.className = className;
+    myTableDiv.appendChild(table);
+    return table;
+}
+
+function addTableHeader(table, columns) {
+    var header = table.createTHead();
+    var row = header.insertRow(0);
+    for(index = 0; index < columns.length; index++) {
+        var cell = row.insertCell();
+        cell.innerHTML = "<b>" + columns[index] + "</b>";
+    }
+        
+}
+
+function addTableBody(table) {
+    var tableBody = document.createElement('TBODY');
+    table.appendChild(tableBody);
+    return tableBody;
+}
+
+function addTableRow(tableBody) {
+    var tr = document.createElement('TR');
+    tableBody.appendChild(tr);
+    return tr;
+}
+
+function addTableCell(tr, data) {
+    var td = document.createElement('TD');
+    td.appendChild(document.createTextNode(typeof data == "undefined" ? "" : data));
+    tr.appendChild(td);
+}
+
+function addTableCellHTML(tr, data) {
+    var td = document.createElement('TD');
+    td.innerHTML = data;
+    tr.appendChild(td);
+}	

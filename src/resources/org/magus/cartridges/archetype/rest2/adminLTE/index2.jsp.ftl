@@ -1,5 +1,13 @@
 <%@include file="../header.jsp" %>
 
+<style>
+table.dataTable thead tr th,
+table.dataTable thead tr td {
+    background-color: #3399ff;
+    border-color: #c0c0c0;
+    color:#fff;
+}
+</style>
 
 
 <!-- Content Wrapper. Contains page content -->
@@ -85,63 +93,46 @@
 
         filter${clazz.getAlias(true)}SearchStatus = function() {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                
-                var myTableDiv = document.getElementById("box-body");
-                var table = document.createElement('TABLE');
-                table.id='${clazz.getAlias()}s'
-                table.className = "table table-striped table-bordered";
-
-                var header = table.createTHead();
-                var row = header.insertRow(0);
+                var table = createTable("box-body","${clazz.getAlias()}s","table table-striped table-bordered");
+                columns = [];
                 <#list allColumns as column><#t>
-                <#if (column.visible == 'Y')>
-                var cell = row.insertCell();
-                <#if (column.isColumnInForeignKey())>
-                cell.innerHTML = "<b>${column.getForeignTableAlias()}</b>";
-                <#else>
-                cell.innerHTML = "<b>${column.getLabel()}</b>";
-                </#if>
-                </#if>
-                </#list>
-                cell = row.insertCell();
-                cell.innerHTML = "";
-
-                var tableBody = document.createElement('TBODY');
-                table.appendChild(tableBody);
+                <#if (column.visible == 'Y')><#t>
+                <#if (column.isColumnInForeignKey())><#t>
+                columns.push("${column.getForeignTableAlias()}");
+                <#else><#t>
+                columns.push("${column.getLabel()}");
+                </#if><#t>
+                </#if><#t>
+                </#list><#t>
+                columns.push("");
+                addTableHeader(table, columns);
+                var tableBody = addTableBody(table);
 
                 var json = JSON.parse(xmlhttp.responseText);
                 json.forEach(function(obj) { 
                     console.log(obj);
-                    var tr = document.createElement('TR');
-                    tableBody.appendChild(tr);
-                    
+                    var tr = addTableRow(tableBody);
                     <#list allColumns as column><#t>
                     <#if (column.isColumnInPrimaryKey())>
                     <#assign pkColumn="${column.getLabel()}">
                     </#if>
                     </#list>
-                    
                     <#list allColumns as column><#t>
                     <#assign fkDisplay="${column.getCamelCaseName()}" + "_fk_display">
                     <#if (column.visible == 'Y')>
-                    var td = document.createElement('TD');
                     <#if (column.customFieldType == 9)>
-                    td.innerHTML='<img src="?command=${clazz.getAlias(true)}Action&op=get${column.getCamelCaseName(true)}&id=' + obj.${pkColumn} + '" onerror="this.style.display=\'none\'" width="50"/>';
+                    addTableCellHTML(tr,'<img src="?command=${clazz.getAlias(true)}Action&op=get${column.getCamelCaseName(true)}&id=' + obj.${pkColumn} + '" onerror="this.style.display=\'none\'" width="50"/>');
                     <#else>
                     <#if (column.isColumnInForeignKey())>
-                    td.appendChild(document.createTextNode(typeof obj.${column.getForeignTableAlias()}.${.vars[fkDisplay]} == "undefined" ? "" : obj.${column.getForeignTableAlias()}.${.vars[fkDisplay]}));
+                    addTableCell(tr, obj.${column.getForeignTableAlias()}.${.vars[fkDisplay]});
                     <#else>
-                    td.appendChild(document.createTextNode(typeof obj.${column.getLabel()} == "undefined" ? "" : obj.${column.getLabel()}));
+                    addTableCell(tr, obj.${column.getLabel()});
                     </#if>
                     </#if>
-                    tr.appendChild(td);
                     </#if>
                     </#list><#t>
-                    td = document.createElement('TD');
-                    td.innerHTML = "<a href=\"#\" onclick=\"edit${clazz.getAlias(true)}('" + obj.${pkColumn} + "')\">Edit</a>&nbsp;<a href=\"#\" onclick=\"remove${clazz.getAlias(true)}('" + obj.${pkColumn} + "')\">Remove</a>";
-                    tr.appendChild(td);
+                    addTableCellHTML(tr,"<a href=\"#\" onclick=\"edit${clazz.getAlias(true)}('" + obj.${pkColumn} + "')\">Edit</a>&nbsp;<a href=\"#\" onclick=\"remove${clazz.getAlias(true)}('" + obj.${pkColumn} + "')\">Remove</a>");
                 });
-                myTableDiv.appendChild(table);
                 }
                 $("#${clazz.getAlias()}s").DataTable({
                     "ordering" : false,

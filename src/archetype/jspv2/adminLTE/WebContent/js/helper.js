@@ -180,3 +180,5 @@ if ( typeof String.prototype.startsWith != 'function' ) {
 //		document.getElementById('modalxx').style.display = 'none';
 //		document.getElementById('fadexx').style.display = 'none';
 	}
+	
+	
