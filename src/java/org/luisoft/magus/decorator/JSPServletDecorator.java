@@ -1,11 +1,10 @@
 package org.luisoft.magus.decorator;
 
-import general.server.IContext;
-
 import org.luisoft.magus.core.TableWrapper;
 import org.luisoft.magus.domain.Application;
 
 import dbreveng.database.meta.Column;
+import general.server.IContext;
 
 public class JSPServletDecorator extends JavaDecorator {
 

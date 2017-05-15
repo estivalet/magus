@@ -101,5 +101,5 @@ INSERT INTO recipe.UNIDADE(descricao) VALUES('Colher de chá');
 INSERT INTO recipe.UNIDADE(descricao) VALUES('Colher de sopa');
 
 
-INSERT INTO MW_APPLICATION(ID,NAME,SHORT_NAME,DESCRIPTION,PATH,COPYRIGHT,LICENSE_FILE,TEMPLATE,ARCHITECTURE,RECORDS_PER_PAGE,USER) VALUES (20,'recipe','recipe','','/home/lestivalet/apps/apache-tomcat-8.0.41/webapps/recipe',null,null,'adminLTE','JSPv2',null,null);
+INSERT INTO MW_APPLICATION(ID,NAME,SHORT_NAME,DESCRIPTION,PATH,COPYRIGHT,LICENSE_FILE,TEMPLATE,ARCHITECTURE,RECORDS_PER_PAGE,USER) VALUES (20,'recipe','recipe','','/home/lestivalet/apps/apache-tomcat-8.0.41/webapps/recipe',null,null,'adminLTE','RESTv2',null,null);
 INSERT INTO MW_APPLICATION_DATABASE(APP_ID,DB_TYPE,DATA_SOURCE,DRIVER,CONNECTION_STRING,CONNECTION_IMPL,USERNAME,PASSWORD) VALUES (20,'HSQLDB','ds','driver','jdbc:hsqldb:hsql://localhost/magusdb','connimpl','sa','');

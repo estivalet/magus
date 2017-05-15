@@ -1,7 +1,5 @@
 package org.luisoft.magus.mapper;
 
-import general.db.mapper.Mapper;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,6 +19,7 @@ import org.luisoft.magus.domain.Database;
 import org.luisoft.magus.domain.MagusConfig;
 
 import dbreveng.DBReader;
+import general.db.mapper.Mapper;
 
 /**
  * @author lestivalet

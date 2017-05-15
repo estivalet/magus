@@ -1,8 +1,8 @@
 package general.sql.dao;
 
-import general.db.annotations.MappedColumn;
-
 import java.lang.reflect.Field;
+
+import general.db.annotations.MappedColumn;
 
 public class DaoUtil {
 

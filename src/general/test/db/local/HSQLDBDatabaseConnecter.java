@@ -1,15 +1,15 @@
 package test.db.local;
 
-import general.db.local.LocalContext;
-import general.db.local.LocalContextFactory;
-import general.db.mapper.DatabaseConnecter;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+
+import general.db.local.LocalContext;
+import general.db.local.LocalContextFactory;
+import general.db.mapper.DatabaseConnecter;
 
 /**
  * This class is used to connect a stand alone program to a data source running

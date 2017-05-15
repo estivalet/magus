@@ -1,8 +1,8 @@
 package general.db.mapper;
 
-import general.db.annotations.MappedColumn;
-
 import java.lang.reflect.Field;
+
+import general.db.annotations.MappedColumn;
 
 /**
  * An abstract class that handles insert/select-operations into/from a database

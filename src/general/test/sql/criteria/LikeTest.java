@@ -23,12 +23,12 @@
 package test.sql.criteria;
 
 import static org.junit.Assert.assertEquals;
-import general.sql.criteria.Criteria;
-import general.sql.criteria.Like;
 
 import org.junit.Test;
 
 import dbreveng.database.meta.Column;
+import general.sql.criteria.Criteria;
+import general.sql.criteria.Like;
 
 /**
  * @author 88758559000

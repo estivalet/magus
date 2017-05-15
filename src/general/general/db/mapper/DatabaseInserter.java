@@ -1,7 +1,5 @@
 package general.db.mapper;
 
-import general.db.annotations.MappedTable;
-
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
@@ -11,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
+
+import general.db.annotations.MappedTable;
 
 /**
  * 

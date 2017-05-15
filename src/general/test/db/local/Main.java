@@ -1,12 +1,12 @@
 package test.db.local;
 
-import general.db.mapper.DatabaseConnecter;
-import general.db.mapper.DatabaseSelecter;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import org.luisoft.magus.domain.Parameter;
+
+import general.db.mapper.DatabaseConnecter;
+import general.db.mapper.DatabaseSelecter;
 
 public class Main {
 

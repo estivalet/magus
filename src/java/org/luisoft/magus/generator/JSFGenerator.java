@@ -1,9 +1,5 @@
 package org.luisoft.magus.generator;
 
-import freemarker.template.TemplateException;
-import general.server.IContext;
-import general.util.IOUtil;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -16,6 +12,10 @@ import org.luisoft.magus.decorator.JSFDecorator;
 import org.luisoft.magus.domain.Application;
 import org.luisoft.magus.domain.MagusConfig;
 import org.luisoft.magus.mapper.ApplicationMapper;
+
+import freemarker.template.TemplateException;
+import general.server.IContext;
+import general.util.IOUtil;
 
 /**
  * Generator for JSF archetype.

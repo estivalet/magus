@@ -1,13 +1,13 @@
 package org.luisoft.magus.domain;
 
-import general.db.annotations.MappedColumn;
-import general.db.annotations.MappedTable;
-import general.util.StringUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import org.luisoft.magus.core.TableWrapper;
+
+import general.db.annotations.MappedColumn;
+import general.db.annotations.MappedTable;
+import general.util.StringUtils;
 
 @MappedTable(name = "MW_APPLICATION")
 public class Application {

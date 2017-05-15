@@ -1,7 +1,5 @@
 package org.luisoft.magus.core;
 
-import general.util.StringUtils;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -14,6 +12,7 @@ import dbreveng.database.meta.Column;
 import dbreveng.database.meta.ForeignKey;
 import dbreveng.database.meta.PrimaryKey;
 import dbreveng.database.meta.Table;
+import general.util.StringUtils;
 
 /**
  * Wrapper around MappedTable object to create easier callable methods in the templates.

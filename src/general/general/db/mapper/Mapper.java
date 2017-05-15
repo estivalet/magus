@@ -22,12 +22,12 @@
 
 package general.db.mapper;
 
-import general.server.IContext;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 
 import javax.sql.DataSource;
+
+import general.server.IContext;
 
 public class Mapper {
     private static DataSource ds;

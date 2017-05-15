@@ -23,12 +23,12 @@
  */
 package test.util;
 
-import general.util.PropertyLoader;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+
+import general.util.PropertyLoader;
 
 /**
  * @author luisoft

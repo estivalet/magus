@@ -27,7 +27,6 @@ package test.util;
  *
  */
 import static org.junit.Assert.assertEquals;
-import general.util.StringUtils;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -35,6 +34,8 @@ import java.util.Collection;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+
+import general.util.StringUtils;
 
 @RunWith(Parameterized.class)
 public class StringUtilsTester {

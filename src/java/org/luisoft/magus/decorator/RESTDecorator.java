@@ -1,9 +1,9 @@
 package org.luisoft.magus.decorator;
 
-import general.server.IContext;
-
 import org.luisoft.magus.core.TableWrapper;
 import org.luisoft.magus.domain.Application;
+
+import general.server.IContext;
 
 public class RESTDecorator extends JSPServletDecorator {
 

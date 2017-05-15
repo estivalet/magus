@@ -364,6 +364,7 @@
         <li class="header">MAIN NAVIGATION</li>
         <li><a href="documentation/index.html"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
         <li><a href="?command=Index">Generator</a></li>
+        <li><a href="Bootstrap-Form-Builder/index.html">Bootstrap Form Builder</a></li>
         <li class="header">LABELS</li>
         <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
         <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>

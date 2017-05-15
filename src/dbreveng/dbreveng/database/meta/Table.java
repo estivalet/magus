@@ -1,7 +1,5 @@
 package dbreveng.database.meta;
 
-import general.util.StringUtils;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -9,6 +7,8 @@ import java.util.Formatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
+
+import general.util.StringUtils;
 
 /**
  * @author luisoft

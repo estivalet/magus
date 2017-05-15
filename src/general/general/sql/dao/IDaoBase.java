@@ -1,9 +1,9 @@
 package general.sql.dao;
 
-import general.sql.criteria.Criteria;
-
 import java.io.Serializable;
 import java.util.List;
+
+import general.sql.criteria.Criteria;
 
 /**
  * http://java.dzone.com/articles/dao-layer-generics-rescue

@@ -1,7 +1,5 @@
 package dbreveng;
 
-import general.util.PropertyLoader;
-
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
@@ -21,6 +19,7 @@ import dbreveng.database.meta.PrimaryKey;
 import dbreveng.database.meta.Schema;
 import dbreveng.database.meta.Table;
 import dbreveng.database.meta.UniqueKey;
+import general.util.PropertyLoader;
 
 /**
  * @author luisoft

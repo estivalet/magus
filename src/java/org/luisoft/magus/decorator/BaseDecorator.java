@@ -1,13 +1,5 @@
 package org.luisoft.magus.decorator;
 
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import general.db.local.LocalContext;
-import general.db.local.LocalContextFactory;
-import general.db.mapper.Mapper;
-import general.server.IContext;
-import general.util.DateUtils;
-
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +13,14 @@ import org.luisoft.magus.domain.Application;
 import org.luisoft.magus.domain.MagusConfig;
 import org.luisoft.magus.mapper.ApplicationMapper;
 import org.luisoft.magus.mapper.MagusConfigMapper;
+
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import general.db.local.LocalContext;
+import general.db.local.LocalContextFactory;
+import general.db.mapper.Mapper;
+import general.server.IContext;
+import general.util.DateUtils;
 
 public class BaseDecorator {
 

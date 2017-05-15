@@ -1,8 +1,5 @@
 package org.luisoft.magus.core.commands;
 
-import general.server.ICommand;
-import general.server.IContext;
-
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.sql.Types;
@@ -30,6 +27,8 @@ import dbreveng.database.DatabaseConnection;
 import dbreveng.database.meta.Column;
 import dbreveng.database.meta.Schema;
 import dbreveng.database.meta.Table;
+import general.server.ICommand;
+import general.server.IContext;
 
 public class DatabaseCommand implements ICommand {
 

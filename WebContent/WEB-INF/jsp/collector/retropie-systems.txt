@@ -1,0 +1,67 @@
+Amstrad CPC
+Apple II
+Apple Macintosh
+Arcade (MAME)
+Atari 2600
+Atari 8-Bit
+Atari 5200
+Atari 7800
+Atari Jaguar
+Atari Lynx
+Atari ST
+Bandai Wonderswan
+Bandai Wonderswan Color
+Commodore 64
+Commodore Amiga
+Coleco Colecovision
+Dragon Data Dragon
+Game & Watch
+GCE Vectrex
+Infocom Z-Machine
+Laserdisc (Daphne)
+Magnavox Odyssey 2
+Mattel Intellivision
+MGT Sam Coupe
+Microsoft DOS
+Microsoft MSX
+Microsoft MSX2
+Microsoft MSX2+
+NEC PC Engine
+NEC PC Engine-CD
+NEC SuperGrafx
+NEC TurboGrafx-16
+NEC TurboGrafx-CD
+Nintendo 64
+Nintendo DS
+Nintendo Famicom
+Nintendo Famicom Disk System
+Nintendo Game Boy Advance
+Nintendo Game Boy Color
+Nintendo Game Cube
+Nintendo Game Boy
+Nintendo NES
+Nintendo SNES
+Nintendo Virtual Boy
+Nintendo WII
+Panasonic 3DO
+SCUMMVM
+Sega 32X
+Sega CD
+Sega Dreamcast
+Sega Game Gear
+Sega Master System
+Sega Genesis
+Sega Megadrive Japan
+Sega SG-1000
+Sinclair ZX Spectrum
+SNK Neo Geo AES
+SNK Neo Geo MVS
+SNK Neo Geo Pocket
+SNK Neo Geo Pocket Color
+Sony Playstation
+Sony Playstation 2
+Sony PSP
+Tandy Color Computer
+Tandy TRS-80
+Tangerine Oric
+Texas Intruments TI-99/4A

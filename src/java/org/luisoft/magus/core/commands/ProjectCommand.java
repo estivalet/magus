@@ -1,8 +1,5 @@
 package org.luisoft.magus.core.commands;
 
-import general.server.ICommand;
-import general.server.IContext;
-
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +9,9 @@ import org.luisoft.magus.domain.Application;
 import org.luisoft.magus.domain.ApplicationDatabase;
 import org.luisoft.magus.domain.Database;
 import org.luisoft.magus.mapper.ApplicationMapper;
+
+import general.server.ICommand;
+import general.server.IContext;
 
 /**
  * @author 88758559000

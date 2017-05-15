@@ -1,7 +1,5 @@
 package general.db.local;
 
-import general.server.IContext;
-
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
@@ -11,6 +9,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.naming.spi.InitialContextFactory;
 import javax.naming.spi.InitialContextFactoryBuilder;
+
+import general.server.IContext;
 
 /**
  * Got from http://penguindreams.org/blog/running-beans-that-use-application-server -datasources-locally/

@@ -1,16 +1,15 @@
 package general.sql.dao;
 
-import general.db.mapper.DatabaseConnecter;
-import general.sql.criteria.Criteria;
-import general.sql.criteria.Equals;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import org.luisoft.magus.domain.Application;
 
-import test.db.local.HSQLDBDatabaseConnecter;
 import dbreveng.database.meta.Column;
+import general.db.mapper.DatabaseConnecter;
+import general.sql.criteria.Criteria;
+import general.sql.criteria.Equals;
+import test.db.local.HSQLDBDatabaseConnecter;
 
 public class DaoTest {
 

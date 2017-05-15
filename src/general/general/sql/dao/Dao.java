@@ -1,10 +1,5 @@
 package general.sql.dao;
 
-import general.db.annotations.MappedColumn;
-import general.db.annotations.MappedTable;
-import general.db.mapper.DatabaseConnecter;
-import general.sql.criteria.Criteria;
-
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.io.Serializable;
@@ -17,6 +12,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import general.db.annotations.MappedColumn;
+import general.db.annotations.MappedTable;
+import general.db.mapper.DatabaseConnecter;
+import general.sql.criteria.Criteria;
 
 public class Dao<T> implements IDaoBase<T> {
 

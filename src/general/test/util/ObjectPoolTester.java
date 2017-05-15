@@ -22,11 +22,11 @@
  */
 package test.util;
 
-import general.util.ObjectPool;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
+import general.util.ObjectPool;
 
 /**
  * @author 88758559000

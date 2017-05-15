@@ -22,14 +22,13 @@
  */
 package org.luisoft.magus.core;
 
-import general.util.StringUtils;
-
 import java.util.HashMap;
 import java.util.Map;
 
 import dbreveng.database.meta.Column;
 import dbreveng.database.meta.ForeignKey;
 import dbreveng.database.meta.Table;
+import general.util.StringUtils;
 
 public class ColumnWrapper implements Comparable<ColumnWrapper> {
 
