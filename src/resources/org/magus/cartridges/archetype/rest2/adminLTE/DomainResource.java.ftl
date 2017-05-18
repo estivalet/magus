@@ -124,11 +124,12 @@ public class ${clazz.getAlias(true)}Resource {
     @Path("add")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response insertJ(String contents) {
         ${clazz.getAlias(true)} domain = new Gson().fromJson(contents, ${clazz.getAlias(true)}.class);
         if(mapper.insert(domain)) {
             URI uri = URI.create("/${clazz.getAlias()}/" + domain.getId());
-            return Response.created(uri).entity(mapper.getMessage()).build();
+            return Response.created(uri).entity(new Gson().toJson(mapper.getMessage())).type(MediaType.APPLICATION_JSON).build();
         } else {
             return Response.status(200).entity(mapper.getMessage()).type(MediaType.APPLICATION_JSON).build();
         }        
@@ -160,7 +161,7 @@ public class ${clazz.getAlias(true)}Resource {
     public Response updateJ(String contents) {
         ${clazz.getAlias(true)} domain = new Gson().fromJson(contents, ${clazz.getAlias(true)}.class);
         mapper.update(domain);
-        return Response.status(200).entity(mapper.getMessage()).type(MediaType.APPLICATION_JSON).build();
+        return Response.status(200).entity(new Gson().toJson(mapper.getMessage())).type(MediaType.APPLICATION_JSON).build();
     }    
 
     /**
@@ -187,8 +188,8 @@ public class ${clazz.getAlias(true)}Resource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deleteJ(String contents) {
         ${clazz.getAlias(true)} domain = new Gson().fromJson(contents, ${clazz.getAlias(true)}.class);
-         mapper.delete(domain);
-         return Response.status(200).entity(mapper.getMessage()).type(MediaType.APPLICATION_JSON).build();
+        mapper.delete(domain);
+        return Response.status(200).entity(new Gson().toJson(mapper.getMessage())).type(MediaType.APPLICATION_JSON).build();
     }
     
     <#list columnsMinusPk as column>

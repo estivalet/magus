@@ -90,69 +90,95 @@ table.dataTable thead tr td {
 <!-- Page script -->
 <script>
     $(function() {
-
-        filter${clazz.getAlias(true)}SearchStatus = function() {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                var table = createTable("box-body","${clazz.getAlias()}s","table table-striped table-bordered");
-                columns = [];
-                <#list allColumns as column><#t>
-                <#if (column.visible == 'Y')><#t>
-                <#if (column.isColumnInForeignKey())><#t>
-                columns.push("${column.getForeignTableAlias()}");
-                <#else><#t>
-                columns.push("${column.getLabel()}");
-                </#if><#t>
-                </#if><#t>
-                </#list><#t>
-                columns.push("");
-                addTableHeader(table, columns);
-                var tableBody = addTableBody(table);
-
-                var json = JSON.parse(xmlhttp.responseText);
-                json.forEach(function(obj) { 
-                    console.log(obj);
-                    var tr = addTableRow(tableBody);
+    
+        function list() {
+            $.ajax({
+               url: 'http://localhost:8080/${app.shortName}/rest/${clazz.getAlias()}/all/json',
+               type: 'GET',
+               error: function() {
+                  console.log('<p>An error has occurred</p>');
+               },
+               dataType: 'json',
+               success: function(data) {
+                    var table = createTable("box-body","${clazz.getAlias()}s","table table-striped table-bordered");
+                    columns = [];
                     <#list allColumns as column><#t>
-                    <#if (column.isColumnInPrimaryKey())>
-                    <#assign pkColumn="${column.getLabel()}">
-                    </#if>
-                    </#list>
-                    <#list allColumns as column><#t>
-                    <#assign fkDisplay="${column.getCamelCaseName()}" + "_fk_display">
-                    <#if (column.visible == 'Y')>
-                    <#if (column.customFieldType == 9)>
-                    addTableCellHTML(tr,'<img src="?command=${clazz.getAlias(true)}Action&op=get${column.getCamelCaseName(true)}&id=' + obj.${pkColumn} + '" onerror="this.style.display=\'none\'" width="50"/>');
-                    <#else>
-                    <#if (column.isColumnInForeignKey())>
-                    addTableCell(tr, obj.${column.getForeignTableAlias()}.${.vars[fkDisplay]});
-                    <#else>
-                    addTableCell(tr, obj.${column.getLabel()});
-                    </#if>
-                    </#if>
-                    </#if>
+                    <#if (column.visible == 'Y')><#t>
+                    <#if (column.isColumnInForeignKey())><#t>
+                    columns.push("${column.getForeignTableAlias()}");
+                    <#else><#t>
+                    columns.push("${column.getLabel()}");
+                    </#if><#t>
+                    </#if><#t>
                     </#list><#t>
-                    addTableCellHTML(tr,"<a href=\"#\" onclick=\"edit${clazz.getAlias(true)}('" + obj.${pkColumn} + "')\">Edit</a>&nbsp;<a href=\"#\" onclick=\"remove${clazz.getAlias(true)}('" + obj.${pkColumn} + "')\">Remove</a>");
-                });
-                }
-                $("#${clazz.getAlias()}s").DataTable({
-                    "ordering" : false,
-                    "searching" : true,
-                    "paging" : true,
-                    "dom" : "ftp",
-                    "pageLength" : 5,
-                    "language": {
-                        "url": "plugins/DataTables-1.10.12/i18n/ptBR.json"
-                    }
-                });
+                    columns.push("");
+                    addTableHeader(table, columns);
+                    var tableBody = addTableBody(table);
+                    
+                    data.forEach(function(obj) { 
+                        console.log(obj);
+                        var tr = addTableRow(tableBody);
+                        <#list allColumns as column><#t>
+                        <#if (column.isColumnInPrimaryKey())>
+                        <#assign pkColumn="${column.getLabel()}">
+                        </#if>
+                        </#list>
+                        <#list allColumns as column><#t>
+                        <#assign fkDisplay="${column.getCamelCaseName()}" + "_fk_display">
+                        <#if (column.visible == 'Y')>
+                        <#if (column.customFieldType == 9)>
+                        addTableCellHTML(tr,'<img src="?command=${clazz.getAlias(true)}Action&op=get${column.getCamelCaseName(true)}&id=' + obj.${pkColumn} + '" onerror="this.style.display=\'none\'" width="50"/>');
+                        <#else>
+                        <#if (column.isColumnInForeignKey())>
+                        addTableCell(tr, obj.${column.getForeignTableAlias()}.${.vars[fkDisplay]});
+                        <#else>
+                        addTableCell(tr, obj.${column.getLabel()});
+                        </#if>
+                        </#if>
+                        </#if>
+                        </#list><#t>
+                        addTableCellHTML(tr,"<a href=\"#\" onclick=\"edit${clazz.getAlias(true)}('" + obj.${pkColumn} + "')\">Edit</a>&nbsp;<a href=\"#\" onclick=\"remove${clazz.getAlias(true)}('" + obj.${pkColumn} + "')\">Remove</a>");
+                    });
+                    
+                    $("#${clazz.getAlias()}s").DataTable({
+                        "ordering" : false,
+                        "searching" : true,
+                        "paging" : true,
+                        "dom" : "ftp",
+                        "pageLength" : 5,
+                        "language": {
+                            "url": "plugins/DataTables-1.10.12/i18n/ptBR.json"
+                        }
+                    });
+               }
+            });
         }
         
+        function addUpdate(url, type, obj) {
+            $.ajax({
+                url: url,
+                contentType: "application/json",
+                data: JSON.stringify(obj),                      
+                type: type,
+                error: function(xhr, status, error) {
+                },
+                success: function(data) {
+                    console.log("OK" + data);
+                    $('#divMsg').removeClass("invisible");
+                    $('#divMsg').addClass("has-success");
+                    $('#messages').text(data);
+                    document.getElementById("box-body").innerHTML = "";
+                    list();
+                }
+            });
+        }
         
         /**
          * Call server to create or update a ${clazz.getAlias(true)}.
          */
-        add${clazz.getAlias(true)} = function(action) {
+        function add${clazz.getAlias(true)}(action) {
             // Collect data from input fields.
-            var data = { 
+            var obj = { 
         <#list allColumns as column><#t>
             <#if (column.isColumnInForeignKey())><#t>
             "${column.getForeignTableAlias()}" : {"${column.getForeignTableColumnPkAlias()}" : document.getElementById("${column.getCamelCaseName()}").value},
@@ -167,68 +193,47 @@ table.dataTable thead tr td {
             document.getElementById("command").value = "POST";
             // Check if we are creating or updating a ${clazz.getAlias(true)}.
             if(action == "POST") {
-                callServerJSON("POST","http://localhost:8080/${app.shortName}/rest/${clazz.getAlias()}/add", add${clazz.getAlias(true)}Status, data);
+                addUpdate('http://localhost:8080/${app.shortName}/rest/${clazz.getAlias()}/add', "post", obj);
             } else {
-                callServerJSON("PUT","http://localhost:8080/${app.shortName}/rest/${clazz.getAlias()}/update", update${clazz.getAlias(true)}Status, data);
+                addUpdate('http://localhost:8080/${app.shortName}/rest/${clazz.getAlias()}/update', "put", obj);
             }
         }
-        
-        /**
-         * Callback function after creating a ${clazz.getAlias(true)}. 
-         */
-        add${clazz.getAlias(true)}Status = function() {
-            // If ${clazz.getAlias(true)} was created correctly then display a message and returns back to search screen.
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 201) {
-                $('#divMsg').removeClass("invisible");
-                $('#divMsg').addClass("has-success");
-                $('#messages').text(xmlhttp.responseText);
-                document.getElementById("box-body").innerHTML = "";
-                callServerJSON("GET","http://localhost:8080/recipe/rest/${clazz.getAlias()}/all/json", filter${clazz.getAlias(true)}SearchStatus);
-            }
-        } 
-        
-        /**
-         * Callback function after updating a ${clazz.getAlias(true)}. 
-         */
-        update${clazz.getAlias(true)}Status = function() {
-            // If ${clazz.getAlias(true)} was updated correctly then display a message and returns back to search screen.
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                $('#divMsg').removeClass("invisible");
-                $('#divMsg').addClass("has-success");
-                $('#messages').text(xmlhttp.responseText);
-                document.getElementById("box-body").innerHTML = "";
-                callServerJSON("GET","http://localhost:8080/recipe/rest/${clazz.getAlias()}/all/json", filter${clazz.getAlias(true)}SearchStatus);
-            }
-        }  
         
         /**
          * Call server to get ${clazz.getAlias(true)} to edit.
          */
         edit${clazz.getAlias(true)} = function(${pkColumn}) {
             // Call server passing ${clazz.getAlias(true)} PK to edit.
-            callServerJSON("GET","http://localhost:8080/${app.shortName}/rest/${clazz.getAlias()}/" + ${pkColumn} + "/json", edit${clazz.getAlias(true)}Status);    
+            $.ajax({
+                url: "http://localhost:8080/${app.shortName}/rest/${clazz.getAlias()}/" + ${pkColumn} + "/json",
+                contentType: "application/json",
+                type: 'GET',
+                error: function(xhr, status, error) {
+                },
+                success: function(obj) {
+                    // Parse data retrieved from server to populate input fields. 
+                    <#list allColumns as column><#t>
+                    <#if (column.customFieldType != 9) && (column.customFieldType !=10) >
+                    document.getElementById("${column.getCamelCaseName()}").value = typeof obj.${column.getCamelCaseName()} == "undefined" ? "" : obj.${column.getCamelCaseName()};
+                    </#if>
+                    </#list>
+                    // Set command to be an update.      
+                    document.getElementById("command").value = "PUT";      
+                }
+            });
         }
         
         /**
-         * Callback function to populate selected ${clazz.getAlias(true)} fields to be edited. 
+         * Call server to perform delete operation.
          */
-        edit${clazz.getAlias(true)}Status = function() {
-            // If the call to the server got success.
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                // Parse data retrieved from server to populate input fields. 
-                var obj = JSON.parse(xmlhttp.responseText);
-                <#list allColumns as column><#t>
-                <#if (column.customFieldType != 9) && (column.customFieldType !=10) >
-                document.getElementById("${column.getCamelCaseName()}").value = typeof obj.${column.getCamelCaseName()} == "undefined" ? "" : obj.${column.getCamelCaseName()};
-                </#if>
-                </#list>
-                // Set command to be an update.      
-                document.getElementById("command").value = "PUT";      
-            }    
+        remove${clazz.getAlias(true)} = function(${pkColumn}) {
+            // Ask for confirmation on delete.
+            alertify.confirm('Confirm exclusion?', function () {
+                // If really wants to delete then call the server to perform the action.
+                addUpdate('http://localhost:8080/${app.shortName}/rest/${clazz.getAlias()}/delete', "delete", {"${pkColumn}":${pkColumn}});
+            });  
         }
-            
-    
-            
+        
         function validateForm() {
             <#list columnsMinusPk as column><#t>
             <#if (column.isRequired())>
@@ -248,37 +253,8 @@ table.dataTable thead tr td {
             
         });
     
-        /**
-         * Call server to perform delete operation.
-         */
-        remove${clazz.getAlias(true)} = function(${pkColumn}) {
-            // Ask for confirmation on delete.
-            alertify.confirm('Confirm exclusion?', function () {
-                // If really wants to delete then call the server to perform the action.
-                var data = {"${pkColumn}":${pkColumn}};
-                callServerJSON("DELETE","http://localhost:8080/${app.shortName}/rest/${clazz.getAlias()}/delete", remove${clazz.getAlias(true)}Status, data);
-            });  
-        }
-        
-        /**
-         * Callback function to check delete operation status. 
-         */
-        remove${clazz.getAlias(true)}Status = function() {
-            // If the delete operation got success.
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                $('#divMsgDel').removeClass("invisible");
-                $('#divMsgDel').addClass("has-success");
-                $('#messagesDel').text(xmlhttp.responseText);
-                document.getElementById("box-body").innerHTML = "";
-                callServerJSON("GET","http://localhost:8080/recipe/rest/${clazz.getAlias()}/all/json", filter${clazz.getAlias(true)}SearchStatus);
-            }
-        }    
-    
-    
         
                 
-        callServerJSON("GET","http://localhost:8080/recipe/rest/${clazz.getAlias()}/all/json", filter${clazz.getAlias(true)}SearchStatus);
-        
         
         <#list columnsMinusPk as column><#t>
             <#if (column.isColumnInForeignKey())><#t>
@@ -301,6 +277,8 @@ table.dataTable thead tr td {
         });               
             </#if>
         </#list>
+        
+        list();
     });
 
 
