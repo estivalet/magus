@@ -291,6 +291,18 @@ public class TableWrapper {
         return cols;
     }
 
+    public String getImportedTableOfExportedTableAsString(Table exportedTable, String columnName) {
+        return StringUtils.toCamelCase(this.table.getImportedTableOfExportedTable(exportedTable, columnName).getName(), true);
+    }
+
+    public Table getImportedTableOfExportedTable(Table exportedTable, String columnName) {
+        return this.table.getImportedTableOfExportedTable(exportedTable, columnName);
+    }
+
+    public String getSQLMxN(Table exportedTable, String columnInExportedKey) {
+        return this.table.getSQLMxN(exportedTable, columnInExportedKey);
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

@@ -89,7 +89,7 @@ public class CreateDatabase {
         // setupSchema(CreateDatabase.class.getResourceAsStream("/rbac.sql"));
         setupSchema(CreateDatabase.class.getResourceAsStream("/recipe.sql"));
         setupSchema(CreateDatabase.class.getResourceAsStream("/person.sql"));
-        // setupSchema(CreateDatabase.class.getResourceAsStream("/livraria.sql"));
+        setupSchema(CreateDatabase.class.getResourceAsStream("/livraria.sql"));
 
         test();
     }

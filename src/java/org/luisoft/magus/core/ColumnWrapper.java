@@ -353,4 +353,16 @@ public class ColumnWrapper implements Comparable<ColumnWrapper> {
 
     }
 
+    public Boolean isColumnInExportedKey() {
+        return this.column.getTable().isColumnInExportedKey(this.column.getName());
+    }
+
+    public Table getExportedTable() {
+        return this.column.getExportedTable();
+    }
+
+    public String getColumnInExportedKey() {
+        return this.column.getColumnInExportedKey();
+    }
+
 }

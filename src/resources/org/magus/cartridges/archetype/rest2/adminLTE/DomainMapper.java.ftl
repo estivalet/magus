@@ -23,6 +23,36 @@ import ${app.shortName}.server.${app.getShortName(true)}Servlet;
  */
 public class ${clazz.getAlias(true)}Mapper extends Mapper {
 
+    <#list clazz.getColumns(true) as column>
+    <#if column.isColumnInExportedKey()>
+    public List<${clazz.getImportedTableOfExportedTableAsString(column.getExportedTable(), column.getColumnInExportedKey())}> get${clazz.getImportedTableOfExportedTableAsString(column.getExportedTable(), column.getColumnInExportedKey())}s(${column.getJdbcDataType()} ${column.getColumnInExportedKey(true)}) {
+        String sql = "${clazz.getSQLMxN(column.getExportedTable(), column.getColumnInExportedKey())}";
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        Connection con = null;
+        try {
+            con = getConnection(${app.getShortName(true)}Servlet.DSN);
+            ps = con.prepareStatement(sql);
+            ps.set${column.getPSJavaMethod()}(1, ${column.getColumnInExportedKey(true)});
+            rs = ps.executeQuery();
+            List<${clazz.getImportedTableOfExportedTableAsString(column.getExportedTable(), column.getColumnInExportedKey())}> result = fetch${clazz.getImportedTableOfExportedTableAsString(column.getExportedTable(), column.getColumnInExportedKey())}MultipleResults(rs);
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.getStatement().close();
+                rs.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+    </#if>
+    </#list>
+
     /**
      * <#list pkColumns as column>
      * @param ${column.getCamelCaseName()}
@@ -247,6 +277,49 @@ public class ${clazz.getAlias(true)}Mapper extends Mapper {
 	</#if>
 	</#list>	
 	
+	
+    <#list clazz.getColumns(true) as column>
+    <#if column.isColumnInExportedKey()>
+    public boolean insert${column.getExportedTable().getCamelCaseName(true)}(${clazz.getAlias(true)} domain, List<${column.getJdbcDataType()}> ${clazz.getImportedTableOfExportedTableAsString(column.getExportedTable(), column.getColumnInExportedKey())}s) {
+        String sql = "${column.getExportedTable().getSQLInsert(false)}";
+        
+        insert(domain);
+        
+        PreparedStatement ps = null;
+        Connection con = null;
+        try {
+            con = getConnection(${app.getShortName(true)}Servlet.DSN);
+            for (${column.getJdbcDataType()} id : ${clazz.getImportedTableOfExportedTableAsString(column.getExportedTable(), column.getColumnInExportedKey())}s) {
+                ps = con.prepareStatement(sql);
+                int paramCount = 1;
+                <#list column.getExportedTable().getColumns(false) as c2>
+                <#if column.getColumnInExportedKey() == c2.getName()>
+                ps.set${c2.getPSJavaMethod()}(paramCount++, id);
+                <#else>
+                ps.set${c2.getPSJavaMethod()}(paramCount++, domain.get${c2.getCamelCaseName(true)}());
+                </#if>
+                </#list>
+                ps.executeUpdate();
+            }                
+            return true;
+        } catch (Exception e) {
+            super.message = e.getMessage();
+            e.printStackTrace();
+        } finally {
+            try {
+                ps.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        
+        return false;
+    }
+    </#if>
+    </#list>
+	
 	/**
 	 * Insert ${clazz.getAlias(true)} object from database.
 	 * 
@@ -258,6 +331,7 @@ public class ${clazz.getAlias(true)}Mapper extends Mapper {
 		String sql = "${clazz.getSQLInsert()}";
 		PreparedStatement ps = null;
 		Connection con = null;
+		Integer id = 0;
 		try {
             con = getConnection(${app.getShortName(true)}Servlet.DSN);
 			ps = con.prepareStatement(sql);
@@ -276,6 +350,13 @@ public class ${clazz.getAlias(true)}Mapper extends Mapper {
             int n = ps.executeUpdate();
             super.message = "No rows created!";
             if (n > 0) {
+                // WARNING FOR HSQLDB ONLY!!!!
+                PreparedStatement psIdentity = con.prepareStatement("CALL IDENTITY()");
+                ResultSet result = psIdentity.executeQuery();
+                result.next();
+                id = result.getInt(1);
+                domain.setId(id);
+                result.close();
                 super.message = "Created successfully " + n + " row(s)!";
             }
             return true;
@@ -434,4 +515,27 @@ public class ${clazz.getAlias(true)}Mapper extends Mapper {
 
 		return domain;
 	}
+	
+    <#list clazz.getColumns(true) as column>
+    <#if column.isColumnInExportedKey()>
+    public List<${clazz.getImportedTableOfExportedTableAsString(column.getExportedTable(), column.getColumnInExportedKey())}> fetch${clazz.getImportedTableOfExportedTableAsString(column.getExportedTable(), column.getColumnInExportedKey())}MultipleResults(ResultSet rs) throws Exception {
+        List<${clazz.getImportedTableOfExportedTableAsString(column.getExportedTable(), column.getColumnInExportedKey())}> results = new ArrayList<${clazz.getImportedTableOfExportedTableAsString(column.getExportedTable(), column.getColumnInExportedKey())}>();
+        while (rs.next()) {
+            results.add(populate${clazz.getImportedTableOfExportedTableAsString(column.getExportedTable(), column.getColumnInExportedKey())}(rs));
+        }
+        this.totalRecords = results.size();
+        return results;
+    }
+    
+    private ${clazz.getImportedTableOfExportedTableAsString(column.getExportedTable(), column.getColumnInExportedKey())} populate${clazz.getImportedTableOfExportedTableAsString(column.getExportedTable(), column.getColumnInExportedKey())}(ResultSet rs) throws Exception {
+        ${clazz.getImportedTableOfExportedTableAsString(column.getExportedTable(), column.getColumnInExportedKey())} domain = new ${clazz.getImportedTableOfExportedTableAsString(column.getExportedTable(), column.getColumnInExportedKey())}();
+        <#list clazz.getImportedTableOfExportedTable(column.getExportedTable(), column.getColumnInExportedKey()).getColumns(true) as column>
+        domain.set${column.getCamelCaseName(true)}(rs.get${column.getPSJavaMethod()}("${column.name}"));
+        </#list>
+        
+        return domain;
+    }    
+    </#if>
+    </#list>
+	
 }

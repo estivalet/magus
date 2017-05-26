@@ -126,6 +126,7 @@ public class ${clazz.getAlias(true)}Resource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response insertJ(String contents) {
+        // domain = new GsonBuilder().setDateFormat("dd-MM-yyyy").create().fromJson(contents, Livro.class);
         ${clazz.getAlias(true)} domain = new Gson().fromJson(contents, ${clazz.getAlias(true)}.class);
         if(mapper.insert(domain)) {
             URI uri = URI.create("/${clazz.getAlias()}/" + domain.getId());

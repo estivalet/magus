@@ -40,6 +40,8 @@ public class Table extends NamedObject {
     /** Could be Hash also. */
     private TreeMap<String, ForeignKey> fks = new TreeMap<String, ForeignKey>();
 
+    private TreeMap<String, ForeignKey> exportedKeys = new TreeMap<String, ForeignKey>();
+
     /**
      * When primary key is a single column then this method returns the JDBC data type concatenated with the java attribute name.
      * 
@@ -84,6 +86,12 @@ public class Table extends NamedObject {
         return sb.toString();
     }
 
+    public String getSQLSelectColumns() {
+        StringBuffer sb = new StringBuffer();
+        sb.append(this.listColumnsAsCommaSeparated(this.columns.values(), false, false, this.name + ".", false));
+        return sb.toString();
+    }
+
     public String getSQLFKsSelect() {
         StringBuffer sb = new StringBuffer("SELECT ");
         // MySQL should be the database name configured in mysql.properties
@@ -115,7 +123,29 @@ public class Table extends NamedObject {
         return sb.toString();
     }
 
-    private String listColumnsAsCommaSeparated(Table table, String prefix) {
+    public String getSQLMxN(Table exportedTable, String columnInExportedKey) {
+        StringBuffer sb = new StringBuffer("SELECT ");
+
+        // sb.append(this.getSchema().getTable(exportedTable.getName()).getSQLSelectColumns() + ",");
+        sb.append(this.getSchema().getTable(this.getImportedTableOfExportedTable(exportedTable, columnInExportedKey).getName()).getSQLSelectColumns());
+        sb.append(" FROM " + this.schema.getName() + "." + exportedTable.getName() + " " + exportedTable.getName() + "," + this.schema.getName() + "." + this.getImportedTableOfExportedTable(exportedTable, columnInExportedKey).getName() + " "
+                + this.getImportedTableOfExportedTable(exportedTable, columnInExportedKey).getName());
+        sb.append(" WHERE ");
+        sb.append(exportedTable.getName() + "." + columnInExportedKey + " = ?");
+        sb.append(" AND ");
+        sb.append(this.getImportedTableOfExportedTable(exportedTable, columnInExportedKey).getName() + "."
+                + listColumnsAsCommaSeparated(this.getSchema().getTable(this.getImportedTableOfExportedTable(exportedTable, columnInExportedKey).getName()).getPrimaryKeyColumns(), false, false) + " = ");
+        for (ForeignKey fk : this.getSchema().getTable(exportedTable.getName()).getFks().values()) {
+            if (!fk.getFkColumnName().equals(columnInExportedKey)) {
+                sb.append(exportedTable.getName() + "." + fk.getFkColumnName());
+            }
+            System.out.println("-->" + fk.getFkColumnName());
+        }
+
+        return sb.toString();
+    }
+
+    public String listColumnsAsCommaSeparated(Table table, String prefix) {
         return this.listColumnsAsCommaSeparated(table.getColumns(true), false, false, prefix, true);
     }
 
@@ -224,8 +254,8 @@ public class Table extends NamedObject {
         // The counter (i) was added to avoid printing a blank line after the
         // last column.
         for (Column c : this.columns.values()) {
-            fmt.format("  *   MappedColumn: %-20s %-10s %-10s %5s %-10s%n", c.getName(), c.getTypeName(), c.nullableAsString(), c.getSize(), (this.isColumnInPrimaryKey(c.getName()) ? " (PK)" : "")
-                    + (this.isColumnInForeignKey(c.getName()) ? " (FK)" + " [" + this.getForeignKey(c.getName()) + "]" : ""));
+            fmt.format("  *   MappedColumn: %-20s %-10s %-10s %5s %-10s%n", c.getName(), c.getTypeName(), c.nullableAsString(), c.getSize(),
+                    (this.isColumnInPrimaryKey(c.getName()) ? " (PK)" : "") + (this.isColumnInForeignKey(c.getName()) ? " (FK)" + " [" + this.getForeignKey(c.getName()) + "]" : ""));
         }
 
         return sb.toString();
@@ -381,11 +411,37 @@ public class Table extends NamedObject {
         Collection<Column> columns = new ArrayList<Column>();
         for (ForeignKey fk : fks.values()) {
             if (fk.getExported()) {
-                System.out.println("xxxx " + fk.getFkTableName() + " " + fk.getFkColumnName());
+                // System.out.println("xxxx " + fk.getFkTableName() + " " + fk.getFkColumnName());
                 columns.add(fk.getFkTable().getColumn(fk.getFkColumnName()));
             }
         }
         return columns;
+    }
+
+    /**
+     * For MxN relationship.
+     * 
+     * @param exportedTable
+     * @param columnName
+     * @return
+     */
+    public Table getImportedTableOfExportedTable(Table exportedTable, String columnName) {
+        if (exportedTable == null) {
+            return null;
+        }
+        // System.out.println("eee-->" + exportedTable);
+        // System.out.println("ddd-->" + columnName);
+        // System.out.println("fff-->" + this.schema.getTable(exportedTable).getFks().get(columnName).getPkTableName());
+        for (ForeignKey fk : this.schema.getTable(exportedTable.getName()).getFks().values()) {
+            if (!fk.getFkColumnName().equals(columnName)) {
+                return this.schema.getTable(fk.getPkTableName());
+            }
+            // System.out.println("fff->" + fk.getFkColumnName() + " " + fk.getPkTableName());
+
+        }
+
+        // return this.schema.getTable(exportedTable).getFks().get(columnName).getPkTableName();
+        return null;
     }
 
     /**
@@ -397,6 +453,40 @@ public class Table extends NamedObject {
             return false;
         }
         return !this.fks.get(columnName).getExported();
+    }
+
+    public Boolean isColumnInExportedKey(String columnName) {
+        for (ForeignKey fk : fks.values()) {
+            if (fk.getExported()) {
+                if (fk.getPkColumnName().equals(columnName)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public String getColumnInExportedKey(String columnName) {
+        for (ForeignKey fk : fks.values()) {
+            if (fk.getExported()) {
+                if (fk.getPkColumnName().equals(columnName)) {
+                    return fk.getFkColumnName();
+                }
+            }
+        }
+        return null;
+    }
+
+    public Table getExportedTable(String columnName) {
+        for (ForeignKey fk : fks.values()) {
+            if (fk.getExported()) {
+                if (fk.getPkColumnName().equals(columnName)) {
+                    // return fk.getFkTableName();
+                    return this.schema.getTable(fk.getFkTableName());
+                }
+            }
+        }
+        return null;
     }
 
     /**

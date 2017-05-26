@@ -177,3 +177,7 @@ function addTableCellHTML(tr, data) {
     td.innerHTML = data;
     tr.appendChild(td);
 }	
+
+function isEmpty(value) {
+	return typeof value == 'string' && !value.trim() || typeof value == 'undefined' || value === null;
+}

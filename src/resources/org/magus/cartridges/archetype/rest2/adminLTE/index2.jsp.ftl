@@ -184,7 +184,7 @@ table.dataTable thead tr td {
             "${column.getForeignTableAlias()}" : {"${column.getForeignTableColumnPkAlias()}" : document.getElementById("${column.getCamelCaseName()}").value},
             <#else>    
                 <#if (column.customFieldType != 9 && column.customFieldType != 10)>
-            "${column.getCamelCaseName()}" : document.getElementById("${column.getCamelCaseName()}").value,
+            "${column.getCamelCaseName()}" : isEmpty(document.getElementById("${column.getCamelCaseName()}").value) ? null : document.getElementById("${column.getCamelCaseName()}").value,
                 </#if>
             </#if>
         </#list>

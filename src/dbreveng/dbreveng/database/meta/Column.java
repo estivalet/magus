@@ -211,6 +211,21 @@ public class Column extends NamedObject implements Comparable<Column> {
         return this.getTable().isColumnInForeignKey(this.name);
     }
 
+    public Boolean isColumnInExportedKey() {
+        return this.getTable().isColumnInExportedKey(this.name);
+    }
+
+    public String getColumnInExportedKey() {
+        return getColumnInExportedKey(false);
+    }
+
+    public String getColumnInExportedKey(boolean camelCase) {
+        if (camelCase) {
+            return StringUtils.toCamelCase(this.getTable().getColumnInExportedKey(this.name));
+        }
+        return this.getTable().getColumnInExportedKey(this.name);
+    }
+
     public String getForeignColumn() {
         return this.getForeignColumn(false);
     }
@@ -250,6 +265,13 @@ public class Column extends NamedObject implements Comparable<Column> {
             return StringUtils.capitalize(fk.getPkTableName().toLowerCase());
         }
         return fk.getPkTableName();
+    }
+
+    public Table getExportedTable() {
+        if (this.isColumnInExportedKey()) {
+            return this.getTable().getExportedTable(this.name);
+        }
+        return null;
     }
 
     /**
