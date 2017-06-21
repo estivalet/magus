@@ -77,6 +77,16 @@ public class ${clazz.getAlias(true)}ActionCommand implements ICommand {
     
         if (op == null || "index".equals(op)) {
             request.setAttribute("${clazz.getAlias()}s", model.listAll());
+            
+            <#list allColumns as column><#t>
+            <#if column.isColumnInExportedKey()>
+            ${column.getTable().getImportedTableOfExportedTable(column.getExportedTable(), column.getColumnInExportedKey()).getCamelCaseName(true)}Model ${column.getTable().getImportedTableOfExportedTable(column.getExportedTable(), column.getColumnInExportedKey()).getCamelCaseName()} = new ${column.getTable().getImportedTableOfExportedTable(column.getExportedTable(), column.getColumnInExportedKey()).getCamelCaseName(true)}Model();
+            ${collection}<${column.getTable().getImportedTableOfExportedTable(column.getExportedTable(), column.getColumnInExportedKey()).getCamelCaseName(true)}> ${column.getTable().getImportedTableOfExportedTable(column.getExportedTable(), column.getColumnInExportedKey()).getCamelCaseName()}s = ${column.getTable().getImportedTableOfExportedTable(column.getExportedTable(), column.getColumnInExportedKey()).getCamelCaseName()}.listAll();
+            request.setAttribute("${column.getTable().getImportedTableOfExportedTable(column.getExportedTable(), column.getColumnInExportedKey()).getCamelCaseName()}s", ${column.getTable().getImportedTableOfExportedTable(column.getExportedTable(), column.getColumnInExportedKey()).getCamelCaseName()}s);
+            </#if>
+            </#list>            
+
+            
             this.page = "index.jsp";
         } else if ("new".equals(op)) {
             <#--Set attributes for foreign keys usually used in combo boxes. -->
@@ -87,6 +97,8 @@ public class ${clazz.getAlias(true)}ActionCommand implements ICommand {
             request.setAttribute("${fk.getAlias()}s", ${fk.getAlias()}s);
             </#if>
             </#list><#t>
+            
+            
             this.page = "create.jsp";
         } else if ("save".equals(op)) {
             populateDto(request, model);

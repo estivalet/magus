@@ -296,7 +296,7 @@ public class ${clazz.getAlias(true)}Mapper extends Mapper {
                 <#if column.getColumnInExportedKey() == c2.getName()>
                 ps.set${c2.getPSJavaMethod()}(paramCount++, id);
                 <#else>
-                ps.set${c2.getPSJavaMethod()}(paramCount++, domain.get${c2.getCamelCaseName(true)}());
+                ps.set${c2.getPSJavaMethod()}(paramCount++, domain.getId());
                 </#if>
                 </#list>
                 ps.executeUpdate();

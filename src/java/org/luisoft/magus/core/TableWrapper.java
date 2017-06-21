@@ -121,7 +121,13 @@ public class TableWrapper {
             }
         }
         if (this.orderBy == null) {
-            return "1";
+            // If not available unique keys try to get the first CHAR column.
+            for (Column c : this.table.getColumns(false)) {
+                if ("String".equals(c.getJdbcDataType())) {
+                    return c.getCamelCaseName();
+                }
+            }
+            return "no_orderby_column_found";
         }
 
         return this.orderBy;

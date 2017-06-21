@@ -93,6 +93,23 @@ public class JavaDecorator extends BaseDecorator {
 
             }
 
+            if (c.isColumnInExportedKey()) {
+                // Load foreign table.
+                ApplicationMapper am = new ApplicationMapper();
+                am.setContext(context);
+
+                TableWrapper foreignTable = am.fetchApplicationTable(appId, c.getTable().getImportedTableOfExportedTable(c.getExportedTable(), c.getColumnInExportedKey()).getName());
+
+                String key = foreignTable.getCamelCaseName() + c.getCamelCaseName() + "_efk_display";
+                String value = StringUtils.toCamelCase(foreignTable.getOrderByColumn(), false);
+                super.addTemplateVariable(key, value);
+
+                key = c.getCamelCaseName() + "_efk_id";
+                value = StringUtils.toCamelCase(foreignTable.listPKsAsCommaSeparated());
+                super.addTemplateVariable(key, value);
+
+            }
+
         }
         return columns;
     }

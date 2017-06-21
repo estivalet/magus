@@ -1,9 +1,14 @@
-                        <div class="form-group">                                    
+                        <div class="form-group">
+        <#if (column.isColumnInExportedKey())>
+        <#assign id="${column.getTable().getImportedTableOfExportedTable(column.getExportedTable(), column.getColumnInExportedKey()).getCamelCaseName()}${column.getCamelCaseName()}">
+        <#else>                                                            
         <#assign id="${column.getCamelCaseName()}">
+        </#if>
         <#assign size="${column.getInputSize()}">
                             <#if (column.isColumnInForeignKey())><#t>
                     <label for="${id}">${column.getForeignTableAlias()}<#if column.isRequired()>*</#if></label>
-                            <#else><#t>
+                            <#elseif (column.isColumnInExportedKey())>
+                            <#elseif !column.isColumnInPrimaryKey()>
                     <label for="${id}">${column.getLabel()}<#if column.isRequired()>*</#if></label>
                             </#if> 
                 <#switch column.customFieldType>
@@ -49,7 +54,14 @@
                                 <option value="<c:out value='<#noparse>${</#noparse>${column.getForeignTableColumnAlias()}}'/>" <c:if test="<#noparse>${</#noparse>${id}Value == ${column.getForeignTableColumnAlias()}<#noparse>}</#noparse>">selected="selected"</c:if>><c:out value='<#noparse>${</#noparse>${column.getForeignTableAlias()}.${.vars[fkDisplay]}}'/></option>
                                 </c:forEach>
                             </select>
-                        <#else>
+                        <#elseif (column.isColumnInExportedKey())>
+                            <#assign efkDisplay="${id}" + "_efk_display">
+                            <select class="form-control" id="${id}" name="${id}" size="10" multiple>
+                                <c:forEach var="${column.getTable().getImportedTableOfExportedTable(column.getExportedTable(), column.getColumnInExportedKey()).getCamelCaseName()}" items="<#noparse>${requestScope</#noparse>.${column.getTable().getImportedTableOfExportedTable(column.getExportedTable(), column.getColumnInExportedKey()).getCamelCaseName()}s}">
+                                    <option><c:out value='<#noparse>${</#noparse>${column.getTable().getImportedTableOfExportedTable(column.getExportedTable(), column.getColumnInExportedKey()).getCamelCaseName()}.${.vars[efkDisplay]}}'/></option>
+                                </c:forEach>
+                            </select>
+                        <#elseif !column.isColumnInPrimaryKey()>
                         <#-- NORMAL INPUT Otherwise create a normal input. -->
                             <input class="form-control" type="text" id="${id}" name="${id}" maxlength="${size}" value="<#noparse>${</#noparse>${id}Value}"/>
                         </#if>

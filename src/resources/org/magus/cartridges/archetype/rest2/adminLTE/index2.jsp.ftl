@@ -53,13 +53,14 @@ table.dataTable thead tr td {
                         <div id="divMsg" class="form-group invisible">
                             <label class="control-label" id="messages"></label>
                         </div>
-                        <#list columnsMinusPk as column><#t>
+                        <#list allColumns as column><#t>
                         <#assign id="${column.getCamelCaseName()}">
                         <#assign size="${column.getInputSize()}">
                         <#if (column.isColumnInForeignKey())>
                             <#assign fkDisplay="${id}" + "_fk_id">
                         <c:set var="${id}Value" value="<#noparse>${requestScope.</#noparse>${clazz.getAlias()}.${column.getForeignTableAlias()}.${.vars[fkDisplay]}}"/>
-                        <#else>
+                        <#elseif (column.isColumnInExportedKey())>
+                        <#elseif !column.isColumnInPrimaryKey()>
                         <c:set var="${id}Value" value="<#noparse>${requestScope.</#noparse>${clazz.getAlias()}.${column.getCamelCaseName()}}"/>
                         </#if>
                         <#include "field.ftl">
