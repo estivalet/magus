@@ -67,6 +67,8 @@ public class DatabaseCommand implements ICommand {
             listTableColumns(request, response, context);
         } else if ("listColumnMapping".equals(action)) {
             listColumnMapping(request, response, context);
+        } else if ("saveTableMapping".equals(action)) {
+            saveTableMapping(request, response, context);
         } else if ("saveColumnMapping".equals(action)) {
             saveColumnMapping(request, response, context);
         } else if ("saveOneColumnMapping".equals(action)) {
@@ -358,6 +360,29 @@ public class DatabaseCommand implements ICommand {
         dbr.getDatabase().setCurrentSchema(schema);
 
         return dbr.getTable(table).getColumn(columnName);
+    }
+
+    /**
+     * @param request
+     * @param response
+     * @param context
+     * @return
+     * @throws IOException
+     */
+    private String saveTableMapping(HttpServletRequest request, HttpServletResponse response, IContext context) throws IOException {
+        String tableName = request.getParameter("table");
+        String schema = request.getParameter("schema");
+
+        request.setCharacterEncoding("UTF-8");
+
+        DBReader dbr = (DBReader) context.getAttribute(MagusServlet.DATABASE);
+        dbr.getDatabase().setCurrentSchema(schema);
+
+        TableWrapper tw = new TableWrapper(dbr.getTable(tableName));
+        ApplicationMapper am = new ApplicationMapper();
+        am.saveTableMapping(Long.parseLong(request.getParameter("project")), tw);
+
+        return null;
     }
 
     /**

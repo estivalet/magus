@@ -30,6 +30,8 @@ public class TableWrapper {
 
     private String orderBy;
 
+    private Boolean exportKeys;
+
     private Map<String, ColumnWrapper> columns = new HashMap<String, ColumnWrapper>();
 
     /**
@@ -307,6 +309,21 @@ public class TableWrapper {
 
     public String getSQLMxN(Table exportedTable, String columnInExportedKey) {
         return this.table.getSQLMxN(exportedTable, columnInExportedKey);
+    }
+
+    /**
+     * @return the exportKeys
+     */
+    public Boolean getExportKeys() {
+        return exportKeys;
+    }
+
+    /**
+     * @param exportKeys
+     *            the exportKeys to set
+     */
+    public void setExportKeys(Boolean exportKeys) {
+        this.exportKeys = exportKeys;
     }
 
     @Override

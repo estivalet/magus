@@ -367,6 +367,14 @@ INSERT INTO octupus.STORAGE_MEDIA(name) values ('DVD-ROM');
 INSERT INTO octupus.STORAGE_MEDIA(name) values ('Floppy');
 INSERT INTO octupus.STORAGE_MEDIA(name) values ('HD');
 INSERT INTO octupus.STORAGE_MEDIA(name) values ('USB Stick');
+INSERT INTO octupus.STORAGE_MEDIA(name) values ('CD-R');
+INSERT INTO octupus.STORAGE_MEDIA(name) values ('CD+R');
+INSERT INTO octupus.STORAGE_MEDIA(name) values ('CD-RW');
+INSERT INTO octupus.STORAGE_MEDIA(name) values ('CD+RW');
+INSERT INTO octupus.STORAGE_MEDIA(name) values ('DVD-R');
+INSERT INTO octupus.STORAGE_MEDIA(name) values ('DVD+R');
+INSERT INTO octupus.STORAGE_MEDIA(name) values ('DVD-RW');
+INSERT INTO octupus.STORAGE_MEDIA(name) values ('DVD+RW');
 
 ------------------------------------ AUTHOR TABLE ------------------------------------------------
 CREATE TABLE octupus.AUTHOR (

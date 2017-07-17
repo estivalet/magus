@@ -573,6 +573,58 @@ public class ApplicationMapper extends Mapper {
 
     /**
      * @param appId
+     * @param tableWrapper
+     * @param c
+     */
+    public void saveTableMapping(Long appId, TableWrapper tableWrapper) {
+        PreparedStatement ps = null;
+        Connection con = null;
+        Long tableId = fetchApplicationTableId(appId, tableWrapper.getTable().getSchema().getName(), tableWrapper.getName());
+        try {
+            // If table already in MW_TABLE update it.
+            if (tableId != null) {
+                String sql = "update mw_table set alias = ?, label = ?, orderby = ?, export_keys = ? where app_id = ? and catalog = ? and schema = ?  and name = ?";
+                con = getConnection();
+                ps = con.prepareStatement(sql);
+                ps.setString(1, tableWrapper.getAlias());
+                ps.setString(2, tableWrapper.getLabel());
+                ps.setString(3, tableWrapper.getOrderBy());
+                ps.setBoolean(4, tableWrapper.getExportKeys());
+                ps.setLong(5, appId);
+                ps.setString(6, tableWrapper.getTable().getSchema().getCatalogName());
+                ps.setString(7, tableWrapper.getTable().getSchema().getName());
+                ps.setString(8, tableWrapper.getName());
+                ps.executeUpdate();
+            } else {
+                // If table not in MW_TABLE insert it.
+                String sql = "insert into mw_table(app_id, catalog, schema, name) values(?,?,?,?)";
+                con = getConnection();
+                ps = con.prepareStatement(sql);
+                ps.setLong(1, appId);
+                ps.setString(2, tableWrapper.getTable().getSchema().getCatalogName());
+                ps.setString(3, tableWrapper.getTable().getSchema().getName());
+                ps.setString(4, tableWrapper.getName());
+                ps.executeUpdate();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    /**
+     * @param appId
      * @param tw
      * @return
      */

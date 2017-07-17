@@ -197,6 +197,31 @@
                                             onchange="listTableColumns(this.value)">
                                         </select>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-xs-3">
+                                            <div class="form-group">
+                                                <label>Table Alias</label> <input type="text" id="tableAlias" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <div class="form-group">
+                                                <label>Table Label</label> <input type="text" id="tableLabel" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <div class="form-group">
+                                                <label>Order By Column</label> <input type="text" id="tableOrder" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <div class="form-group">
+                                                <label>&nbsp;</label> <input type="checkbox" id="tableExport" value="Y"> Export Keys
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>
+                                    <button type="submit" class="btn btn-primary" onclick="saveTableMapping()">Save Table</button>
+                                    </p>
 
 
                                     <form id="columns" class="form-inline">
@@ -227,7 +252,9 @@
   </div>
  -->
                                     </form>
-                                    <button type="submit" class="btn btn-primary" onclick="saveColumnMapping()">Save</button>
+                                    <p>
+                                    <button type="submit" class="btn btn-primary" onclick="saveColumnMapping()">Save Columns</button>
+                                    </p>
 
 
 

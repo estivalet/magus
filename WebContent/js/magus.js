@@ -710,6 +710,22 @@ function saveOptionsStatus() {
 
 }
 
+
+function saveTableMapping() {
+	var query = "&project=" + document.getElementById('project').value;
+	query += "&schema=" + document.getElementById('schema').value;
+	query += "&table=" + document.getElementById('table').value;
+	query += "&tableAlias=" + document.getElementById('tableAlias').value;
+	query += "&tableLabel=" + document.getElementById('tableLabel').value;
+	query += "&tableOrder=" + document.getElementById('tableOrder').value;
+	query += "&tableExport=" + document.getElementById('tableExport').value;
+	callServer("magus?command=Database&action=saveTableMapping" + query, saveTableMappingStatus);
+}
+
+function saveTableMappingStatus() {
+
+}
+
 function saveColumnMapping() {
 	var query = "&project=" + document.getElementById('project').value;
 	query += "&schema=" + document.getElementById('schema').value;
