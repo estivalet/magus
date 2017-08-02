@@ -8,6 +8,7 @@
                             <#if (column.isColumnInForeignKey())><#t>
                     <label for="${id}">${column.getForeignTableAlias()}<#if column.isRequired()>*</#if></label>
                             <#elseif (column.isColumnInExportedKey())>
+                    <label for="${id}">${column.getTable().getImportedTableOfExportedTable(column.getExportedTable(), column.getColumnInExportedKey()).getCamelCaseName()}${column.getCamelCaseName()}</label>                            
                             <#elseif !column.isColumnInPrimaryKey()>
                     <label for="${id}">${column.getLabel()}<#if column.isRequired()>*</#if></label>
                             </#if> 
@@ -56,7 +57,7 @@
                             </select>
                         <#elseif (column.isColumnInExportedKey())>
                             <#assign efkDisplay="${id}" + "_efk_display">
-                            <select class="form-control" id="${id}" name="${id}" size="10" multiple>
+                            <select class="form-control" id="${id}" name="${id}" size="11" multiple>
                                 <c:forEach var="${column.getTable().getImportedTableOfExportedTable(column.getExportedTable(), column.getColumnInExportedKey()).getCamelCaseName()}" items="<#noparse>${requestScope</#noparse>.${column.getTable().getImportedTableOfExportedTable(column.getExportedTable(), column.getColumnInExportedKey()).getCamelCaseName()}s}">
                                     <option><c:out value='<#noparse>${</#noparse>${column.getTable().getImportedTableOfExportedTable(column.getExportedTable(), column.getColumnInExportedKey()).getCamelCaseName()}.${.vars[efkDisplay]}}'/></option>
                                 </c:forEach>

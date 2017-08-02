@@ -15,6 +15,7 @@ public class JSPServletDecorator extends JavaDecorator {
     public JSPServletDecorator(Application app, TableWrapper table, IContext context, String templateFileName, String destFileName) {
         super(app, context, templateFileName, destFileName);
         super.addTemplateVariable("clazz", table);
+        System.out.println("*************** DECORATING TABLE " + table.getName());
         super.addTemplateVariable("allColumns", getTableColumns(app.getId(), context, table));
 
         // super.addTemplateVariable("columns", table.getOrderedColumnsWrapper(true));

@@ -215,8 +215,10 @@ public class ApplicationMapper extends Mapper {
                     dbr.getDatabase().setCurrentCatalog(rs2.getString("CATALOG"));
                     TableWrapper tw = new TableWrapper(dbr.getTable(rs2.getString("NAME")));
                     tw.setAlias(rs2.getString("NAME"));
+                    tw.setOrderBy(rs2.getString("ORDERBY"));
 
                     app.addTable(tw);
+                    System.out.println("ADDING TABLE-->" + tw.getName());
                 }
                 try {
                     if (rs2 != null) {
@@ -830,6 +832,7 @@ public class ApplicationMapper extends Mapper {
                 DBReader dbr = (DBReader) context.getAttribute(MagusServlet.DATABASE);
                 dbr.getDatabase().setCurrentSchema(rs.getString("schema"));
                 tw = new TableWrapper(dbr.getTable(rs.getString("name")));
+                tw.setOrderBy(rs.getString("orderby"));
 
                 Long tableId = rs.getLong("id");
                 sql = "select * from mw_field where table_id = ? order by display_order";

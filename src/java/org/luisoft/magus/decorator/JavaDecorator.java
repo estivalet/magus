@@ -22,6 +22,7 @@ public class JavaDecorator extends BaseDecorator {
     protected ArrayList<ColumnWrapper> getTableColumns(Long appId, IContext context, TableWrapper table) {
         ArrayList<ColumnWrapper> columns = new ArrayList<ColumnWrapper>();
         for (Column c : table.getColumns().values()) {
+            System.out.println("Decorating column " + c.getName() + " from table " + table.getName());
             ColumnWrapper column = table.getColumnWrapper(c.getName());
             column.setAlias(StringUtils.toCamelCase(c.getName()));
             column.setTypeName(c.getJdbcDataType());
@@ -73,6 +74,7 @@ public class JavaDecorator extends BaseDecorator {
                         column.setAlias(name);
                         column.setTypeName(StringUtils.capitalize(name));
                     }
+                    System.out.println("Adding exported key " + column.getName() + " from table " + table.getName());
                     columns.add(column);
                 }
             }
@@ -91,6 +93,8 @@ public class JavaDecorator extends BaseDecorator {
                 value = StringUtils.toCamelCase(foreignTable.listPKsAsCommaSeparated());
                 super.addTemplateVariable(key, value);
 
+                System.out.println("Adding column foregin key _fk_id " + key + " = " + value);
+
             }
 
             if (c.isColumnInExportedKey()) {
@@ -102,11 +106,14 @@ public class JavaDecorator extends BaseDecorator {
 
                 String key = foreignTable.getCamelCaseName() + c.getCamelCaseName() + "_efk_display";
                 String value = StringUtils.toCamelCase(foreignTable.getOrderByColumn(), false);
+                System.out.println("Foreign table " + foreignTable.getName() + " Adding column exported key _efk_display " + key + " = " + value);
                 super.addTemplateVariable(key, value);
 
                 key = c.getCamelCaseName() + "_efk_id";
                 value = StringUtils.toCamelCase(foreignTable.listPKsAsCommaSeparated());
                 super.addTemplateVariable(key, value);
+
+                System.out.println("Foreign table " + foreignTable.getName() + " Adding column exported key _efk_id " + key + " = " + value);
 
             }
 

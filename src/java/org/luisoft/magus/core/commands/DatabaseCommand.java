@@ -379,6 +379,10 @@ public class DatabaseCommand implements ICommand {
         dbr.getDatabase().setCurrentSchema(schema);
 
         TableWrapper tw = new TableWrapper(dbr.getTable(tableName));
+        tw.setAlias(request.getParameter("tableAlias"));
+        tw.setLabel(request.getParameter("tableLabel"));
+        tw.setOrderBy(request.getParameter("tableOrder"));
+        tw.setExportKeys("Y".equals(request.getParameter("tableExport")));
         ApplicationMapper am = new ApplicationMapper();
         am.saveTableMapping(Long.parseLong(request.getParameter("project")), tw);
 

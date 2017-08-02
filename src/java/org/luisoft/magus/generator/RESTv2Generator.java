@@ -83,25 +83,42 @@ public class RESTv2Generator {
         String tplPath = "archetype/rest2/" + app.getTemplate();
         String javaPath = "/src/main/java/" + app.getShortName();
 
+        System.out.println("\nDecorating pom.xml");
         executeDecorator(new RESTDecorator(app, context, tplPath + "/pom.xml.ftl", "/pom.xml"));
+        System.out.println("\nDecorating .classpath");
         executeDecorator(new RESTDecorator(app, context, tplPath + "/classpath.ftl", "/.classpath"));
+        System.out.println("\nDecorating .project");
         executeDecorator(new RESTDecorator(app, context, tplPath + "/project.ftl", "/.project"));
+        System.out.println("\nDecorating server.xml");
         executeDecorator(new RESTDecorator(app, context, tplPath + "/server.xml.ftl", "/server.xml"));
+        System.out.println("\nDecorating DomainServlet.java");
         executeDecorator(new RESTDecorator(app, context, tplPath + "/DomainServlet.java.ftl", javaPath + "/server/" + StringUtils.capitalize(app.getShortName()) + "Servlet.java"));
+        System.out.println("\nDecorating web.xml");
         executeDecorator(new RESTDecorator(app, context, tplPath + "/web.xml.ftl", "/WebContent/WEB-INF/web.xml"));
+        System.out.println("\nDecorating header.jsp");
         executeDecorator(new RESTDecorator(app, context, tplPath + "/header.jsp.ftl", "/WebContent/WEB-INF/jsp/header.jsp"));
+        System.out.println("\nDecorating footer.jsp");
         executeDecorator(new RESTDecorator(app, context, tplPath + "/footer.jsp.ftl", "/WebContent/WEB-INF/jsp/footer.jsp"));
+        System.out.println("\nDecorating index.jsp.java");
         executeDecorator(new RESTDecorator(app, context, tplPath + "/index.jsp.ftl", "/WebContent/WEB-INF/jsp/index.jsp"));
 
+        System.out.println("\nTOTAL TABLES--->" + app.getTables().size());
         for (TableWrapper table : app.getTables()) {
             // Load table meta data from database.
             ApplicationMapper am = new ApplicationMapper();
             table = am.fetchApplicationTable(app.getId(), table);
+            System.out.println("\nTABLE: " + table.getName());
+            System.out.println("\nDecorating Domain.java");
             executeDecorator(new RESTDecorator(app, table, context, tplPath + "/Domain.java.ftl", javaPath + "/domain/" + table.getCamelCaseName(true) + ".java"));
+            System.out.println("\nDecorating DomainModel");
             executeDecorator(new RESTDecorator(app, table, context, tplPath + "/DomainModel.java.ftl", javaPath + "/model/" + table.getCamelCaseName(true) + "Model.java"));
+            System.out.println("\nDecorating DomainResource");
             executeDecorator(new RESTDecorator(app, table, context, tplPath + "/DomainResource.java.ftl", javaPath + "/resource/" + table.getCamelCaseName(true) + "Resource.java"));
+            System.out.println("\nDecorating DomainMapper");
             executeDecorator(new RESTDecorator(app, table, context, tplPath + "/DomainMapper.java.ftl", javaPath + "/mapper/" + table.getCamelCaseName(true) + "Mapper.java"));
+            System.out.println("\nDecorating ActionCommand");
             executeDecorator(new RESTDecorator(app, table, context, tplPath + "/ActionCommand.java.ftl", javaPath + "/server/commands/" + table.getCamelCaseName(true) + "ActionCommand.java"));
+            System.out.println("\nDecorating index2.jsp");
             executeDecorator(new RESTDecorator(app, table, context, tplPath + "/index2.jsp.ftl", "/WebContent/WEB-INF/jsp/" + table.getAlias() + "/index.jsp"));
         }
 

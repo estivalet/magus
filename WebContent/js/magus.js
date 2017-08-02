@@ -320,6 +320,7 @@ function listTableColumnsStatus() {
 			}
 			addRow("columnTbl", xmlData[i].getAttribute("name"), label,
 					columnType, displayOrder, comment, masked, visible, filter);
+			createSelectOption(document.getElementById("tableOrder"),xmlData[i].getAttribute("name"),xmlData[i].getAttribute("name"),xml.getElementsByTagName("orderBy")[0].childNodes[0].nodeValue);
 		}
 	}
 }

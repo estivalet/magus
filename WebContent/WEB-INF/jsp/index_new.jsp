@@ -210,7 +210,7 @@
                                         </div>
                                         <div class="col-xs-3">
                                             <div class="form-group">
-                                                <label>Order By Column</label> <input type="text" id="tableOrder" class="form-control">
+                                                <label>Order By Column</label> <select id="tableOrder" class="form-control"></select>
                                             </div>
                                         </div>
                                         <div class="col-xs-3">
