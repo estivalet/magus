@@ -365,4 +365,8 @@ public class ColumnWrapper implements Comparable<ColumnWrapper> {
         return this.column.getColumnInExportedKey();
     }
 
+    public String getColumnInExportedKey(boolean camelCase) {
+        return this.column.getColumnInExportedKey(camelCase);
+    }
+
 }

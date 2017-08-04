@@ -280,7 +280,7 @@ public class ${clazz.getAlias(true)}Mapper extends Mapper {
 	
     <#list clazz.getColumns(true) as column>
     <#if column.isColumnInExportedKey()>
-    public boolean insert${column.getExportedTable().getCamelCaseName(true)}(${clazz.getAlias(true)} domain, List<${column.getJdbcDataType()}> ${clazz.getImportedTableOfExportedTableAsString(column.getExportedTable(), column.getColumnInExportedKey())}s) {
+    public boolean insert${column.getExportedTable().getCamelCaseName(true)}(${clazz.getAlias(true)} domain, List<${column.getJdbcDataType()}> ${clazz.getImportedTableOfExportedTableAsString(column.getExportedTable(), column.getColumnInExportedKey(true))}s) {
         String sql = "${column.getExportedTable().getSQLInsert(false)}";
         
         insert(domain);
@@ -289,7 +289,7 @@ public class ${clazz.getAlias(true)}Mapper extends Mapper {
         Connection con = null;
         try {
             con = getConnection(${app.getShortName(true)}Servlet.DSN);
-            for (${column.getJdbcDataType()} id : ${clazz.getImportedTableOfExportedTableAsString(column.getExportedTable(), column.getColumnInExportedKey())}s) {
+            for (${column.getJdbcDataType()} id : ${clazz.getImportedTableOfExportedTableAsString(column.getExportedTable(), column.getColumnInExportedKey(true))}s) {
                 ps = con.prepareStatement(sql);
                 int paramCount = 1;
                 <#list column.getExportedTable().getColumns(false) as c2>

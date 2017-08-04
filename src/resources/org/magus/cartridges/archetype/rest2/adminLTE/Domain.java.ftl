@@ -21,6 +21,8 @@ import org.luisoft.commons.xml.SqlDateAdapter;
 </#if>
 </#list>
 
+import java.util.*;
+
 @SuppressWarnings("serial")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -29,6 +31,10 @@ public class ${clazz.getAlias(true)} implements Serializable, Cloneable {
     <#list allColumns as column><#t>
     /** comment here. */
     private ${column.getTypeName()} ${column.getAlias()}${column.getDefaultValue()};
+    
+    <#if column.isColumnInExportedKey()>
+    private List<${clazz.getImportedTableOfExportedTableAsString(column.getExportedTable(), column.getColumnInExportedKey())}> ${clazz.getImportedTableOfExportedTableAsString(column.getExportedTable(), column.getColumnInExportedKey(), false)}s;
+    </#if>
     
     </#list>
     
@@ -57,6 +63,17 @@ public class ${clazz.getAlias(true)} implements Serializable, Cloneable {
     public ${column.getTypeName()} get${column.getAlias()?cap_first}() {
         return this.${column.getAlias()};
     }
+    
+    <#if column.isColumnInExportedKey()>
+    public void set${clazz.getImportedTableOfExportedTableAsString(column.getExportedTable(), column.getColumnInExportedKey())}s(List<${clazz.getImportedTableOfExportedTableAsString(column.getExportedTable(), column.getColumnInExportedKey())}> ${clazz.getImportedTableOfExportedTableAsString(column.getExportedTable(), column.getColumnInExportedKey(), false)}s) {
+        this.${clazz.getImportedTableOfExportedTableAsString(column.getExportedTable(), column.getColumnInExportedKey(), false)}s = ${clazz.getImportedTableOfExportedTableAsString(column.getExportedTable(), column.getColumnInExportedKey(),false)}s;
+    }
+    
+    public List<${clazz.getImportedTableOfExportedTableAsString(column.getExportedTable(), column.getColumnInExportedKey())}> get${clazz.getImportedTableOfExportedTableAsString(column.getExportedTable(), column.getColumnInExportedKey())}s() {
+        return this.${clazz.getImportedTableOfExportedTableAsString(column.getExportedTable(), column.getColumnInExportedKey(), false)}s;
+    }
+    </#if>
+
     </#list>
     
 

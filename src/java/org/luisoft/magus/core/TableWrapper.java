@@ -303,6 +303,10 @@ public class TableWrapper {
         return StringUtils.toCamelCase(this.table.getImportedTableOfExportedTable(exportedTable, columnName).getName(), true);
     }
 
+    public String getImportedTableOfExportedTableAsString(Table exportedTable, String columnName, boolean capitalize) {
+        return StringUtils.toCamelCase(this.table.getImportedTableOfExportedTable(exportedTable, columnName).getName(), capitalize);
+    }
+
     public Table getImportedTableOfExportedTable(Table exportedTable, String columnName) {
         return this.table.getImportedTableOfExportedTable(exportedTable, columnName);
     }
